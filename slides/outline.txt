@@ -10,7 +10,7 @@
   - Architecture
   - AI: where and why
 - Present Henka v2
-  - Explain why we scrapped Henka v1
+  - Why we scrapped v1
   - Architecture
   - Extending to C++ and JS
   - Testing, testing, testing

@@ -1,9 +1,35 @@
-import std / strutils
-export strutils
+import std / [strutils, strformat]
+export strutils, strformat
 import nimib, nimislides
 
 const
   colorAgile* = "#02A4BD"
+  nimYellow*  = "#FFE953"
+  clearStyle* = """<br style="clear: both;">"""
+
+proc color*(c, text: string): string =
+  "<span style=\"color: " & c & "\">" & text & "</span>"
+
+proc link*(url, text: string): string =
+  &"""<a href="{url}">{text}</a>"""
+
+proc pLeft*(content: string): string =
+  &"""<p style="text-align: left">{content}</p>"""
+
+proc pRight*(content: string): string =
+  &"""<p style="text-align: right">{content}</p>"""
+
+proc img*(src: string, align = "", width = 200, circle = false): string =
+  ## Returns an `<img>` tag. `align` may be "left", "right", or "" (no float).
+  ## `width` is in pixels. `circle` crops to a circle (square aspect, cover).
+  var style = &"width: {width}px;"
+  if circle:
+    style.add &" height: {width}px; border-radius: 50%; object-fit: cover;"
+  case align
+  of "left":  style.add " float: left; margin-right: 20px;"
+  of "right": style.add " float: right; margin-left: 20px;"
+  else: discard
+  &"""<img src="{src}" style="{style}">"""
 
 template addNbTextSmall* =
   nb.partials["nbTextSmall"] = "<small>" & nb.partials["nbText"] & "</small>"
@@ -16,9 +42,18 @@ template nbTextSmall*(text: string) =
 template reference*(text: string) =
   nbTextSmall: text
 
+template fragmentFadeInSameLine*(parts: varargs[string]) =
+  ## Reveals each `part` inline on successive Down/Space presses,
+  ## keeping them on the same line (unlike `fragmentFadeIn:` which
+  ## wraps its body in a block element).
+  var html = "<p>"
+  for p in parts:
+    html.add "<span class=\"fragment fade-in\">" & p & "</span>"
+  html.add "</p>"
+  nbRawHtml html
+
 template nimConfTheme*() =
   setSlidesTheme(Black)
-  let nimYellow = "#FFE953"
   nb.addStyle: """
 :root {
   --r-background-color: #181922;
@@ -40,6 +75,10 @@ li::marker {
 
 li {
   padding-left: 12px;
+}
+
+.reveal a {
+  text-decoration: underline;
 }
 """ % [nimYellow]
 

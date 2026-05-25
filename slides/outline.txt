@@ -1,0 +1,16 @@
+- Tell who we are
+- Explain the Henka name
+- Mention Futhark and why we didn't use it.
+- C, C++ and JS demo projects showcase projects
+- Briefly go over Henka v1
+  - Why it was created
+  - Architecture
+  - AI: where and why
+- Present Henka v2
+  - Explain why we scrapped Henka v1
+  - Architecture
+  - Extending to C++ and JS
+  - Testing, testing, testing
+  - AI: keeping the same idea
+- astTF and nonim
+  - go over briefly how each part works, and why they exist.

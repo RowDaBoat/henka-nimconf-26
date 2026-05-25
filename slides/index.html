@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/reveal.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/theme/black.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/plugin/highlight/monokai.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+    
+:root {
+  --r-background-color: #181922;
+  --r-heading-color: #FFE953;
+  --r-link-color: #FFE953;
+  --r-selection-color: #FFE953;
+  --r-link-color-dark: darken(#FFE953 , 15%)
+}
+
+.reveal ul, .reveal ol {
+  display: block;
+  text-align: left;
+}
+
+li::marker {
+  color: #FFE953;
+  content: "»";
+}
+
+li {
+  padding-left: 12px;
+}
+
+    </style>
+  </head>
+  <body>
+  <div class="reveal">
+    <div class="slides">
+      <style>
+.reveal strong {
+  color: #02A4BD;
+  font-style: normal;
+}
+
+</style>
+      <section data-nimib-slide-number="1" >
+      <section data-nimib-slide-number="2" >
+      <h2>Vertical slide 1</h2>
+<p>Press the Down arrow to reveal the next vertical slide.</p>
+      </section>
+      <section data-nimib-slide-number="3" >
+      <h2>Vertical slide 2</h2>
+<p>Press Up to go back, Right to leave the group.</p>
+      </section>
+      </section>
+      <section data-nimib-slide-number="4" >
+      <h2>Horizontal slide</h2>
+<p>A top-level slide alongside the vertical group above.</p>
+      </section>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/reveal.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/plugin/highlight/highlight.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/plugin/notes/notes.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    Reveal.initialize({
+      plugins: [ 
+        RevealHighlight,
+        RevealNotes,
+      ],
+    });
+  </script>
+  <div id="nimibLandLogo" style="background: url(https://raw.githubusercontent.com/nimib-land/assets/refs/heads/main/nimib_logo_white_cup.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  width: 128px;
+  height: 128px;"></div>
+  </body>
+</html>

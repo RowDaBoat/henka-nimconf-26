@@ -1,7 +1,10 @@
+- Henka, Bind Anything
 - Tell who we are
-- Explain the Henka name
-- Mention Futhark and why we didn't use it.
-- C, C++ and JS demo projects showcase projects
+- Introduce Henka
+  - What does it do
+  - Explain the name
+  - Mention Futhark and why we didn't extend it
+- C, C++ and JS demo projects showcase
 - Briefly go over Henka v1
   - Why it was created
   - Architecture
@@ -13,4 +16,7 @@
   - Testing, testing, testing
   - AI: keeping the same idea
 - astTF and nonim
-  - go over briefly how each part works, and why they exist.
+  - go over briefly how each part works, and why they exist
+- Wrapping up
+  - Q&A
+  - Thank you

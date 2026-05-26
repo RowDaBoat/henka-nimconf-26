@@ -1,22 +1,29 @@
-- Henka, Bind Anything
-- Tell who we are
-- Introduce Henka
-  - What does it do
-  - Explain the name
-  - Mention Futhark and why we didn't extend it
-- C, C++ and JS demo projects showcase
-- Briefly go over Henka v1
-  - Why it was created
-  - Architecture
-  - AI: where and why
-- Present Henka v2
-  - Why we scrapped v1
-  - Architecture
-  - Extending to C++ and JS
-  - Testing, testing, testing
-  - AI: keeping the same idea
-- astTF and nonim
-  - go over briefly how each part works, and why they exist
-- Wrapping up
-  - Q&A
-  - Thank you
+- Title
+  - [x] Title: Henka, Bind Anything
+  - [x] Who we are
+- Introduction
+  - [x] What does it do
+  - [x] Explain the name
+  - [x] Mention Futhark and why we didn't extend it
+- Usage
+  - [x] CLI
+  - [x] Library
+- Projects showcase
+  - [ ] C demo
+  - [ ] C++ demo
+  - [ ] JS demo
+- [ ] Briefly go over Henka v1
+  - [ ] Why it was created
+  - [ ] Architecture
+  - [ ] AI: where and why
+- [ ] Present Henka v2
+  - [ ] Why we scrapped v1
+  - [ ] Architecture
+  - [ ] Extending to C++ and JS
+  - [ ] Testing, testing, testing
+  - [ ] AI: keeping the same idea
+- [ ] astTF and nonim
+  - [ ] go over briefly how each part works, and why they exist
+- [ ] Wrapping up
+  - [ ] Q&A
+  - [ ] Thank you

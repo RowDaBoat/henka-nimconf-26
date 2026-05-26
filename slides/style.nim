@@ -44,13 +44,14 @@ template reference*(text: string) =
 
 template fragmentFadeInSameLine*(parts: varargs[string]) =
   ## Reveals each `part` inline on successive Down/Space presses,
-  ## keeping them on the same line (unlike `fragmentFadeIn:` which
-  ## wraps its body in a block element).
-  var html = "<p>"
+  ## keeping them on the same line. Uses `fragmentFadeIn` for each
+  ## part so they get explicit `data-fragment-index` (correct order),
+  ## then `.same-line > .fragment` CSS forces them inline.
+  nbRawHtml """<div class="same-line">"""
   for p in parts:
-    html.add "<span class=\"fragment fade-in\">" & p & "</span>"
-  html.add "</p>"
-  nbRawHtml html
+    fragmentFadeIn:
+      nbRawHtml p
+  nbRawHtml "</div>"
 
 template nimConfTheme*() =
   setSlidesTheme(Black)
@@ -79,6 +80,10 @@ li {
 
 .reveal a {
   text-decoration: underline;
+}
+
+.same-line > .fragment {
+  display: inline;
 }
 """ % [nimYellow]
 

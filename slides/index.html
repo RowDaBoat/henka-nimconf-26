@@ -34,6 +34,10 @@ li {
   text-decoration: underline;
 }
 
+.same-line > .fragment {
+  display: inline;
+}
+
     </style>
   </head>
   <body>
@@ -51,23 +55,21 @@ li {
       <h2>Henka, Bind Anything</h2>
       <div class="fragment fade-in" data-fragment-index="0" data-fragment-index-nimib="0"> 
   
-      <p><span style="color: #FFE953">henka</span> is a bindings generator for <span style="color: #FFE953">Nim</span>👑</p>
+      <p>How <span style="color: #FFE953">Nim</span>👑 can be glued to just about any language.</p>
       </div>
   
-      <p><span class="fragment fade-in">supporting <span style="color: #FFE953">C</span></span><span class="fragment fade-in">, <span style="color: #FFE953">C++</span></span><span class="fragment fade-in"> and <span style="color: #FFE953">JS/TS</span></span></p>
       </section>
       <section data-nimib-slide-number="3" >
       <h2>Who are we?</h2>
       <div class="fragment fade-in" data-fragment-index="1" data-fragment-index-nimib="1"> 
   
       <img src="img/sokam.png" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; float: left; margin-right: 20px;">
-      <p style="text-align: left"><span style="color: #FFE953">.sOkam!</span>, lorem ipsum dolor sit amet,</p>
-      <p style="text-align: left">consectetur adipiscing elit.</p>
+      <p style="text-align: left"><span style="color: #FFE953">.sOkam!</span>, game and engine developer.</p>
       </div>
   
       <div class="fragment fade-in" data-fragment-index="2" data-fragment-index-nimib="2"> 
   
-      <p style="text-align: left">Author of <a href="https://github.com/RowDaBoat/webgpu-nim">webgpu-nim</a> and <a href="https://github.com/RowDaBoat/nglfw">nglfw</a>.</p>
+      <p style="text-align: left">Author of <a href="https://github.com/RowDaBoat/webgpu-nim">webgpu-nim</a> and <a href="https://codeberg.org/heysokam/cvulkan">cvulkan</a>.</p>
       </div>
   
       <div class="fragment fade-in" data-fragment-index="3" data-fragment-index-nimib="3"> 
@@ -86,8 +88,194 @@ li {
       </section>
       </section>
       <section data-nimib-slide-number="4" >
-      <h2>Horizontal slide</h2>
-<p>A top-level slide alongside the vertical group above.</p>
+      <section data-nimib-slide-number="5" >
+      <h2>Henka</h2>
+      <div class="fragment fade-in" data-fragment-index="5" data-fragment-index-nimib="5"> 
+  
+      <p><span style="color: #FFE953">henka</span> is a bindings generator for <span style="color: #FFE953">Nim</span>.</p>
+      </div>
+  
+      <div class="same-line">
+      <div class="fragment fade-in" data-fragment-index="6" data-fragment-index-nimib="6"> 
+  
+      supporting <span style="color: #FFE953">C</span>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="7" data-fragment-index-nimib="7"> 
+  
+      , <span style="color: #FFE953">C++</span>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="8" data-fragment-index-nimib="8"> 
+  
+       and <span style="color: #FFE953">JS/TS</span>
+      </div>
+  
+      </div>
+      <div class="fragment fade-in" data-fragment-index="9" data-fragment-index-nimib="9"> 
+  
+      <br style="clear: both;">
+      <p><span style="color: #FFE953">変化 (hen-ka)</span>: change, variation, transformation in Japanese.</p>
+      </div>
+  
+      </section>
+      <section data-nimib-slide-number="6" >
+      <h2>Futhark</h2>
+      <div class="fragment fade-in" data-fragment-index="10" data-fragment-index-nimib="10"> 
+  
+      <p><strong>Futhark already exists and it's awesome,</strong></p>
+      <p><strong>why did we not extend it?</strong></p>
+      </div>
+  
+      <ul>
+      <div class="fragment fade-in" data-fragment-index="11" data-fragment-index-nimib="11"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="11" data-fragment-index-nimib="11">
+      <p>Our main motivator was curiosity.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="12" data-fragment-index-nimib="12"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="12" data-fragment-index-nimib="12">
+      <p>We wanted to start on a blank slate.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="13" data-fragment-index-nimib="13"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="13" data-fragment-index-nimib="13">
+      <p>Also to try different architectural choices.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="14" data-fragment-index-nimib="14"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="14" data-fragment-index-nimib="14">
+      <p>And use it as an excuse to experiment with AI.</p>
+      </li>
+      </div>
+  
+      </ul>
+      </section>
+      </section>
+      <section data-nimib-slide-number="7" >
+      <section data-nimib-slide-number="8" >
+      <h2>Henka CLI</h2>
+      <ul>
+      <div class="fragment fade-in" data-fragment-index="15" data-fragment-index-nimib="15"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="15" data-fragment-index-nimib="15">
+      <p>Generating <span style="color: #FFE953">C</span> bindings from the command line is simple.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="16" data-fragment-index-nimib="16"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="16" data-fragment-index-nimib="16">
+      <p>Running <span style="color: #FFE953">henka</span> from the CLI:</p>
+      <pre><code class="language-bash">$ henka point.h
+</code></pre>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="17" data-fragment-index-nimib="17"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="17" data-fragment-index-nimib="17">
+      <p>On this header:</p>
+      <pre><code class="language-c">struct Point {
+    float x;
+    float y;
+};
+
+float point_magnitude(struct Point p);
+</code></pre>
+      </li>
+      </div>
+  
+      </ul>
+      </section>
+      <section data-nimib-slide-number="9" >
+      <h2>Henka CLI</h2>
+      <ul>
+      <div class="fragment fade-in" data-fragment-index="18" data-fragment-index-nimib="18"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="18" data-fragment-index-nimib="18">
+      <p>Generates <span style="color: #FFE953"><code>point.nim</code></span>:</p>
+      <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">type</span>
+  struct_Point* {.bycopy, importc:<span class="hljs-string">&quot;struct Point&quot;</span>, header:<span class="hljs-string">&quot;point.h&quot;</span>.} = <span class="hljs-keyword">object</span>
+    x* :<span class="hljs-built_in">cint</span>
+    y* :<span class="hljs-built_in">cint</span>
+  <span class="hljs-type">Point</span>* = struct_Point
+<span class="hljs-keyword">proc</span> point_magnitude*(p :struct_Point) :<span class="hljs-built_in">cfloat</span> {.importc:<span class="hljs-string">&quot;magnitude&quot;</span>, cdecl, header:<span class="hljs-string">&quot;point.h&quot;</span>.}</code></pre>
+      </li>
+      </div>
+  
+      </ul>
+      </section>
+      <section data-nimib-slide-number="10" >
+      <ul>
+      <div class="fragment fade-in" data-fragment-index="19" data-fragment-index-nimib="19"> 
+  
+      <li class="fragment fade-in-then-semi-out  nimislides-li" data-fragment-index="19" data-fragment-index-nimib="19">
+      <p>Generating <span style="color: #FFE953">C++</span> and <span style="color: #FFE953">JS/TS</span> bindings:</p>
+      <pre><code class="language-bash">$ henka --cpp --std=c++17 --js header.hpp
+$ henka --js lib.js
+</code></pre>
+      </li>
+      </div>
+  
+      </ul>
+      </section>
+      <section data-nimib-slide-number="11" >
+      <h2>Henka as a library</h2>
+      <ul>
+      <div class="fragment fade-in" data-fragment-index="20" data-fragment-index-nimib="20"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="20" data-fragment-index-nimib="20">
+      <p>Henka can be imported and called from <span style="color: #FFE953">Nim</span> code.</p>
+      </li>
+      </div>
+  
+      </ul>
+      <div class="fragment fade-in" data-fragment-index="21" data-fragment-index-nimib="21"> 
+  
+      <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">import</span> henka
+
+<span class="hljs-keyword">let</span> bindings = generate(<span class="hljs-string">&quot;header.h&quot;</span>)</code></pre>
+      </div>
+  
+      </section>
+      <section data-nimib-slide-number="12" >
+      <h2>Refining the bindings</h2>
+      <ul>
+      <div class="fragment fade-in" data-fragment-index="22" data-fragment-index-nimib="22"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="22" data-fragment-index-nimib="22">
+      <p>Calling it from <span style="color: #FFE953">Nim</span> allows customizing how bindings are generated.</p>
+      </li>
+      </div>
+  
+      </ul>
+      <div class="fragment fade-in" data-fragment-index="23" data-fragment-index-nimib="23"> 
+  
+      <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">proc</span> rename(kind: henka.<span class="hljs-type">LabelKind</span>, name: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">string</span> =
+  <span class="hljs-literal">result</span> = name.replace(<span class="hljs-string">&quot;point_&quot;</span>, <span class="hljs-string">&quot;&quot;</span>)
+
+<span class="hljs-keyword">proc</span> pragmas(kind: henka.<span class="hljs-type">LabelKind</span>, name: <span class="hljs-built_in">string</span>, defaults: <span class="hljs-built_in">seq</span>[(<span class="hljs-built_in">string</span>, <span class="hljs-built_in">string</span>)]): <span class="hljs-built_in">seq</span>[(<span class="hljs-built_in">string</span>, <span class="hljs-built_in">string</span>)] =
+  <span class="hljs-literal">result</span> = defaults
+
+  <span class="hljs-keyword">if</span> kind <span class="hljs-keyword">is</span> henka.<span class="hljs-type">StructType</span>:
+    <span class="hljs-literal">result</span>.add [(<span class="hljs-string">&quot;pure&quot;</span>, <span class="hljs-string">&quot;&quot;</span>), (<span class="hljs-string">&quot;inheritable&quot;</span>, <span class="hljs-string">&quot;&quot;</span>)]
+
+<span class="hljs-keyword">let</span> bindings = generate(
+  headerPath,
+  renamer = rename,        <span class="hljs-comment"># Removes `point_` prefix.</span>
+  pragmaOverride = pragmas <span class="hljs-comment"># Makes objects pure and inheritable.</span>
+)</code></pre>
+      </div>
+  
+      </section>
       </section>
     </div>
   </div>

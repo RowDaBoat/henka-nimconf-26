@@ -1,9 +1,10 @@
 #:___________________________________________________________
 #  henka-nimconf-26  |  WebGPU Cubes demo  |  MIT             :
 #:___________________________________________________________
-# Renders a grid of cube instances with WebGPU.               |
-# Geometry lives in real vertex/index buffers; per-cube world |
-# offsets come from a per-instance vertex buffer. No rotation. |
+# A wall of randomly placed & rotated grey cubes, drawn with  |
+# instancing. Cube geometry lives in vertex/index buffers;    |
+# per-cube world offset + rotation come from an instance      |
+# buffer. Rotations are fixed (generated once, not animated). |
 #                                                             |
 # Runs in two modes from the same source:                    |
 #   * Native : GLFW window + wgpu  (blocking adapter/device)  |
@@ -12,6 +13,7 @@
 #_____________________________________________________________|
 # @deps std
 import std/strformat
+import std/[math, random]
 # @deps wgpu
 import wgpu
 
@@ -28,9 +30,22 @@ else:
 
 
 #_______________________________________
+# @section Camera
+#  Shared between the CPU (to size the wall) and the shader (must match).
+#_____________________________
+const
+  camDist  = 10.0'f32  # distance from the camera to the z = 0 wall plane
+  fovY     = 1.0'f32   # vertical field of view (radians)
+  cubeSize = 0.8'f32   # cube half-extent
+  initialW :int32 = 960
+  initialH :int32 = 540
+
+
+#_______________________________________
 # @section Cube Shader
-#  Geometry arrives through vertex buffers now; the shader only places each
-#  cube (per-instance @location(2) offset) and applies the perspective camera.
+#  Vertices/indices come from buffers. Per instance we receive a world offset
+#  and an XYZ rotation. Faces are flat-shaded grey using screen-space
+#  derivatives, so 8 shared vertices still read as a solid cube.
 #_____________________________
 const shaderCode = """
 struct Uniforms {
@@ -40,22 +55,26 @@ struct Uniforms {
 
 struct VSIn {
   @location(0) position : vec3<f32>,
-  @location(1) color    : vec3<f32>,
-  @location(2) offset   : vec3<f32>,   // per-instance world position
+  @location(1) offset   : vec3<f32>,   // per-instance world position
+  @location(2) rotation : vec3<f32>,   // per-instance euler angles
 };
 struct VSOut {
-  @builtin(position) pos   : vec4<f32>,
-  @location(0)       color : vec3<f32>,
+  @builtin(position) pos     : vec4<f32>,
+  @location(0)       viewPos : vec3<f32>,
 };
+
+fn rotX(a :f32) ->mat3x3<f32> { let c = cos(a); let s = sin(a); return mat3x3<f32>(1.0,0.0,0.0,  0.0,c,s,  0.0,-s,c); }
+fn rotY(a :f32) ->mat3x3<f32> { let c = cos(a); let s = sin(a); return mat3x3<f32>(c,0.0,-s,  0.0,1.0,0.0,  s,0.0,c); }
+fn rotZ(a :f32) ->mat3x3<f32> { let c = cos(a); let s = sin(a); return mat3x3<f32>(c,s,0.0,  -s,c,0.0,  0.0,0.0,1.0); }
 
 @vertex
 fn vs_main(in :VSIn) ->VSOut {
-  let world   = in.position + in.offset;
-  let viewPos = vec3<f32>(world.x, world.y, world.z - 10.0);  // push away from camera
+  let rot     = rotZ(in.rotation.z) * rotY(in.rotation.y) * rotX(in.rotation.x);
+  let world   = rot * in.position + in.offset;
+  let viewPos = vec3<f32>(world.x, world.y, world.z - 10.0);  // matches camDist
 
   // Right-handed perspective mapping depth to [0, 1] (WebGPU convention)
-  let fovy = 1.0;
-  let f    = 1.0 / tan(fovy * 0.5);
+  let f   = 1.0 / tan(1.0 * 0.5);  // matches fovY
   let near = 0.1;
   let far  = 100.0;
   let nf   = 1.0 / (near - far);
@@ -67,36 +86,41 @@ fn vs_main(in :VSIn) ->VSOut {
   );
 
   var out :VSOut;
-  out.pos   = proj * vec4<f32>(viewPos, 1.0);
-  out.color = in.color;
+  out.pos     = proj * vec4<f32>(viewPos, 1.0);
+  out.viewPos = viewPos;
   return out;
 }
 
 @fragment
 fn fs_main(in :VSOut) ->@location(0) vec4<f32> {
-  return vec4<f32>(in.color, 1.0);
+  // Flat per-face normal from the rate of change of view-space position
+  var n = normalize(cross(dpdx(in.viewPos), dpdy(in.viewPos)));
+  n = n * sign(n.z + 1e-5);                          // face the camera (+z in view space)
+  let light = normalize(vec3<f32>(0.3, 0.5, 0.8));
+  let diff  = max(dot(n, light), 0.0);
+  let g     = 0.2 + 0.7 * diff;                      // grey, shaded by face
+  return vec4<f32>(g, g, g, 1.0);
 }
 """
 
 
 #_______________________________________
 # @section Geometry
-#  8 corners (scaled), colored by corner. 36 indices = 12 triangles.
+#  8 corners, 36 indices (12 triangles). No per-vertex color: cubes are grey.
 #_____________________________
 type Vertex = object
-  pos   :array[3, float32]
-  color :array[3, float32]
+  pos :array[3, float32]
 
-const s = 0.7'f32
+type CubeInstance = object
+  offset   :array[3, float32]
+  rotation :array[3, float32]
+
+const s = cubeSize
 let cubeVertices = [
-  Vertex(pos: [-s, -s, -s], color: [0.0, 0.0, 0.0]),
-  Vertex(pos: [ s, -s, -s], color: [1.0, 0.0, 0.0]),
-  Vertex(pos: [ s,  s, -s], color: [1.0, 1.0, 0.0]),
-  Vertex(pos: [-s,  s, -s], color: [0.0, 1.0, 0.0]),
-  Vertex(pos: [-s, -s,  s], color: [0.0, 0.0, 1.0]),
-  Vertex(pos: [ s, -s,  s], color: [1.0, 0.0, 1.0]),
-  Vertex(pos: [ s,  s,  s], color: [1.0, 1.0, 1.0]),
-  Vertex(pos: [-s,  s,  s], color: [0.0, 1.0, 1.0]),
+  Vertex(pos: [-s, -s, -s]), Vertex(pos: [ s, -s, -s]),
+  Vertex(pos: [ s,  s, -s]), Vertex(pos: [-s,  s, -s]),
+  Vertex(pos: [-s, -s,  s]), Vertex(pos: [ s, -s,  s]),
+  Vertex(pos: [ s,  s,  s]), Vertex(pos: [-s,  s,  s]),
 ]
 
 const cubeIndices = [
@@ -108,13 +132,20 @@ const cubeIndices = [
   1,     5, 6,  1, 6, 2,   # right  (+x)
 ]
 
-# One offset per cube: a 3x3 grid in the XY plane.
-let instanceOffsets = block:
-  var offs :seq[array[3, float32]]
-  for gy in -1 .. 1:
-    for gx in -1 .. 1:
-      offs.add [gx.float32 * 3.0'f32, gy.float32 * 3.0'f32, 0.0'f32]
-  offs
+# 50 cubes scattered across the visible z = 0 plane, each randomly rotated.
+const cubeCount = 50
+let instances = block:
+  var rng    = initRand(20260528)
+  let halfH  = camDist * tan(fovY * 0.5) * 1.1          # 10% margin so cubes reach the edges
+  let halfW  = halfH * (initialW.float32 / initialH.float32)
+  template rf(lo, hi :float32): float32 = lo + rng.rand(1.0).float32 * (hi - lo)
+  var arr :seq[CubeInstance]
+  for i in 0 ..< cubeCount:
+    arr.add CubeInstance(
+      offset:   [rf(-halfW, halfW), rf(-halfH, halfH), rf(-1.0, 1.0)],
+      rotation: [rf(0.0, TAU), rf(0.0, TAU), rf(0.0, TAU)],
+    )
+  arr
 
 
 #_______________________________________
@@ -124,8 +155,6 @@ let instanceOffsets = block:
 const
   canvasSelector       = "#triangle-canvas"
   title                = "WebGPU Cubes"
-  initialW :int32      = 960
-  initialH :int32      = 540
   depthFormat          = TextureFormat.Depth24Plus
 
 type Uniforms = object
@@ -190,9 +219,9 @@ proc onDeviceReady=
   doAssert shader != nil, "Failed to create the shader module"
 
   # --- Geometry + instance buffers ---
-  let vertexBytes   = (cubeVertices.len    * sizeof(Vertex)).uint64
-  let indexBytes    = (cubeIndices.len     * sizeof(uint16)).uint64
-  let instanceBytes = (instanceOffsets.len * sizeof(array[3, float32])).uint64
+  let vertexBytes   = (cubeVertices.len * sizeof(Vertex)).uint64
+  let indexBytes    = (cubeIndices.len  * sizeof(uint16)).uint64
+  let instanceBytes = (instances.len    * sizeof(CubeInstance)).uint64
 
   vertexBuf = device.create(vaddr BufferDescriptor(
     nextInChain: nil, label: "Cube Vertices".toStringView(),
@@ -201,12 +230,12 @@ proc onDeviceReady=
     nextInChain: nil, label: "Cube Indices".toStringView(),
     usage: BufferUsage_Index or BufferUsage_CopyDst, size: indexBytes, mappedAtCreation: false.uint32))
   instanceBuf = device.create(vaddr BufferDescriptor(
-    nextInChain: nil, label: "Instance Offsets".toStringView(),
+    nextInChain: nil, label: "Instances".toStringView(),
     usage: BufferUsage_Vertex or BufferUsage_CopyDst, size: instanceBytes, mappedAtCreation: false.uint32))
 
-  queue.write(vertexBuf,   0, cubeVertices[0].addr,    vertexBytes.csize_t)
-  queue.write(indexBuf,    0, cubeIndices[0].unsafeAddr, indexBytes.csize_t)
-  queue.write(instanceBuf, 0, instanceOffsets[0].addr, instanceBytes.csize_t)
+  queue.write(vertexBuf,   0, cubeVertices[0].unsafeAddr, vertexBytes.csize_t)
+  queue.write(indexBuf,    0, cubeIndices[0].unsafeAddr,  indexBytes.csize_t)
+  queue.write(instanceBuf, 0, instances[0].unsafeAddr,    instanceBytes.csize_t)
 
   # --- Uniform buffer (aspect ratio), bound to the vertex stage ---
   uniformBuf = device.create(vaddr BufferDescriptor(
@@ -246,17 +275,17 @@ proc onDeviceReady=
     bindGroupLayouts     : vaddr bindGroupLayout,
     ))
 
-  # --- Vertex layout: buffer 0 = per-vertex (pos, color), buffer 1 = per-instance (offset) ---
+  # --- Vertex layout: buffer 0 = per-vertex (pos), buffer 1 = per-instance (offset, rotation) ---
   var vertexAttrs = [
-    VertexAttribute(format: VertexFormat.Float32x3, offset:  0, shaderLocation: 0),  # position
-    VertexAttribute(format: VertexFormat.Float32x3, offset: 12, shaderLocation: 1),  # color
+    VertexAttribute(format: VertexFormat.Float32x3, offset: 0, shaderLocation: 0),   # position
   ]
   var instanceAttrs = [
-    VertexAttribute(format: VertexFormat.Float32x3, offset: 0, shaderLocation: 2),   # offset
+    VertexAttribute(format: VertexFormat.Float32x3, offset:  0, shaderLocation: 1),  # offset
+    VertexAttribute(format: VertexFormat.Float32x3, offset: 12, shaderLocation: 2),  # rotation
   ]
   var vertexLayouts = [
-    VertexBufferLayout(stepMode: VertexStepMode.Vertex,   arrayStride: sizeof(Vertex).uint64,           attributeCount: 2, attributes: vertexAttrs[0].addr),
-    VertexBufferLayout(stepMode: VertexStepMode.Instance, arrayStride: sizeof(array[3,float32]).uint64, attributeCount: 1, attributes: instanceAttrs[0].addr),
+    VertexBufferLayout(stepMode: VertexStepMode.Vertex,   arrayStride: sizeof(Vertex).uint64,   attributeCount: 1, attributes: vertexAttrs[0].addr),
+    VertexBufferLayout(stepMode: VertexStepMode.Instance, arrayStride: sizeof(CubeInstance).uint64, attributeCount: 2, attributes: instanceAttrs[0].addr),
   ]
 
   pipeline = device.create(vaddr RenderPipelineDescriptor(
@@ -353,7 +382,7 @@ proc onDeviceReady=
     viewFormats     : nil,
     ))
   depthView = depthTex.create(nil)
-  echo &":: Surface configured at {config.width} x {config.height}. Rendering {instanceOffsets.len} cubes."
+  echo &":: Surface configured at {config.width} x {config.height}. Rendering {instances.len} cubes."
 
   when defined(emscripten):
     # Hand the render loop over to the browser (fps 0 = use requestAnimationFrame)
@@ -418,10 +447,10 @@ proc drawFrame=
   var renderPass = encoder.begin(renderPassDesc.addr)
   renderPass.set(pipeline)
   renderPass.set(0, bindGroup, 0, nil)
-  renderPass.setVertexBuffer(0, vertexBuf,   0, (cubeVertices.len    * sizeof(Vertex)).uint64)
-  renderPass.setVertexBuffer(1, instanceBuf, 0, (instanceOffsets.len * sizeof(array[3, float32])).uint64)
+  renderPass.setVertexBuffer(0, vertexBuf,   0, (cubeVertices.len * sizeof(Vertex)).uint64)
+  renderPass.setVertexBuffer(1, instanceBuf, 0, (instances.len    * sizeof(CubeInstance)).uint64)
   renderPass.setIndexBuffer(indexBuf, IndexFormat.Uint16, 0, (cubeIndices.len * sizeof(uint16)).uint64)
-  renderPass.drawIndexed(cubeIndices.len.uint32, instanceOffsets.len.uint32, 0, 0, 0)
+  renderPass.drawIndexed(cubeIndices.len.uint32, instances.len.uint32, 0, 0, 0)
   renderPass.End()
   view.release()
 

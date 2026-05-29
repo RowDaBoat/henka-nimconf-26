@@ -497,7 +497,6 @@ proc drawFrame=
   renderPass.setIndexBuffer(indexBuf, IndexFormat.Uint16, 0, (cubeIndices.len * sizeof(uint16)).uint64)
   renderPass.drawIndexed(cubeIndices.len.uint32, instances.len.uint32, 0, 0, 0)
   renderPass.End()
-  view.release()
 
   let cmdBuffer = encoder.finish(vaddr CommandBufferDescriptor(
     nextInChain : nil,
@@ -509,6 +508,16 @@ proc drawFrame=
   when not defined(emscripten):
     let status = surface.present()
     if status != Success: echo "ERR:: Surface.present() failed with: ", $status
+
+  # Release every object acquired this frame. Without this the WebGPU objects
+  # leak on the wasm heap and the demo OOMs after a few seconds (the heap is a
+  # fixed 16 MB and getCurrentTexture/getQueue/createCommandEncoder all alloc).
+  cmdBuffer.release()
+  renderPass.release()
+  encoder.release()
+  view.release()
+  surfaceTexture.texture.release()
+  queue.release()
 
 
 #_______________________________________

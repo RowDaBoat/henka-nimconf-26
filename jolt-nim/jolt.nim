@@ -73,24 +73,8 @@ const JPH_VERSION_ID* = ( ( JPH_VERSION_FEATURES shl 24 ) or ( JPH_VERSION_MAJOR
 const JPH_CPU_ARCH_BITS* = 64
 const JPH_VECTOR_ALIGNMENT* = 16
 const JPH_DVECTOR_ALIGNMENT* = 32
-const JPH_EXPORT_GCC_BUG_WORKAROUND* = JPH_EXPORT
-const JPH_SUPPRESS_WARNING_PUSH* = JPH_PRAGMA ( clang diagnostic push )
-const JPH_SUPPRESS_WARNING_POP* = JPH_PRAGMA ( clang diagnostic pop )
-const JPH_SUPPRESS_WARNINGS* = JPH_CLANG_SUPPRESS_WARNING ( "-Wc++98-compat" ) JPH_CLANG_SUPPRESS_WARNING ( "-Wc++98-compat-pedantic" ) JPH_CLANG_SUPPRESS_WARNING ( "-Wfloat-equal" ) JPH_CLANG_SUPPRESS_WARNING ( "-Wsign-conversion" ) JPH_CLANG_SUPPRESS_WARNING ( "-Wold-style-cast" ) JPH_CLANG_SUPPRESS_WARNING ( "-Wgnu-anonymous-struct" ) JPH_CLANG_SUPPRESS_WARNING ( "-Wnested-anon-types" ) JPH_CLANG_SUPPRESS_WARNING ( "-Wglobal-constructors" ) JPH_CLANG_SUPPRESS_WARNING ( "-Wexit-time-destructors" ) JPH_CLANG_SUPPRESS_WARNING ( "-Wnonportable-system-include-path" ) JPH_CLANG_SUPPRESS_WARNING ( "-Wlanguage-extension-token" ) JPH_CLANG_SUPPRESS_WARNING ( "-Wunused-parameter" ) JPH_CLANG_SUPPRESS_WARNING ( "-Wformat-nonliteral" ) JPH_CLANG_SUPPRESS_WARNING ( "-Wcovered-switch-default" ) JPH_CLANG_SUPPRESS_WARNING ( "-Wcast-align" ) JPH_CLANG_SUPPRESS_WARNING ( "-Winvalid-offsetof" ) JPH_CLANG_SUPPRESS_WARNING ( "-Wgnu-zero-variadic-macro-arguments" ) JPH_CLANG_SUPPRESS_WARNING ( "-Wdocumentation-unknown-command" ) JPH_CLANG_SUPPRESS_WARNING ( "-Wctad-maybe-unsupported" ) JPH_CLANG_SUPPRESS_WARNING ( "-Wswitch-default" ) JPH_CLANG_13_PLUS_SUPPRESS_WARNING ( "-Wdeprecated-copy" ) JPH_CLANG_13_PLUS_SUPPRESS_WARNING ( "-Wdeprecated-copy-with-dtor" ) JPH_CLANG_16_PLUS_SUPPRESS_WARNING ( "-Wunsafe-buffer-usage" ) JPH_IF_NOT_ANDROID ( JPH_CLANG_SUPPRESS_WARNING ( "-Wimplicit-int-float-conversion" ) ) JPH_GCC_SUPPRESS_WARNING ( "-Wcomment" ) JPH_GCC_SUPPRESS_WARNING ( "-Winvalid-offsetof" ) JPH_GCC_SUPPRESS_WARNING ( "-Wclass-memaccess" ) JPH_GCC_SUPPRESS_WARNING ( "-Wpedantic" ) JPH_GCC_SUPPRESS_WARNING ( "-Wunused-parameter" ) JPH_GCC_SUPPRESS_WARNING ( "-Wmaybe-uninitialized" ) JPH_MSVC_SUPPRESS_WARNING ( 4619 ) /* #pragma warning: there is no warning number 'XXXX' */ JPH_MSVC_SUPPRESS_WARNING ( 4514 ) /* 'X' : unreferenced inline function has been removed */ JPH_MSVC_SUPPRESS_WARNING ( 4710 ) /* 'X' : function not inlined */ JPH_MSVC_SUPPRESS_WARNING ( 4711 ) /* function 'X' selected for automatic inline expansion */ JPH_MSVC_SUPPRESS_WARNING ( 4714 ) /* function 'X' marked as __forceinline not inlined */ JPH_MSVC_SUPPRESS_WARNING ( 4820 ) /* 'X': 'Y' bytes padding added after data member 'Z' */ JPH_MSVC_SUPPRESS_WARNING ( 4100 ) /* 'X' : unreferenced formal parameter */ JPH_MSVC_SUPPRESS_WARNING ( 4626 ) /* 'X' : assignment operator was implicitly defined as deleted because a base class assignment operator is inaccessible or deleted */ JPH_MSVC_SUPPRESS_WARNING ( 5027 ) /* 'X' : move assignment operator was implicitly defined as deleted because a base class move assignment operator is inaccessible or deleted */ JPH_MSVC_SUPPRESS_WARNING ( 4365 ) /* 'argument' : conversion from 'X' to 'Y', signed / unsigned mismatch */ JPH_MSVC_SUPPRESS_WARNING ( 4324 ) /* 'X' : structure was padded due to alignment specifier */ JPH_MSVC_SUPPRESS_WARNING ( 4625 ) /* 'X' : copy constructor was implicitly defined as deleted because a base class copy constructor is inaccessible or deleted */ JPH_MSVC_SUPPRESS_WARNING ( 5026 ) /* 'X': move constructor was implicitly defined as deleted because a base class move constructor is inaccessible or deleted */ JPH_MSVC_SUPPRESS_WARNING ( 4623 ) /* 'X' : default constructor was implicitly defined as deleted */ JPH_MSVC_SUPPRESS_WARNING ( 4201 ) /* nonstandard extension used: nameless struct/union */ JPH_MSVC_SUPPRESS_WARNING ( 4371 ) /* 'X': layout of class may have changed from a previous version of the compiler due to better packing of member 'Y' */ JPH_MSVC_SUPPRESS_WARNING ( 5045 ) /* Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified */ JPH_MSVC_SUPPRESS_WARNING ( 4583 ) /* 'X': destructor is not implicitly called */ JPH_MSVC_SUPPRESS_WARNING ( 4582 ) /* 'X': constructor is not implicitly called */ JPH_MSVC_SUPPRESS_WARNING ( 5219 ) /* implicit conversion from 'X' to 'Y', possible loss of data  */ JPH_MSVC_SUPPRESS_WARNING ( 4826 ) /* Conversion from 'X *' to 'JPH::uint64' is sign-extended. This may cause unexpected runtime behavior. (32-bit) */ JPH_MSVC_SUPPRESS_WARNING ( 5264 ) /* 'X': 'const' variable is not used */ JPH_MSVC_SUPPRESS_WARNING ( 4251 ) /* class 'X' needs to have DLL-interface to be used by clients of class 'Y' */ JPH_MSVC_SUPPRESS_WARNING ( 4738 ) /* storing 32-bit float result in memory, possible loss of performance */ JPH_MSVC2019_SUPPRESS_WARNING ( 5246 ) /* the initialization of a subobject should be wrapped in braces */ JPH_MSVC2026_PLUS_SUPPRESS_WARNING ( 5291 )
-const JPH_BREAKPOINT* = __builtin_trap ( )
-const JPH_NAMESPACE_BEGIN* = JPH_SUPPRESS_WARNING_PUSH JPH_SUPPRESS_WARNINGS namespace JPH {
-const JPH_NAMESPACE_END* = } JPH_SUPPRESS_WARNING_POP
-const JPH_SUPPRESS_WARNINGS_STD_BEGIN* = JPH_SUPPRESS_WARNING_PUSH JPH_MSVC_SUPPRESS_WARNING ( 4365 ) JPH_MSVC_SUPPRESS_WARNING ( 4619 ) JPH_MSVC_SUPPRESS_WARNING ( 4710 ) JPH_MSVC_SUPPRESS_WARNING ( 4711 ) JPH_MSVC_SUPPRESS_WARNING ( 4820 ) JPH_MSVC_SUPPRESS_WARNING ( 4514 ) JPH_MSVC_SUPPRESS_WARNING ( 5262 ) JPH_MSVC_SUPPRESS_WARNING ( 5264 ) JPH_MSVC_SUPPRESS_WARNING ( 4738 ) JPH_MSVC_SUPPRESS_WARNING ( 5045 )
-const JPH_SUPPRESS_WARNINGS_STD_END* = JPH_SUPPRESS_WARNING_POP
-const JPH_DEFAULT_ALLOCATE_ALIGNMENT* = __STDCPP_DEFAULT_NEW_ALIGNMENT__
 const JPH_CACHE_LINE_SIZE* = 64
-const JPH_FUNCTION_NAME* = __PRETTY_FUNCTION__
-const JPH_OVERRIDE_NEW_DELETE* = JPH_INLINE void * operator new ( size_t inCount ) { return JPH_INTERNAL_DEFAULT_ALLOCATE ( inCount ) ; } JPH_INLINE void operator delete ( void * inPointer ) noexcept { JPH_INTERNAL_DEFAULT_FREE ( inPointer ) ; } JPH_INLINE void operator delete ( void * inPointer , [ [ maybe_unused ] ] size_t inSize ) noexcept { JPH_INTERNAL_DEFAULT_FREE ( inPointer ) ; } JPH_INLINE void * operator new [ ] ( size_t inCount ) { return JPH_INTERNAL_DEFAULT_ALLOCATE ( inCount ) ; } JPH_INLINE void operator delete [ ] ( void * inPointer ) noexcept { JPH_INTERNAL_DEFAULT_FREE ( inPointer ) ; } JPH_INLINE void operator delete [ ] ( void * inPointer , [ [ maybe_unused ] ] size_t inSize ) noexcept { JPH_INTERNAL_DEFAULT_FREE ( inPointer ) ; } JPH_INLINE void * operator new ( size_t inCount , std :: align_val_t inAlignment ) { return JPH :: AlignedAllocate ( inCount , static_cast < size_t > ( inAlignment ) ) ; } JPH_INLINE void operator delete ( void * inPointer , [ [ maybe_unused ] ] std :: align_val_t inAlignment ) noexcept { JPH :: AlignedFree ( inPointer ) ; } JPH_INLINE void operator delete ( void * inPointer , [ [ maybe_unused ] ] size_t inSize , [ [ maybe_unused ] ] std :: align_val_t inAlignment ) noexcept { JPH :: AlignedFree ( inPointer ) ; } JPH_INLINE void * operator new [ ] ( size_t inCount , std :: align_val_t inAlignment ) { return JPH :: AlignedAllocate ( inCount , static_cast < size_t > ( inAlignment ) ) ; } JPH_INLINE void operator delete [ ] ( void * inPointer , [ [ maybe_unused ] ] std :: align_val_t inAlignment ) noexcept { JPH :: AlignedFree ( inPointer ) ; } JPH_INLINE void operator delete [ ] ( void * inPointer , [ [ maybe_unused ] ] size_t inSize , [ [ maybe_unused ] ] std :: align_val_t inAlignment ) noexcept { JPH :: AlignedFree ( inPointer ) ; } JPH_INLINE void * operator new ( [ [ maybe_unused ] ] size_t inCount , void * inPointer ) noexcept { return inPointer ; } JPH_INLINE void operator delete ( [ [ maybe_unused ] ] void * inPointer , [ [ maybe_unused ] ] void * inPlace ) noexcept { /* Do nothing */ } JPH_INLINE void * operator new [ ] ( [ [ maybe_unused ] ] size_t inCount , void * inPointer ) noexcept { return inPointer ; } JPH_INLINE void operator delete [ ] ( [ [ maybe_unused ] ] void * inPointer , [ [ maybe_unused ] ] void * inPlace ) noexcept { /* Do nothing */ }
-const JPH_EL* = ( r , c ) mCol [ c ] . mF32 [ r ]
 const JPH_RVECTOR_ALIGNMENT* = JPH_VECTOR_ALIGNMENT
-{.emit: """# #define JPH_INLINE __inline__ __attribute__ ( ( always_inline ) )""".}
-{.emit: """# #define JPH_PRECISE_MATH_ON _Pragma ( "clang diagnostic push" ) _Pragma ( "clang diagnostic ignored \"-Wignored-pragmas\"" ) _Pragma ( "float_control(precise, on, push)" ) _Pragma ( "clang diagnostic pop" )""".}
-{.emit: """# #define JPH_PRECISE_MATH_OFF _Pragma ( "clang diagnostic push" ) _Pragma ( "clang diagnostic ignored \"-Wignored-pragmas\"" ) _Pragma ( "float_control(pop)" ) _Pragma ( "clang diagnostic pop" )""".}
 var
   Allocate *:AllocateFunction
   Reallocate *:ReallocateFunction
@@ -102,17 +86,16 @@ var
   Trace *:TraceFunction
   AssertFailed *:AssertFailedFunction
 proc AssertFailedParamHelper *(inExpression :cstring; inFile :cstring; inLine :uint; a3 :AssertLastParam) :bool {.importcpp:"JPH::AssertFailedParamHelper(@)", header:"Jolt/Jolt.h".}
-proc `()` *(this :hash; inRHS :cint) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
+proc call *(this :hash; inRHS :cint) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
 proc HashBytes *(inData :pointer; inSize :uint; inSeed :cint) :cint {.importcpp:"JPH::HashBytes(@)", header:"Jolt/Jolt.h".}
 proc HashString *(inString :cstring; inSeed :cint) :cint {.importcpp:"JPH::HashString(@)", header:"Jolt/Jolt.h".}
 proc Hash64 *(inValue :cint) :cint {.importcpp:"JPH::Hash64(@)", header:"Jolt/Jolt.h".}
-proc `()` *(this :Hash; inValue :cfloat) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
-proc `()` *(this :Hash; inValue :cdouble) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
-proc `()` *(this :Hash; inValue :cstring) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
-proc `()` *(this :Hash; inValue :cchar) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
-proc `()` *(this :Hash; inValue :cint) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
+proc call *(this :Hash; inValue :cfloat) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
+proc call *(this :Hash; inValue :cdouble) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
+proc call *(this :Hash; inValue :cstring) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
+proc call *(this :Hash; inValue :cchar) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
+proc call *(this :Hash; inValue :cint) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
 proc HashCombine *[T](ioSeed :var cint; inValue :T) {.importcpp:"JPH::HashCombine<'*0>(@)", header:"Jolt/Jolt.h".}
-proc HashCombineArgs *[FirstValue, Values](inFirstValue :FirstValue; inValues :Values...) :cint {.importcpp:"JPH::HashCombineArgs<'*0>(@)", header:"Jolt/Jolt.h".}
 const
   JPH_PI *:cfloat= 3.1415927410125732
   cLargeFloat *:cfloat= 999999986991104.0
@@ -136,19 +119,17 @@ proc BitCast *[To, From](inValue :From) :To {.importcpp:"JPH::BitCast<'*0>(@)", 
 proc new *(inCount :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
 proc delete *(inPointer :pointer) {.importcpp, header:"Jolt/Jolt.h".}
 proc delete *(inPointer :pointer; inSize :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inSize :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
+proc newArray *(inCount :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
+proc deleteArray *(inPointer :pointer) {.importcpp, header:"Jolt/Jolt.h".}
+proc deleteArray *(inPointer :pointer; inSize :cint) {.importcpp, header:"Jolt/Jolt.h".}
 proc new *(inCount :cint; inAlignment :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inAlignment :cint) {.importcpp, header:"Jolt/Jolt.h".}
 proc delete *(inPointer :pointer; inSize :cint; inAlignment :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint; inAlignment :cint) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inAlignment :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inSize :cint; inAlignment :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
+proc newArray *(inCount :cint; inAlignment :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
+proc deleteArray *(inPointer :pointer; inSize :cint; inAlignment :cint) {.importcpp, header:"Jolt/Jolt.h".}
 proc new *(inCount :cint; inPointer :pointer) :pointer {.importcpp, header:"Jolt/Jolt.h".}
 proc delete *(inPointer :pointer; inPlace :pointer) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint; inPointer :pointer) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inPlace :pointer) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
+proc newArray *(inCount :cint; inPointer :pointer) :pointer {.importcpp, header:"Jolt/Jolt.h".}
+proc deleteArray *(inPointer :pointer; inPlace :pointer) {.importcpp, header:"Jolt/Jolt.h".}
 proc Float4_create *() :Float4 {.importcpp:"JPH::Float4(@)", constructor, header:"Jolt/Jolt.h".}
 proc Float4_create *(inRHS :Float4) :Float4 {.importcpp:"JPH::Float4(@)", constructor, header:"Jolt/Jolt.h".}
 proc Float4_create *(inX :cfloat; inY :cfloat; inZ :cfloat; inW :cfloat) :Float4 {.importcpp:"JPH::Float4(@)", constructor, header:"Jolt/Jolt.h".}
@@ -162,22 +143,6 @@ const
   SWIZZLE_Z *:cint= 2
   SWIZZLE_W *:cint= 3
   SWIZZLE_UNUSED *:cint= 2
-proc new *(inCount :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer) {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inSize :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inSize :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint; inAlignment :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inAlignment :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inSize :cint; inAlignment :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint; inAlignment :cint) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inAlignment :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inSize :cint; inAlignment :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint; inPointer :pointer) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inPlace :pointer) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint; inPointer :pointer) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inPlace :pointer) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
 proc Vec4_create *() :Vec4 {.importcpp:"JPH::Vec4(@)", constructor, header:"Jolt/Jolt.h".}
 proc Vec4_create *(inRHS :Vec4) :Vec4 {.importcpp:"JPH::Vec4(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var Vec4; inRHS :Vec4) :var Vec4 {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
@@ -278,22 +243,6 @@ proc ACos *(inX :cfloat) :cfloat {.importcpp:"JPH::ACos(@)", header:"Jolt/Jolt.h
 proc ACosApproximate *(inX :cfloat) :cfloat {.importcpp:"JPH::ACosApproximate(@)", header:"Jolt/Jolt.h".}
 proc ATan *(inX :cfloat) :cfloat {.importcpp:"JPH::ATan(@)", header:"Jolt/Jolt.h".}
 proc ATan2 *(inY :cfloat; inX :cfloat) :cfloat {.importcpp:"JPH::ATan2(@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer) {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inSize :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inSize :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint; inAlignment :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inAlignment :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inSize :cint; inAlignment :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint; inAlignment :cint) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inAlignment :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inSize :cint; inAlignment :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint; inPointer :pointer) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inPlace :pointer) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint; inPointer :pointer) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inPlace :pointer) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
 proc Float3_create *() :Float3 {.importcpp:"JPH::Float3(@)", constructor, header:"Jolt/Jolt.h".}
 proc Float3_create *(inRHS :Float3) :Float3 {.importcpp:"JPH::Float3(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var Float3; inRHS :Float3) :var Float3 {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
@@ -301,23 +250,7 @@ proc Float3_create *(inX :cfloat; inY :cfloat; inZ :cfloat) :Float3 {.importcpp:
 proc `[]` *(this :Float3; inCoordinate :cint) :cfloat {.importcpp:"#[#]", header:"Jolt/Jolt.h".}
 proc `==` *(this :Float3; inRHS :Float3) :bool {.importcpp:"# == #", header:"Jolt/Jolt.h".}
 proc `!=` *(this :Float3; inRHS :Float3) :bool {.importcpp:"# != #", header:"Jolt/Jolt.h".}
-proc `()` *(this :Hash; t :JPH::Float3) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer) {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inSize :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inSize :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint; inAlignment :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inAlignment :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inSize :cint; inAlignment :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint; inAlignment :cint) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inAlignment :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inSize :cint; inAlignment :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint; inPointer :pointer) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inPlace :pointer) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint; inPointer :pointer) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inPlace :pointer) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
+proc call *(this :Hash; t :JPH::Float3) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
 proc Vec3_create *() :Vec3 {.importcpp:"JPH::Vec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc Vec3_create *(inRHS :Vec3) :Vec3 {.importcpp:"JPH::Vec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var Vec3; inRHS :Vec3) :var Vec3 {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
@@ -325,13 +258,9 @@ proc Vec3_create *(inRHS :Vec4Arg) :Vec3 {.importcpp:"JPH::Vec3(@)", constructor
 proc Vec3_create *(inRHS :Type) :Vec3 {.importcpp:"JPH::Vec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc Vec3_create *(inV :Float3) :Vec3 {.importcpp:"JPH::Vec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc Vec3_create *(inX :cfloat; inY :cfloat; inZ :cfloat) :Vec3 {.importcpp:"JPH::Vec3(@)", constructor, header:"Jolt/Jolt.h".}
-proc sZero *() :Vec3 {.importcpp:"JPH::Vec3::sZero(@)", header:"Jolt/Jolt.h".}
-proc sOne *() :Vec3 {.importcpp:"JPH::Vec3::sOne(@)", header:"Jolt/Jolt.h".}
-proc sNaN *() :Vec3 {.importcpp:"JPH::Vec3::sNaN(@)", header:"Jolt/Jolt.h".}
 proc sAxisX *() :Vec3 {.importcpp:"JPH::Vec3::sAxisX(@)", header:"Jolt/Jolt.h".}
 proc sAxisY *() :Vec3 {.importcpp:"JPH::Vec3::sAxisY(@)", header:"Jolt/Jolt.h".}
 proc sAxisZ *() :Vec3 {.importcpp:"JPH::Vec3::sAxisZ(@)", header:"Jolt/Jolt.h".}
-proc sReplicate *(inV :cfloat) :Vec3 {.importcpp:"JPH::Vec3::sReplicate(@)", header:"Jolt/Jolt.h".}
 proc sLoadFloat3Unsafe *(inV :Float3) :Vec3 {.importcpp:"JPH::Vec3::sLoadFloat3Unsafe(@)", header:"Jolt/Jolt.h".}
 proc sMin *(inV1 :Vec3Arg; inV2 :Vec3Arg) :Vec3 {.importcpp:"JPH::Vec3::sMin(@)", header:"Jolt/Jolt.h".}
 proc sMax *(inV1 :Vec3Arg; inV2 :Vec3Arg) :Vec3 {.importcpp:"JPH::Vec3::sMax(@)", header:"Jolt/Jolt.h".}
@@ -401,25 +330,8 @@ proc Sqrt *(this :Vec3) :Vec3 {.importcpp:"#.Sqrt(@)", header:"Jolt/Jolt.h".}
 proc GetNormalizedPerpendicular *(this :Vec3) :Vec3 {.importcpp:"#.GetNormalizedPerpendicular(@)", header:"Jolt/Jolt.h".}
 proc GetSign *(this :Vec3) :Vec3 {.importcpp:"#.GetSign(@)", header:"Jolt/Jolt.h".}
 proc CompressUnitVector *(this :Vec3) :cint {.importcpp:"#.CompressUnitVector(@)", header:"Jolt/Jolt.h".}
-proc sDecompressUnitVector *(inValue :cint) :Vec3 {.importcpp:"JPH::Vec3::sDecompressUnitVector(@)", header:"Jolt/Jolt.h".}
 proc CheckW *(this :Vec3) {.importcpp:"#.CheckW(@)", header:"Jolt/Jolt.h".}
 proc sFixW *(inValue :Type) :Type {.importcpp:"JPH::Vec3::sFixW(@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer) {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inSize :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inSize :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint; inAlignment :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inAlignment :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inSize :cint; inAlignment :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint; inAlignment :cint) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inAlignment :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inSize :cint; inAlignment :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint; inPointer :pointer) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inPlace :pointer) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint; inPointer :pointer) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inPlace :pointer) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
 proc UVec4_create *() :UVec4 {.importcpp:"JPH::UVec4(@)", constructor, header:"Jolt/Jolt.h".}
 proc UVec4_create *(inRHS :UVec4) :UVec4 {.importcpp:"JPH::UVec4(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var UVec4; inRHS :UVec4) :var UVec4 {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
@@ -427,7 +339,6 @@ proc UVec4_create *(inRHS :Type) :UVec4 {.importcpp:"JPH::UVec4(@)", constructor
 proc UVec4_create *(inX :cint; inY :cint; inZ :cint; inW :cint) :UVec4 {.importcpp:"JPH::UVec4(@)", constructor, header:"Jolt/Jolt.h".}
 proc `==` *(this :UVec4; inV2 :UVec4Arg) :bool {.importcpp:"# == #", header:"Jolt/Jolt.h".}
 proc `!=` *(this :UVec4; inV2 :UVec4Arg) :bool {.importcpp:"# != #", header:"Jolt/Jolt.h".}
-proc sZero *() :UVec4 {.importcpp:"JPH::UVec4::sZero(@)", header:"Jolt/Jolt.h".}
 proc sReplicate *(inV :cint) :UVec4 {.importcpp:"JPH::UVec4::sReplicate(@)", header:"Jolt/Jolt.h".}
 proc sLoadInt *(inV :ptr cint) :UVec4 {.importcpp:"JPH::UVec4::sLoadInt(@)", header:"Jolt/Jolt.h".}
 proc sLoadInt4 *(inV :ptr cint) :UVec4 {.importcpp:"JPH::UVec4::sLoadInt4(@)", header:"Jolt/Jolt.h".}
@@ -484,36 +395,18 @@ proc sGatherInt4 *(inBase :ptr cint; inOffsets :UVec4Arg) :UVec4 {.importcpp:"JP
 proc LogicalShiftLeft *() :UVec4 {.importcpp:"JPH::UVec4::LogicalShiftLeft<'*0>(@)", header:"Jolt/Jolt.h".}
 proc LogicalShiftRight *() :UVec4 {.importcpp:"JPH::UVec4::LogicalShiftRight<'*0>(@)", header:"Jolt/Jolt.h".}
 proc ArithmeticShiftRight *() :UVec4 {.importcpp:"JPH::UVec4::ArithmeticShiftRight<'*0>(@)", header:"Jolt/Jolt.h".}
-proc `()` *(this :Hash; t :JPH::Vec3) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
+proc call *(this :Hash; t :JPH::Vec3) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
 proc sRandom *[Random](inRandom :var Random) :Vec3 {.importcpp:"JPH::Vec3::sRandom<'*0>(@)", header:"Jolt/Jolt.h".}
 proc `*` *(inV1 :cfloat; inV2 :Vec3Arg) :Vec3 {.importcpp:"JPH::operator*(@)", header:"Jolt/Jolt.h".}
 proc FlipSign *() :Vec3 {.importcpp:"JPH::Vec3::FlipSign<'*0>(@)", header:"Jolt/Jolt.h".}
 proc sGatherFloat4 *(inBase :ptr cfloat; inOffsets :UVec4Arg) :Vec4 {.importcpp:"JPH::Vec4::sGatherFloat4<'*0>(@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer) {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inSize :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inSize :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint; inAlignment :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inAlignment :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inSize :cint; inAlignment :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint; inAlignment :cint) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inAlignment :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inSize :cint; inAlignment :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint; inPointer :pointer) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inPlace :pointer) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint; inPointer :pointer) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inPlace :pointer) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
 proc Mat44_create *() :Mat44 {.importcpp:"JPH::Mat44(@)", constructor, header:"Jolt/Jolt.h".}
 proc Mat44_create *(inC1 :Vec4Arg; inC2 :Vec4Arg; inC3 :Vec4Arg; inC4 :Vec4Arg) :Mat44 {.importcpp:"JPH::Mat44(@)", constructor, header:"Jolt/Jolt.h".}
 proc Mat44_create *(inC1 :Vec4Arg; inC2 :Vec4Arg; inC3 :Vec4Arg; inC4 :Vec3Arg) :Mat44 {.importcpp:"JPH::Mat44(@)", constructor, header:"Jolt/Jolt.h".}
 proc Mat44_create *(inM2 :Mat44) :Mat44 {.importcpp:"JPH::Mat44(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var Mat44; inM2 :Mat44) :var Mat44 {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
 proc Mat44_create *(inC1 :Type; inC2 :Type; inC3 :Type; inC4 :Type) :Mat44 {.importcpp:"JPH::Mat44(@)", constructor, header:"Jolt/Jolt.h".}
-proc sZero *() :Mat44 {.importcpp:"JPH::Mat44::sZero(@)", header:"Jolt/Jolt.h".}
 proc sIdentity *() :Mat44 {.importcpp:"JPH::Mat44::sIdentity(@)", header:"Jolt/Jolt.h".}
-proc sNaN *() :Mat44 {.importcpp:"JPH::Mat44::sNaN(@)", header:"Jolt/Jolt.h".}
 proc sLoadFloat4x4 *(inV :ptr Float4) :Mat44 {.importcpp:"JPH::Mat44::sLoadFloat4x4(@)", header:"Jolt/Jolt.h".}
 proc sLoadFloat4x4Aligned *(inV :ptr Float4) :Mat44 {.importcpp:"JPH::Mat44::sLoadFloat4x4Aligned(@)", header:"Jolt/Jolt.h".}
 proc sRotationX *(inX :cfloat) :Mat44 {.importcpp:"JPH::Mat44::sRotationX(@)", header:"Jolt/Jolt.h".}
@@ -532,8 +425,8 @@ proc sQuatLeftMultiply *(inQ :QuatArg) :Mat44 {.importcpp:"JPH::Mat44::sQuatLeft
 proc sQuatRightMultiply *(inQ :QuatArg) :Mat44 {.importcpp:"JPH::Mat44::sQuatRightMultiply(@)", header:"Jolt/Jolt.h".}
 proc sLookAt *(inPos :Vec3Arg; inTarget :Vec3Arg; inUp :Vec3Arg) :Mat44 {.importcpp:"JPH::Mat44::sLookAt(@)", header:"Jolt/Jolt.h".}
 proc sPerspective *(inFovY :cfloat; inAspect :cfloat; inNear :cfloat; inFar :cfloat) :Mat44 {.importcpp:"JPH::Mat44::sPerspective(@)", header:"Jolt/Jolt.h".}
-proc `()` *(this :Mat44; inRow :uint; inColumn :uint) :cfloat {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
-proc `()` *(this :var Mat44; inRow :uint; inColumn :uint) :var cfloat {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
+proc call *(this :Mat44; inRow :uint; inColumn :uint) :cfloat {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
+proc call *(this :var Mat44; inRow :uint; inColumn :uint) :var cfloat {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
 proc `==` *(this :Mat44; inM2 :Mat44Arg) :bool {.importcpp:"# == #", header:"Jolt/Jolt.h".}
 proc `!=` *(this :Mat44; inM2 :Mat44Arg) :bool {.importcpp:"# != #", header:"Jolt/Jolt.h".}
 proc IsClose *(this :Mat44; inM2 :Mat44Arg; inMaxDistSq :cfloat) :bool {.importcpp:"#.IsClose(@)", header:"Jolt/Jolt.h".}
@@ -587,22 +480,6 @@ proc PreScaled *(this :Mat44; inScale :Vec3Arg) :Mat44 {.importcpp:"#.PreScaled(
 proc PostScaled *(this :Mat44; inScale :Vec3Arg) :Mat44 {.importcpp:"#.PostScaled(@)", header:"Jolt/Jolt.h".}
 proc Decompose *(this :Mat44; outScale :var Vec3) :Mat44 {.importcpp:"#.Decompose(@)", header:"Jolt/Jolt.h".}
 proc ToMat44 *(this :Mat44) :Mat44 {.importcpp:"#.ToMat44(@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer) {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inSize :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inSize :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint; inAlignment :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inAlignment :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inSize :cint; inAlignment :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint; inAlignment :cint) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inAlignment :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inSize :cint; inAlignment :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint; inPointer :pointer) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inPlace :pointer) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint; inPointer :pointer) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inPlace :pointer) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
 proc Quat_create *() :Quat {.importcpp:"JPH::Quat(@)", constructor, header:"Jolt/Jolt.h".}
 proc Quat_create *(inRHS :Quat) :Quat {.importcpp:"JPH::Quat(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var Quat; inRHS :Quat) :var Quat {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
@@ -625,9 +502,6 @@ proc SetY *(this :var Quat; inY :cfloat) {.importcpp:"#.SetY(@)", header:"Jolt/J
 proc SetZ *(this :var Quat; inZ :cfloat) {.importcpp:"#.SetZ(@)", header:"Jolt/Jolt.h".}
 proc SetW *(this :var Quat; inW :cfloat) {.importcpp:"#.SetW(@)", header:"Jolt/Jolt.h".}
 proc Set *(this :var Quat; inX :cfloat; inY :cfloat; inZ :cfloat; inW :cfloat) {.importcpp:"#.Set(@)", header:"Jolt/Jolt.h".}
-proc sZero *() :Quat {.importcpp:"JPH::Quat::sZero(@)", header:"Jolt/Jolt.h".}
-proc sIdentity *() :Quat {.importcpp:"JPH::Quat::sIdentity(@)", header:"Jolt/Jolt.h".}
-proc sRotation *(inAxis :Vec3Arg; inAngle :cfloat) :Quat {.importcpp:"JPH::Quat::sRotation(@)", header:"Jolt/Jolt.h".}
 proc GetAxisAngle *(this :Quat; outAxis :var Vec3; outAngle :var cfloat) {.importcpp:"#.GetAxisAngle(@)", header:"Jolt/Jolt.h".}
 proc GetAngularVelocity *(this :Quat; inDeltaTime :cfloat) :Vec3 {.importcpp:"#.GetAngularVelocity(@)", header:"Jolt/Jolt.h".}
 proc sFromTo *(inFrom :Vec3Arg; inTo :Vec3Arg) :Quat {.importcpp:"JPH::Quat::sFromTo(@)", header:"Jolt/Jolt.h".}
@@ -662,27 +536,10 @@ proc GetTwist *(this :Quat; inAxis :Vec3Arg) :Quat {.importcpp:"#.GetTwist(@)", 
 proc GetSwingTwist *(this :Quat; outSwing :var Quat; outTwist :var Quat) {.importcpp:"#.GetSwingTwist(@)", header:"Jolt/Jolt.h".}
 proc LERP *(this :Quat; inDestination :QuatArg; inFraction :cfloat) :Quat {.importcpp:"#.LERP(@)", header:"Jolt/Jolt.h".}
 proc SLERP *(this :Quat; inDestination :QuatArg; inFraction :cfloat) :Quat {.importcpp:"#.SLERP(@)", header:"Jolt/Jolt.h".}
-proc sLoadFloat3Unsafe *(inV :Float3) :Quat {.importcpp:"JPH::Quat::sLoadFloat3Unsafe(@)", header:"Jolt/Jolt.h".}
 proc StoreFloat3 *(this :Quat; outV :ptr Float3) {.importcpp:"#.StoreFloat3(@)", header:"Jolt/Jolt.h".}
 proc StoreFloat4 *(this :Quat; outV :ptr Float4) {.importcpp:"#.StoreFloat4(@)", header:"Jolt/Jolt.h".}
 proc CompressUnitQuat *(this :Quat) :cint {.importcpp:"#.CompressUnitQuat(@)", header:"Jolt/Jolt.h".}
 proc sDecompressUnitQuat *(inValue :cint) :Quat {.importcpp:"JPH::Quat::sDecompressUnitQuat(@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer) {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inSize :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inSize :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint; inAlignment :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inAlignment :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inSize :cint; inAlignment :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint; inAlignment :cint) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inAlignment :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inSize :cint; inAlignment :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint; inPointer :pointer) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inPlace :pointer) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint; inPointer :pointer) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inPlace :pointer) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
 proc Double3_create *() :Double3 {.importcpp:"JPH::Double3(@)", constructor, header:"Jolt/Jolt.h".}
 proc Double3_create *(inRHS :Double3) :Double3 {.importcpp:"JPH::Double3(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var Double3; inRHS :Double3) :var Double3 {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
@@ -690,23 +547,7 @@ proc Double3_create *(inX :cdouble; inY :cdouble; inZ :cdouble) :Double3 {.impor
 proc `[]` *(this :Double3; inCoordinate :cint) :cdouble {.importcpp:"#[#]", header:"Jolt/Jolt.h".}
 proc `==` *(this :Double3; inRHS :Double3) :bool {.importcpp:"# == #", header:"Jolt/Jolt.h".}
 proc `!=` *(this :Double3; inRHS :Double3) :bool {.importcpp:"# != #", header:"Jolt/Jolt.h".}
-proc `()` *(this :Hash; t :JPH::Double3) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer) {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inSize :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inSize :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint; inAlignment :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inAlignment :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inSize :cint; inAlignment :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint; inAlignment :cint) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inAlignment :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inSize :cint; inAlignment :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint; inPointer :pointer) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inPlace :pointer) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint; inPointer :pointer) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inPlace :pointer) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
+proc call *(this :Hash; t :JPH::Double3) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
 proc DVec3_create *() :DVec3 {.importcpp:"JPH::DVec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc DVec3_create *(inRHS :DVec3) :DVec3 {.importcpp:"JPH::DVec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var DVec3; inRHS :DVec3) :var DVec3 {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
@@ -715,15 +556,10 @@ proc DVec3_create *(inRHS :Vec4Arg) :DVec3 {.importcpp:"JPH::DVec3(@)", construc
 proc DVec3_create *(inRHS :TypeArg) :DVec3 {.importcpp:"JPH::DVec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc DVec3_create *(inX :cdouble; inY :cdouble; inZ :cdouble) :DVec3 {.importcpp:"JPH::DVec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc DVec3_create *(inV :Double3) :DVec3 {.importcpp:"JPH::DVec3(@)", constructor, header:"Jolt/Jolt.h".}
-proc sZero *() :DVec3 {.importcpp:"JPH::DVec3::sZero(@)", header:"Jolt/Jolt.h".}
-proc sOne *() :DVec3 {.importcpp:"JPH::DVec3::sOne(@)", header:"Jolt/Jolt.h".}
-proc sAxisX *() :DVec3 {.importcpp:"JPH::DVec3::sAxisX(@)", header:"Jolt/Jolt.h".}
-proc sAxisY *() :DVec3 {.importcpp:"JPH::DVec3::sAxisY(@)", header:"Jolt/Jolt.h".}
-proc sAxisZ *() :DVec3 {.importcpp:"JPH::DVec3::sAxisZ(@)", header:"Jolt/Jolt.h".}
 proc sReplicate *(inV :cdouble) :DVec3 {.importcpp:"JPH::DVec3::sReplicate(@)", header:"Jolt/Jolt.h".}
-proc sNaN *() :DVec3 {.importcpp:"JPH::DVec3::sNaN(@)", header:"Jolt/Jolt.h".}
 proc sLoadDouble3Unsafe *(inV :Double3) :DVec3 {.importcpp:"JPH::DVec3::sLoadDouble3Unsafe(@)", header:"Jolt/Jolt.h".}
 proc StoreDouble3 *(this :DVec3; outV :ptr Double3) {.importcpp:"#.StoreDouble3(@)", header:"Jolt/Jolt.h".}
+proc toVec3 *(this :DVec3) :Vec3 {.importcpp:"#.operator Vec3(@)", header:"Jolt/Jolt.h".}
 proc PrepareRoundToZero *(this :DVec3) :DVec3 {.importcpp:"#.PrepareRoundToZero(@)", header:"Jolt/Jolt.h".}
 proc PrepareRoundToInf *(this :DVec3) :DVec3 {.importcpp:"#.PrepareRoundToInf(@)", header:"Jolt/Jolt.h".}
 proc ToVec3RoundDown *(this :DVec3) :Vec3 {.importcpp:"#.ToVec3RoundDown(@)", header:"Jolt/Jolt.h".}
@@ -786,23 +622,7 @@ proc Sqrt *(this :DVec3) :DVec3 {.importcpp:"#.Sqrt(@)", header:"Jolt/Jolt.h".}
 proc GetSign *(this :DVec3) :DVec3 {.importcpp:"#.GetSign(@)", header:"Jolt/Jolt.h".}
 proc CheckW *(this :DVec3) {.importcpp:"#.CheckW(@)", header:"Jolt/Jolt.h".}
 proc sFixW *(inValue :TypeArg) :Type {.importcpp:"JPH::DVec3::sFixW(@)", header:"Jolt/Jolt.h".}
-proc `()` *(this :Hash; t :JPH::DVec3) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer) {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inSize :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inSize :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint; inAlignment :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inAlignment :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inSize :cint; inAlignment :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint; inAlignment :cint) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inAlignment :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inSize :cint; inAlignment :cint) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint; inPointer :pointer) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inPlace :pointer) {.importcpp, header:"Jolt/Jolt.h".}
-proc operator new[] *(inCount :cint; inPointer :pointer) :pointer {.importcpp:"#.operator new[](@)", header:"Jolt/Jolt.h".}
-proc operator delete[] *(inPointer :pointer; inPlace :pointer) {.importcpp:"#.operator delete[](@)", header:"Jolt/Jolt.h".}
+proc call *(this :Hash; t :JPH::DVec3) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
 proc DMat44_create *() :DMat44 {.importcpp:"JPH::DMat44(@)", constructor, header:"Jolt/Jolt.h".}
 proc DMat44_create *(inC1 :Vec4Arg; inC2 :Vec4Arg; inC3 :Vec4Arg; inC4 :DVec3Arg) :DMat44 {.importcpp:"JPH::DMat44(@)", constructor, header:"Jolt/Jolt.h".}
 proc DMat44_create *(inM2 :DMat44) :DMat44 {.importcpp:"JPH::DMat44(@)", constructor, header:"Jolt/Jolt.h".}
@@ -810,13 +630,9 @@ proc assign *(this :var DMat44; inM2 :DMat44) :var DMat44 {.importcpp:"# = #", d
 proc DMat44_create *(inM :Mat44Arg) :DMat44 {.importcpp:"JPH::DMat44(@)", constructor, header:"Jolt/Jolt.h".}
 proc DMat44_create *(inRot :Mat44Arg; inT :DVec3Arg) :DMat44 {.importcpp:"JPH::DMat44(@)", constructor, header:"Jolt/Jolt.h".}
 proc DMat44_create *(inC1 :Type; inC2 :Type; inC3 :Type; inC4 :DTypeArg) :DMat44 {.importcpp:"JPH::DMat44(@)", constructor, header:"Jolt/Jolt.h".}
-proc sZero *() :DMat44 {.importcpp:"JPH::DMat44::sZero(@)", header:"Jolt/Jolt.h".}
-proc sIdentity *() :DMat44 {.importcpp:"JPH::DMat44::sIdentity(@)", header:"Jolt/Jolt.h".}
-proc sRotation *(inQuat :QuatArg) :DMat44 {.importcpp:"JPH::DMat44::sRotation(@)", header:"Jolt/Jolt.h".}
 proc sTranslation *(inV :DVec3Arg) :DMat44 {.importcpp:"JPH::DMat44::sTranslation(@)", header:"Jolt/Jolt.h".}
 proc sRotationTranslation *(inR :QuatArg; inT :DVec3Arg) :DMat44 {.importcpp:"JPH::DMat44::sRotationTranslation(@)", header:"Jolt/Jolt.h".}
 proc sInverseRotationTranslation *(inR :QuatArg; inT :DVec3Arg) :DMat44 {.importcpp:"JPH::DMat44::sInverseRotationTranslation(@)", header:"Jolt/Jolt.h".}
-proc sScale *(inV :Vec3Arg) :DMat44 {.importcpp:"JPH::DMat44::sScale(@)", header:"Jolt/Jolt.h".}
 proc ToMat44 *(this :DMat44) :Mat44 {.importcpp:"#.ToMat44(@)", header:"Jolt/Jolt.h".}
 proc `==` *(this :DMat44; inM2 :DMat44Arg) :bool {.importcpp:"# == #", header:"Jolt/Jolt.h".}
 proc `!=` *(this :DMat44; inM2 :DMat44Arg) :bool {.importcpp:"# != #", header:"Jolt/Jolt.h".}
@@ -854,4 +670,4 @@ proc SetRotation *(this :var DMat44; inRotation :Mat44Arg) {.importcpp:"#.SetRot
 proc GetQuaternion *(this :DMat44) :Quat {.importcpp:"#.GetQuaternion(@)", header:"Jolt/Jolt.h".}
 proc GetDirectionPreservingMatrix *(this :DMat44) :Mat44 {.importcpp:"#.GetDirectionPreservingMatrix(@)", header:"Jolt/Jolt.h".}
 proc Decompose *(this :DMat44; outScale :var Vec3) :DMat44 {.importcpp:"#.Decompose(@)", header:"Jolt/Jolt.h".}
-proc operator""_r *(inValue :clongdouble) :Real {.importcpp:"JPH::literals::operator""_r(@)", header:"Jolt/Jolt.h".}
+proc r *(inValue :clongdouble) :Real {.importcpp:"JPH::literals::operator\"\"_r(@)", header:"Jolt/Jolt.h".}

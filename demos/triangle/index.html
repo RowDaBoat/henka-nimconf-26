@@ -7,13 +7,14 @@
   <style>
     body { margin: 0; background: #111; color: #ddd; font-family: monospace; }
     h1   { font-size: 1rem; padding: 0.75rem 1rem 0; }
-    #triangle-canvas { display: block; margin: 1rem auto; background: #000; }
+    /* Logical display size; the drawing buffer is rendered at device-pixel resolution. */
+    #triangle-canvas { display: block; margin: 1rem auto; background: #000; width: 960px; height: 540px; }
     #output { white-space: pre-wrap; padding: 0 1rem 1rem; opacity: 0.7; }
   </style>
 </head>
 <body>
   <h1>WebGPU Triangle — nimconf26</h1>
-  <canvas id="triangle-canvas" width="960" height="540"></canvas>
+  <canvas id="triangle-canvas" width="1920" height="1080"></canvas>
   <pre id="output"></pre>
 
   <script>

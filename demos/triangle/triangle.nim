@@ -39,6 +39,7 @@ const
   cubeSize = 0.8'f32   # cube half-extent
   initialW :int32 = 960
   initialH :int32 = 540
+  renderScale :int32 = 2   # supersample factor: render larger, CSS shows it at logical size
 
 
 #_______________________________________
@@ -98,7 +99,7 @@ fn fs_main(in :VSOut) ->@location(0) vec4<f32> {
   n = n * sign(n.z + 1e-5);                          // face the camera (+z in view space)
   let light = normalize(vec3<f32>(0.3, 0.5, 0.8));
   let diff  = max(dot(n, light), 0.0);
-  let g     = 0.2 + 0.7 * diff;                      // grey, shaded by face
+  let g     = 0.08 + 0.32 * diff;                    // dark grey, shaded by face
   return vec4<f32>(g, g, g, 1.0);
 }
 """
@@ -132,19 +133,23 @@ const cubeIndices = [
   1,     5, 6,  1, 6, 2,   # right  (+x)
 ]
 
-# 50 cubes scattered across the visible z = 0 plane, each randomly rotated.
-const cubeCount = 50
+# An n x m grid filling the visible z = 0 plane; each cube keeps a random rotation.
+const
+  gridCols = 10
+  gridRows = 5
+const spacing = 1.9'f32                                # distance between cube centers
 let instances = block:
-  var rng    = initRand(20260528)
-  let halfH  = camDist * tan(fovY * 0.5) * 1.1          # 10% margin so cubes reach the edges
-  let halfW  = halfH * (initialW.float32 / initialH.float32)
+  var rng = initRand(20260528)
   template rf(lo, hi :float32): float32 = lo + rng.rand(1.0).float32 * (hi - lo)
   var arr :seq[CubeInstance]
-  for i in 0 ..< cubeCount:
-    arr.add CubeInstance(
-      offset:   [rf(-halfW, halfW), rf(-halfH, halfH), rf(-1.0, 1.0)],
-      rotation: [rf(0.0, TAU), rf(0.0, TAU), rf(0.0, TAU)],
-    )
+  for row in 0 ..< gridRows:
+    for col in 0 ..< gridCols:
+      let x = (col.float32 - (gridCols.float32 - 1.0'f32) * 0.5'f32) * spacing
+      let y = (row.float32 - (gridRows.float32 - 1.0'f32) * 0.5'f32) * spacing
+      arr.add CubeInstance(
+        offset:   [x.float32, y.float32, 0.0'f32],
+        rotation: [rf(0.0, TAU), rf(0.0, TAU), rf(0.0, TAU)],
+      )
   arr
 
 
@@ -364,7 +369,12 @@ proc onDeviceReady=
     alphaMode       : surfaceAlpha,
     presentMode     : Fifo,
     ) #:: SurfaceConfiguration
-  when not defined(emscripten):
+  when defined(emscripten):
+    # Render larger than the logical canvas; surface.configure resizes the canvas
+    # drawing buffer to match, and CSS scales it back down for a crisp result.
+    config.width  = (initialW * renderScale).uint32
+    config.height = (initialH * renderScale).uint32
+  else:
     glfw.getWindowSize(window, config.width.iaddr, config.height.iaddr)
   surface.configure(config.addr)
 

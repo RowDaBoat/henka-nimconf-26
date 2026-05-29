@@ -1,8 +1,9 @@
 #:___________________________________________________________
-#  henka-nimconf-26  |  WebGPU "Hello Triangle" demo  |  MIT  :
+#  henka-nimconf-26  |  WebGPU Cubes demo  |  MIT             :
 #:___________________________________________________________
-# Renders a single hardcoded triangle with WebGPU.            |
-# Vertices live in the shader, so there are no vertex buffers.|
+# Renders a grid of cube instances with WebGPU.               |
+# Geometry lives in real vertex/index buffers; per-cube world |
+# offsets come from a per-instance vertex buffer. No rotation. |
 #                                                             |
 # Runs in two modes from the same source:                    |
 #   * Native : GLFW window + wgpu  (blocking adapter/device)  |
@@ -28,52 +29,29 @@ else:
 
 #_______________________________________
 # @section Cube Shader
-#  The 8 corners and 36 indices (12 triangles) are hardcoded, so there are
-#  still no vertex/index buffers. A small uniform feeds time + aspect ratio,
-#  and the model/view/projection matrix is built right here in WGSL.
+#  Geometry arrives through vertex buffers now; the shader only places each
+#  cube (per-instance @location(2) offset) and applies the perspective camera.
 #_____________________________
 const shaderCode = """
 struct Uniforms {
-  time   : f32,
   aspect : f32,
 };
 @group(0) @binding(0) var<uniform> u : Uniforms;
 
+struct VSIn {
+  @location(0) position : vec3<f32>,
+  @location(1) color    : vec3<f32>,
+  @location(2) offset   : vec3<f32>,   // per-instance world position
+};
 struct VSOut {
   @builtin(position) pos   : vec4<f32>,
   @location(0)       color : vec3<f32>,
 };
 
-fn rotateY(a :f32) ->mat3x3<f32> {
-  let c = cos(a); let s = sin(a);
-  return mat3x3<f32>(c, 0.0, -s,  0.0, 1.0, 0.0,  s, 0.0, c);
-}
-fn rotateX(a :f32) ->mat3x3<f32> {
-  let c = cos(a); let s = sin(a);
-  return mat3x3<f32>(1.0, 0.0, 0.0,  0.0, c, s,  0.0, -s, c);
-}
-
 @vertex
-fn vs_main(@builtin(vertex_index) vid :u32) ->VSOut {
-  var corners = array<vec3<f32>, 8>(
-    vec3<f32>(-1.0, -1.0, -1.0), vec3<f32>( 1.0, -1.0, -1.0),
-    vec3<f32>( 1.0,  1.0, -1.0), vec3<f32>(-1.0,  1.0, -1.0),
-    vec3<f32>(-1.0, -1.0,  1.0), vec3<f32>( 1.0, -1.0,  1.0),
-    vec3<f32>( 1.0,  1.0,  1.0), vec3<f32>(-1.0,  1.0,  1.0),
-  );
-  var idx = array<u32, 36>(
-    0u, 1u, 2u,  0u, 2u, 3u,   // back   (-z)
-    4u, 6u, 5u,  4u, 7u, 6u,   // front  (+z)
-    0u, 4u, 5u,  0u, 5u, 1u,   // bottom (-y)
-    3u, 2u, 6u,  3u, 6u, 7u,   // top    (+y)
-    0u, 3u, 7u,  0u, 7u, 4u,   // left   (-x)
-    1u, 5u, 6u,  1u, 6u, 2u,   // right  (+x)
-  );
-  let p = corners[idx[vid]];
-
-  // Model: spin around two axes. View: push the cube away from the camera.
-  let world   = rotateY(u.time * 0.9) * rotateX(u.time * 0.6) * (p * 0.8);
-  let viewPos = vec3<f32>(world.x, world.y, world.z - 4.0);
+fn vs_main(in :VSIn) ->VSOut {
+  let world   = in.position + in.offset;
+  let viewPos = vec3<f32>(world.x, world.y, world.z - 10.0);  // push away from camera
 
   // Right-handed perspective mapping depth to [0, 1] (WebGPU convention)
   let fovy = 1.0;
@@ -82,15 +60,15 @@ fn vs_main(@builtin(vertex_index) vid :u32) ->VSOut {
   let far  = 100.0;
   let nf   = 1.0 / (near - far);
   let proj = mat4x4<f32>(
-    f / u.aspect, 0.0,        0.0,            0.0,
-    0.0,          f,          0.0,            0.0,
-    0.0,          0.0,        far * nf,      -1.0,
-    0.0,          0.0,        far * near * nf, 0.0,
+    f / u.aspect, 0.0, 0.0,            0.0,
+    0.0,          f,   0.0,            0.0,
+    0.0,          0.0, far * nf,      -1.0,
+    0.0,          0.0, far * near * nf, 0.0,
   );
 
   var out :VSOut;
   out.pos   = proj * vec4<f32>(viewPos, 1.0);
-  out.color = p * 0.5 + vec3<f32>(0.5, 0.5, 0.5);  // color by corner
+  out.color = in.color;
   return out;
 }
 
@@ -102,31 +80,71 @@ fn fs_main(in :VSOut) ->@location(0) vec4<f32> {
 
 
 #_______________________________________
+# @section Geometry
+#  8 corners (scaled), colored by corner. 36 indices = 12 triangles.
+#_____________________________
+type Vertex = object
+  pos   :array[3, float32]
+  color :array[3, float32]
+
+const s = 0.7'f32
+let cubeVertices = [
+  Vertex(pos: [-s, -s, -s], color: [0.0, 0.0, 0.0]),
+  Vertex(pos: [ s, -s, -s], color: [1.0, 0.0, 0.0]),
+  Vertex(pos: [ s,  s, -s], color: [1.0, 1.0, 0.0]),
+  Vertex(pos: [-s,  s, -s], color: [0.0, 1.0, 0.0]),
+  Vertex(pos: [-s, -s,  s], color: [0.0, 0.0, 1.0]),
+  Vertex(pos: [ s, -s,  s], color: [1.0, 0.0, 1.0]),
+  Vertex(pos: [ s,  s,  s], color: [1.0, 1.0, 1.0]),
+  Vertex(pos: [-s,  s,  s], color: [0.0, 1.0, 1.0]),
+]
+
+const cubeIndices = [
+  0'u16, 1, 2,  0, 2, 3,   # back   (-z)
+  4,     6, 5,  4, 7, 6,   # front  (+z)
+  0,     4, 5,  0, 5, 1,   # bottom (-y)
+  3,     2, 6,  3, 6, 7,   # top    (+y)
+  0,     3, 7,  0, 7, 4,   # left   (-x)
+  1,     5, 6,  1, 6, 2,   # right  (+x)
+]
+
+# One offset per cube: a 3x3 grid in the XY plane.
+let instanceOffsets = block:
+  var offs :seq[array[3, float32]]
+  for gy in -1 .. 1:
+    for gx in -1 .. 1:
+      offs.add [gx.float32 * 3.0'f32, gy.float32 * 3.0'f32, 0.0'f32]
+  offs
+
+
+#_______________________________________
 # @section State
 #  HTML canvas selector must match the <canvas id> in index.html.
 #_____________________________
 const
   canvasSelector       = "#triangle-canvas"
-  title                = "WebGPU Cube"
+  title                = "WebGPU Cubes"
   initialW :int32      = 960
   initialH :int32      = 540
   depthFormat          = TextureFormat.Depth24Plus
 
 type Uniforms = object
-  time   :float32
   aspect :float32
 
 var
-  instance  :Instance
-  surface   :Surface
-  adapter   :Adapter
-  device    :Device
-  pipeline  :RenderPipeline
-  config    :SurfaceConfiguration
-  uniforms  :Uniforms
-  uniformBuf:Buffer
-  bindGroup :BindGroup
-  depthView :TextureView
+  instance   :Instance
+  surface    :Surface
+  adapter    :Adapter
+  device     :Device
+  pipeline   :RenderPipeline
+  config     :SurfaceConfiguration
+  uniforms   :Uniforms
+  uniformBuf :Buffer
+  bindGroup  :BindGroup
+  depthView  :TextureView
+  vertexBuf  :Buffer
+  indexBuf   :Buffer
+  instanceBuf:Buffer
 
 when not defined(emscripten):
   var window :glfw.Window
@@ -159,7 +177,8 @@ proc drawFrame     () {.cdecl.}
 #  Called once the Device is ready, on both platforms.
 #_____________________________
 proc onDeviceReady=
-  echo ":: Device ready. Building the render pipeline."
+  echo ":: Device ready. Building buffers and the render pipeline."
+  let queue = device.getQueue()
 
   # Surface capabilities decide the color format we render into
   let caps          = surface.capabilities(adapter)
@@ -170,14 +189,29 @@ proc onDeviceReady=
   let shader     = device.create(shaderDesc.addr)
   doAssert shader != nil, "Failed to create the shader module"
 
-  # Uniform buffer (time + aspect), bound to the vertex stage
+  # --- Geometry + instance buffers ---
+  let vertexBytes   = (cubeVertices.len    * sizeof(Vertex)).uint64
+  let indexBytes    = (cubeIndices.len     * sizeof(uint16)).uint64
+  let instanceBytes = (instanceOffsets.len * sizeof(array[3, float32])).uint64
+
+  vertexBuf = device.create(vaddr BufferDescriptor(
+    nextInChain: nil, label: "Cube Vertices".toStringView(),
+    usage: BufferUsage_Vertex or BufferUsage_CopyDst, size: vertexBytes, mappedAtCreation: false.uint32))
+  indexBuf = device.create(vaddr BufferDescriptor(
+    nextInChain: nil, label: "Cube Indices".toStringView(),
+    usage: BufferUsage_Index or BufferUsage_CopyDst, size: indexBytes, mappedAtCreation: false.uint32))
+  instanceBuf = device.create(vaddr BufferDescriptor(
+    nextInChain: nil, label: "Instance Offsets".toStringView(),
+    usage: BufferUsage_Vertex or BufferUsage_CopyDst, size: instanceBytes, mappedAtCreation: false.uint32))
+
+  queue.write(vertexBuf,   0, cubeVertices[0].addr,    vertexBytes.csize_t)
+  queue.write(indexBuf,    0, cubeIndices[0].unsafeAddr, indexBytes.csize_t)
+  queue.write(instanceBuf, 0, instanceOffsets[0].addr, instanceBytes.csize_t)
+
+  # --- Uniform buffer (aspect ratio), bound to the vertex stage ---
   uniformBuf = device.create(vaddr BufferDescriptor(
-    nextInChain      : nil,
-    label            : "Uniforms".toStringView(),
-    usage            : BufferUsage_Uniform or BufferUsage_CopyDst,
-    size             : sizeof(Uniforms).uint64,
-    mappedAtCreation : false.uint32,
-    ))
+    nextInChain: nil, label: "Uniforms".toStringView(),
+    usage: BufferUsage_Uniform or BufferUsage_CopyDst, size: sizeof(Uniforms).uint64, mappedAtCreation: false.uint32))
 
   let bindGroupLayout = device.createLayout(vaddr BindGroupLayoutDescriptor(
     nextInChain : nil,
@@ -212,6 +246,19 @@ proc onDeviceReady=
     bindGroupLayouts     : vaddr bindGroupLayout,
     ))
 
+  # --- Vertex layout: buffer 0 = per-vertex (pos, color), buffer 1 = per-instance (offset) ---
+  var vertexAttrs = [
+    VertexAttribute(format: VertexFormat.Float32x3, offset:  0, shaderLocation: 0),  # position
+    VertexAttribute(format: VertexFormat.Float32x3, offset: 12, shaderLocation: 1),  # color
+  ]
+  var instanceAttrs = [
+    VertexAttribute(format: VertexFormat.Float32x3, offset: 0, shaderLocation: 2),   # offset
+  ]
+  var vertexLayouts = [
+    VertexBufferLayout(stepMode: VertexStepMode.Vertex,   arrayStride: sizeof(Vertex).uint64,           attributeCount: 2, attributes: vertexAttrs[0].addr),
+    VertexBufferLayout(stepMode: VertexStepMode.Instance, arrayStride: sizeof(array[3,float32]).uint64, attributeCount: 1, attributes: instanceAttrs[0].addr),
+  ]
+
   pipeline = device.create(vaddr RenderPipelineDescriptor(
     nextInChain               : nil,
     label                     : "Cube Pipeline".toStringView(),
@@ -221,8 +268,8 @@ proc onDeviceReady=
       entryPoint              : "vs_main".toStringView(),
       constantCount           : 0,
       constants               : nil,
-      bufferCount             : 0,
-      buffers                 : nil,
+      bufferCount             : 2,
+      buffers                 : vertexLayouts[0].addr,
       ), #:: vertex
     primitive                 : PrimitiveState(
       nextInChain             : nil,
@@ -306,7 +353,7 @@ proc onDeviceReady=
     viewFormats     : nil,
     ))
   depthView = depthTex.create(nil)
-  echo &":: Surface configured at {config.width} x {config.height}. Rendering."
+  echo &":: Surface configured at {config.width} x {config.height}. Rendering {instanceOffsets.len} cubes."
 
   when defined(emscripten):
     # Hand the render loop over to the browser (fps 0 = use requestAnimationFrame)
@@ -334,9 +381,8 @@ proc drawFrame=
 
   let queue = device.getQueue()
 
-  # Advance the animation and upload the uniforms
-  uniforms.time   += 0.016'f32
-  uniforms.aspect  = config.width.float32 / config.height.float32
+  # Keep the aspect ratio in sync and upload it
+  uniforms.aspect = config.width.float32 / config.height.float32
   queue.write(uniformBuf, 0, uniforms.addr, sizeof(Uniforms).csize_t)
 
   let view = surfaceTexture.texture.create(nil)
@@ -372,7 +418,10 @@ proc drawFrame=
   var renderPass = encoder.begin(renderPassDesc.addr)
   renderPass.set(pipeline)
   renderPass.set(0, bindGroup, 0, nil)
-  renderPass.draw(36, 1, 0, 0)  # vertexCount, instanceCount, firstVertex, firstInstance
+  renderPass.setVertexBuffer(0, vertexBuf,   0, (cubeVertices.len    * sizeof(Vertex)).uint64)
+  renderPass.setVertexBuffer(1, instanceBuf, 0, (instanceOffsets.len * sizeof(array[3, float32])).uint64)
+  renderPass.setIndexBuffer(indexBuf, IndexFormat.Uint16, 0, (cubeIndices.len * sizeof(uint16)).uint64)
+  renderPass.drawIndexed(cubeIndices.len.uint32, instanceOffsets.len.uint32, 0, 0, 0)
   renderPass.End()
   view.release()
 
@@ -396,7 +445,7 @@ proc requestDevice=
   let deviceFuture = adapter.request(
     options = vaddr DeviceDescriptor(
       nextInChain                 : nil,
-      label                       : "Triangle Device".toStringView(),
+      label                       : "Cube Device".toStringView(),
       requiredFeatureCount        : 0,
       requiredFeatures            : nil,
       requiredLimits              : nil,
@@ -449,7 +498,7 @@ proc deviceRequestCB(status :RequestDeviceStatus; got :Device; message :StringVi
 # @section Entry Point
 #_____________________________
 proc run=
-  echo "Hello WebGPU Triangle"
+  echo "Hello WebGPU Cubes"
 
   # Init the instance + surface
   instance = wgpu.create(vaddr InstanceDescriptor(nextInChain: nil))

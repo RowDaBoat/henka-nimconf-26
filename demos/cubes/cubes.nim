@@ -24,6 +24,14 @@ when defined(emscripten):
     fps               :cint;
     simulateInfinite  :cint;
     ) {.importc, header:"<emscripten.h>".}
+  # Mouse position in normalized [-1, 1] coords, fed by a listener in index.html.
+  {.emit: """
+#include <emscripten.h>
+EM_JS(float, henka_mouse_x, (), { return window.__mx || 0.0; });
+EM_JS(float, henka_mouse_y, (), { return window.__my || 0.0; });
+""".}
+  proc henka_mouse_x() :cfloat {.importc, nodecl.}
+  proc henka_mouse_y() :cfloat {.importc, nodecl.}
 else:
   # @deps external
   from nglfw as glfw import nil
@@ -37,6 +45,7 @@ const
   camDist  = 10.0'f32  # distance from the camera to the z = 0 wall plane
   fovY     = 1.0'f32   # vertical field of view (radians)
   cubeSize = 0.8'f32   # cube half-extent
+  lightZ   = 4.0'f32   # point-light depth: in front of the cubes, toward the camera
   initialW :int32 = 960
   initialH :int32 = 540
   renderScale :int32 = 2   # supersample factor: render larger, CSS shows it at logical size
@@ -50,7 +59,9 @@ const
 #_____________________________
 const shaderCode = """
 struct Uniforms {
-  aspect : f32,
+  aspect    : f32,
+  ambient   : f32,           // ambient light level (0 = fully dark)
+  lightView : vec3<f32>,     // point-light position in view space
 };
 @group(0) @binding(0) var<uniform> u : Uniforms;
 
@@ -97,9 +108,17 @@ fn fs_main(in :VSOut) ->@location(0) vec4<f32> {
   // Flat per-face normal from the rate of change of view-space position
   var n = normalize(cross(dpdx(in.viewPos), dpdy(in.viewPos)));
   n = n * sign(n.z + 1e-5);                          // face the camera (+z in view space)
-  let light = normalize(vec3<f32>(0.3, 0.5, 0.8));
-  let diff  = max(dot(n, light), 0.0);
-  let g     = 0.08 + 0.32 * diff;                    // dark grey, shaded by face
+
+  // Point light with distance attenuation
+  let toLight = u.lightView - in.viewPos;
+  let dist    = length(toLight);
+  let L       = toLight / dist;
+  let diff    = max(dot(n, L), 0.0);
+  let atten   = 1.0 / (1.0 + 0.05 * dist * dist);
+
+  let albedo    = 0.85;                              // grey base colour
+  let intensity = u.ambient + 1.4 * diff * atten;    // ambient + point light
+  let g = albedo * intensity;
   return vec4<f32>(g, g, g, 1.0);
 }
 """
@@ -158,12 +177,17 @@ let instances = block:
 #  HTML canvas selector must match the <canvas id> in index.html.
 #_____________________________
 const
-  canvasSelector       = "#triangle-canvas"
+  canvasSelector       = "#cubes-canvas"
   title                = "WebGPU Cubes"
   depthFormat          = TextureFormat.Depth24Plus
 
 type Uniforms = object
-  aspect :float32
+  aspect  :float32           # offset 0
+  ambient :float32           # offset 4
+  pad0    :float32           # offset 8  (vec3 below must align to 16)
+  pad1    :float32           # offset 12
+  light   :array[3, float32] # offset 16 (view-space point-light position)
+  pad2    :float32           # offset 28 (struct size padded to 32)
 
 var
   instance   :Instance
@@ -254,7 +278,7 @@ proc onDeviceReady=
     entries     : vaddr BindGroupLayoutEntry(
       nextInChain : nil,
       binding     : 0,
-      visibility  : ShaderStage_Vertex,
+      visibility  : ShaderStage_Vertex or ShaderStage_Fragment,
       buffer      : BufferBindingLayout(`type`: BufferBindingType.Uniform),
       ),
     ))
@@ -420,8 +444,19 @@ proc drawFrame=
 
   let queue = device.getQueue()
 
-  # Keep the aspect ratio in sync and upload it
-  uniforms.aspect = config.width.float32 / config.height.float32
+  # Read the mouse (normalized [-1, 1]) and place the point light on the cube plane
+  when defined(emscripten):
+    let mx = henka_mouse_x().float32
+    let my = henka_mouse_y().float32
+  else:
+    let mx = 0.0'f32
+    let my = 0.0'f32
+  let aspect = config.width.float32 / config.height.float32
+  let halfH  = camDist * tan(fovY * 0.5).float32     # visible half-height at the cube plane
+  let halfW  = halfH * aspect
+  uniforms.aspect  = aspect
+  uniforms.ambient = 0.06'f32
+  uniforms.light   = [mx * halfW, my * halfH, lightZ - camDist]
   queue.write(uniformBuf, 0, uniforms.addr, sizeof(Uniforms).csize_t)
 
   let view = surfaceTexture.texture.create(nil)

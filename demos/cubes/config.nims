@@ -17,8 +17,8 @@ when defined(emscripten):
   switch("clang.cpp.exe", emscriptenSdk / "em++")
   switch("clang.cpp.linkerexe", emscriptenSdk / "em++")
 
-  # Emit triangle.js + triangle.wasm into build/, loaded by index.html.
-  switch("passL", "-o build/triangle.js")
+  # Emit cubes.js + cubes.wasm into build/, loaded by index.html.
+  switch("passL", "-o build/cubes.js")
   --d:wasm
   --gc:orc
   --d:useMalloc

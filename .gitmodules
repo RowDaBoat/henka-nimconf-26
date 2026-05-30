@@ -1,3 +1,2 @@
-[submodule "jolt-nim/JoltPhysics"]
-	path = jolt-nim/JoltPhysics
-	url = git@github.com:jrouwe/JoltPhysics.git
+[submodule "jolt_nim/JoltPhysics"]
+	path = jolt_nim/JoltPhysics

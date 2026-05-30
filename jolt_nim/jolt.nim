@@ -117,22 +117,22 @@ proc CountLeadingZeros *(inValue :cint) :uint {.importcpp:"JPH::CountLeadingZero
 proc CountBits *(inValue :cint) :uint {.importcpp:"JPH::CountBits(@)", header:"Jolt/Jolt.h".}
 proc GetNextPowerOf2 *(inValue :cint) :cint {.importcpp:"JPH::GetNextPowerOf2(@)", header:"Jolt/Jolt.h".}
 proc BitCast *[To, From](inValue :From) :To {.importcpp:"JPH::BitCast<'*0>(@)", header:"Jolt/Jolt.h".}
-{.emit: """# Skipped operator new  (Float4.h:13)""".}
-{.emit: """# Skipped operator delete  (Float4.h:13)""".}
-{.emit: """# Skipped operator delete  (Float4.h:13)""".}
-{.emit: """# Skipped operator new[]  (Float4.h:13)""".}
-{.emit: """# Skipped operator delete[]  (Float4.h:13)""".}
-{.emit: """# Skipped operator delete[]  (Float4.h:13)""".}
-{.emit: """# Skipped operator new  (Float4.h:13)""".}
-{.emit: """# Skipped operator delete  (Float4.h:13)""".}
-{.emit: """# Skipped operator delete  (Float4.h:13)""".}
-{.emit: """# Skipped operator new[]  (Float4.h:13)""".}
-{.emit: """# Skipped operator delete[]  (Float4.h:13)""".}
-{.emit: """# Skipped operator delete[]  (Float4.h:13)""".}
-{.emit: """# Skipped operator new  (Float4.h:13)""".}
-{.emit: """# Skipped operator delete  (Float4.h:13)""".}
-{.emit: """# Skipped operator new[]  (Float4.h:13)""".}
-{.emit: """# Skipped operator delete[]  (Float4.h:13)""".}
+# Skipped operator new  (Float4.h:13)
+# Skipped operator delete  (Float4.h:13)
+# Skipped operator delete  (Float4.h:13)
+# Skipped operator new[]  (Float4.h:13)
+# Skipped operator delete[]  (Float4.h:13)
+# Skipped operator delete[]  (Float4.h:13)
+# Skipped operator new  (Float4.h:13)
+# Skipped operator delete  (Float4.h:13)
+# Skipped operator delete  (Float4.h:13)
+# Skipped operator new[]  (Float4.h:13)
+# Skipped operator delete[]  (Float4.h:13)
+# Skipped operator delete[]  (Float4.h:13)
+# Skipped operator new  (Float4.h:13)
+# Skipped operator delete  (Float4.h:13)
+# Skipped operator new[]  (Float4.h:13)
+# Skipped operator delete[]  (Float4.h:13)
 proc Float4_create *() :Float4 {.importcpp:"JPH::Float4(@)", constructor, header:"Jolt/Jolt.h".}
 proc Float4_create *(inRHS :Float4) :Float4 {.importcpp:"JPH::Float4(@)", constructor, header:"Jolt/Jolt.h".}
 proc Float4_create *(inX :cfloat; inY :cfloat; inZ :cfloat; inW :cfloat) :Float4 {.importcpp:"JPH::Float4(@)", constructor, header:"Jolt/Jolt.h".}
@@ -146,28 +146,28 @@ const
   SWIZZLE_Z *:cint= 2
   SWIZZLE_W *:cint= 3
   SWIZZLE_UNUSED *:cint= 2
-{.emit: """# Skipped operator new  (Vec4.h:16)""".}
-{.emit: """# Skipped operator delete  (Vec4.h:16)""".}
-{.emit: """# Skipped operator delete  (Vec4.h:16)""".}
-{.emit: """# Skipped operator new[]  (Vec4.h:16)""".}
-{.emit: """# Skipped operator delete[]  (Vec4.h:16)""".}
-{.emit: """# Skipped operator delete[]  (Vec4.h:16)""".}
-{.emit: """# Skipped operator new  (Vec4.h:16)""".}
-{.emit: """# Skipped operator delete  (Vec4.h:16)""".}
-{.emit: """# Skipped operator delete  (Vec4.h:16)""".}
-{.emit: """# Skipped operator new[]  (Vec4.h:16)""".}
-{.emit: """# Skipped operator delete[]  (Vec4.h:16)""".}
-{.emit: """# Skipped operator delete[]  (Vec4.h:16)""".}
-{.emit: """# Skipped operator new  (Vec4.h:16)""".}
-{.emit: """# Skipped operator delete  (Vec4.h:16)""".}
-{.emit: """# Skipped operator new[]  (Vec4.h:16)""".}
-{.emit: """# Skipped operator delete[]  (Vec4.h:16)""".}
+# Skipped operator new  (Vec4.h:16)
+# Skipped operator delete  (Vec4.h:16)
+# Skipped operator delete  (Vec4.h:16)
+# Skipped operator new[]  (Vec4.h:16)
+# Skipped operator delete[]  (Vec4.h:16)
+# Skipped operator delete[]  (Vec4.h:16)
+# Skipped operator new  (Vec4.h:16)
+# Skipped operator delete  (Vec4.h:16)
+# Skipped operator delete  (Vec4.h:16)
+# Skipped operator new[]  (Vec4.h:16)
+# Skipped operator delete[]  (Vec4.h:16)
+# Skipped operator delete[]  (Vec4.h:16)
+# Skipped operator new  (Vec4.h:16)
+# Skipped operator delete  (Vec4.h:16)
+# Skipped operator new[]  (Vec4.h:16)
+# Skipped operator delete[]  (Vec4.h:16)
 proc Vec4_create *() :Vec4 {.importcpp:"JPH::Vec4(@)", constructor, header:"Jolt/Jolt.h".}
 proc Vec4_create *(inRHS :Vec4) :Vec4 {.importcpp:"JPH::Vec4(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var Vec4; inRHS :Vec4) :var Vec4 {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
 proc Vec4_create *(inRHS :Vec3Arg) :Vec4 {.importcpp:"JPH::Vec4(@)", constructor, header:"Jolt/Jolt.h".}
 proc Vec4_create *(inRHS :Vec3Arg; inW :cfloat) :Vec4 {.importcpp:"JPH::Vec4(@)", constructor, header:"Jolt/Jolt.h".}
-proc Vec4_create *(inRHS :array[4, cfloat]) :Vec4 {.importcpp:"JPH::Vec4(@)", constructor, header:"Jolt/Jolt.h".}
+# Skipped Vec4 (SIMD register type)  (Vec4.h:33)
 proc Vec4_create *(inX :cfloat; inY :cfloat; inZ :cfloat; inW :cfloat) :Vec4 {.importcpp:"JPH::Vec4(@)", constructor, header:"Jolt/Jolt.h".}
 proc sZero *(_ :typedesc[Vec4]) :Vec4 {.importcpp:"JPH::Vec4::sZero(@)", header:"Jolt/Jolt.h".}
 proc sOne *(_ :typedesc[Vec4]) :Vec4 {.importcpp:"JPH::Vec4::sOne(@)", header:"Jolt/Jolt.h".}
@@ -262,22 +262,22 @@ proc ACos *(inX :cfloat) :cfloat {.importcpp:"JPH::ACos(@)", header:"Jolt/Jolt.h
 proc ACosApproximate *(inX :cfloat) :cfloat {.importcpp:"JPH::ACosApproximate(@)", header:"Jolt/Jolt.h".}
 proc ATan *(inX :cfloat) :cfloat {.importcpp:"JPH::ATan(@)", header:"Jolt/Jolt.h".}
 proc ATan2 *(inY :cfloat; inX :cfloat) :cfloat {.importcpp:"JPH::ATan2(@)", header:"Jolt/Jolt.h".}
-{.emit: """# Skipped operator new  (Float3.h:15)""".}
-{.emit: """# Skipped operator delete  (Float3.h:15)""".}
-{.emit: """# Skipped operator delete  (Float3.h:15)""".}
-{.emit: """# Skipped operator new[]  (Float3.h:15)""".}
-{.emit: """# Skipped operator delete[]  (Float3.h:15)""".}
-{.emit: """# Skipped operator delete[]  (Float3.h:15)""".}
-{.emit: """# Skipped operator new  (Float3.h:15)""".}
-{.emit: """# Skipped operator delete  (Float3.h:15)""".}
-{.emit: """# Skipped operator delete  (Float3.h:15)""".}
-{.emit: """# Skipped operator new[]  (Float3.h:15)""".}
-{.emit: """# Skipped operator delete[]  (Float3.h:15)""".}
-{.emit: """# Skipped operator delete[]  (Float3.h:15)""".}
-{.emit: """# Skipped operator new  (Float3.h:15)""".}
-{.emit: """# Skipped operator delete  (Float3.h:15)""".}
-{.emit: """# Skipped operator new[]  (Float3.h:15)""".}
-{.emit: """# Skipped operator delete[]  (Float3.h:15)""".}
+# Skipped operator new  (Float3.h:15)
+# Skipped operator delete  (Float3.h:15)
+# Skipped operator delete  (Float3.h:15)
+# Skipped operator new[]  (Float3.h:15)
+# Skipped operator delete[]  (Float3.h:15)
+# Skipped operator delete[]  (Float3.h:15)
+# Skipped operator new  (Float3.h:15)
+# Skipped operator delete  (Float3.h:15)
+# Skipped operator delete  (Float3.h:15)
+# Skipped operator new[]  (Float3.h:15)
+# Skipped operator delete[]  (Float3.h:15)
+# Skipped operator delete[]  (Float3.h:15)
+# Skipped operator new  (Float3.h:15)
+# Skipped operator delete  (Float3.h:15)
+# Skipped operator new[]  (Float3.h:15)
+# Skipped operator delete[]  (Float3.h:15)
 proc Float3_create *() :Float3 {.importcpp:"JPH::Float3(@)", constructor, header:"Jolt/Jolt.h".}
 proc Float3_create *(inRHS :Float3) :Float3 {.importcpp:"JPH::Float3(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var Float3; inRHS :Float3) :var Float3 {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
@@ -286,27 +286,27 @@ proc `[]` *(this :Float3; inCoordinate :cint) :cfloat {.importcpp:"#[#]", header
 proc `==` *(this :Float3; inRHS :Float3) :bool {.importcpp:"# == #", header:"Jolt/Jolt.h".}
 proc `!=` *(this :Float3; inRHS :Float3) :bool {.importcpp:"# != #", header:"Jolt/Jolt.h".}
 proc call *(this :Hash; t :Float3) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
-{.emit: """# Skipped operator new  (Vec3.h:19)""".}
-{.emit: """# Skipped operator delete  (Vec3.h:19)""".}
-{.emit: """# Skipped operator delete  (Vec3.h:19)""".}
-{.emit: """# Skipped operator new[]  (Vec3.h:19)""".}
-{.emit: """# Skipped operator delete[]  (Vec3.h:19)""".}
-{.emit: """# Skipped operator delete[]  (Vec3.h:19)""".}
-{.emit: """# Skipped operator new  (Vec3.h:19)""".}
-{.emit: """# Skipped operator delete  (Vec3.h:19)""".}
-{.emit: """# Skipped operator delete  (Vec3.h:19)""".}
-{.emit: """# Skipped operator new[]  (Vec3.h:19)""".}
-{.emit: """# Skipped operator delete[]  (Vec3.h:19)""".}
-{.emit: """# Skipped operator delete[]  (Vec3.h:19)""".}
-{.emit: """# Skipped operator new  (Vec3.h:19)""".}
-{.emit: """# Skipped operator delete  (Vec3.h:19)""".}
-{.emit: """# Skipped operator new[]  (Vec3.h:19)""".}
-{.emit: """# Skipped operator delete[]  (Vec3.h:19)""".}
+# Skipped operator new  (Vec3.h:19)
+# Skipped operator delete  (Vec3.h:19)
+# Skipped operator delete  (Vec3.h:19)
+# Skipped operator new[]  (Vec3.h:19)
+# Skipped operator delete[]  (Vec3.h:19)
+# Skipped operator delete[]  (Vec3.h:19)
+# Skipped operator new  (Vec3.h:19)
+# Skipped operator delete  (Vec3.h:19)
+# Skipped operator delete  (Vec3.h:19)
+# Skipped operator new[]  (Vec3.h:19)
+# Skipped operator delete[]  (Vec3.h:19)
+# Skipped operator delete[]  (Vec3.h:19)
+# Skipped operator new  (Vec3.h:19)
+# Skipped operator delete  (Vec3.h:19)
+# Skipped operator new[]  (Vec3.h:19)
+# Skipped operator delete[]  (Vec3.h:19)
 proc Vec3_create *() :Vec3 {.importcpp:"JPH::Vec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc Vec3_create *(inRHS :Vec3) :Vec3 {.importcpp:"JPH::Vec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var Vec3; inRHS :Vec3) :var Vec3 {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
 proc Vec3_create *(inRHS :Vec4Arg) :Vec3 {.importcpp:"JPH::Vec3(@)", constructor, header:"Jolt/Jolt.h".}
-proc Vec3_create *(inRHS :array[4, cfloat]) :Vec3 {.importcpp:"JPH::Vec3(@)", constructor, header:"Jolt/Jolt.h".}
+# Skipped Vec3 (SIMD register type)  (Vec3.h:38)
 proc Vec3_create *(inV :Float3) :Vec3 {.importcpp:"JPH::Vec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc Vec3_create *(inX :cfloat; inY :cfloat; inZ :cfloat) :Vec3 {.importcpp:"JPH::Vec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc sZero *(_ :typedesc[Vec3]) :Vec3 {.importcpp:"JPH::Vec3::sZero(@)", header:"Jolt/Jolt.h".}
@@ -387,27 +387,27 @@ proc GetSign *(this :Vec3) :Vec3 {.importcpp:"#.GetSign(@)", header:"Jolt/Jolt.h
 proc CompressUnitVector *(this :Vec3) :cint {.importcpp:"#.CompressUnitVector(@)", header:"Jolt/Jolt.h".}
 proc sDecompressUnitVector *(_ :typedesc[Vec3]; inValue :cint) :Vec3 {.importcpp:"JPH::Vec3::sDecompressUnitVector(@)", header:"Jolt/Jolt.h".}
 proc CheckW *(this :Vec3) {.importcpp:"#.CheckW(@)", header:"Jolt/Jolt.h".}
-proc sFixW *(_ :typedesc[Vec3]; inValue :array[4, cfloat]) :array[4, cfloat] {.importcpp:"JPH::Vec3::sFixW(@)", header:"Jolt/Jolt.h".}
-{.emit: """# Skipped operator new  (UVec4.h:14)""".}
-{.emit: """# Skipped operator delete  (UVec4.h:14)""".}
-{.emit: """# Skipped operator delete  (UVec4.h:14)""".}
-{.emit: """# Skipped operator new[]  (UVec4.h:14)""".}
-{.emit: """# Skipped operator delete[]  (UVec4.h:14)""".}
-{.emit: """# Skipped operator delete[]  (UVec4.h:14)""".}
-{.emit: """# Skipped operator new  (UVec4.h:14)""".}
-{.emit: """# Skipped operator delete  (UVec4.h:14)""".}
-{.emit: """# Skipped operator delete  (UVec4.h:14)""".}
-{.emit: """# Skipped operator new[]  (UVec4.h:14)""".}
-{.emit: """# Skipped operator delete[]  (UVec4.h:14)""".}
-{.emit: """# Skipped operator delete[]  (UVec4.h:14)""".}
-{.emit: """# Skipped operator new  (UVec4.h:14)""".}
-{.emit: """# Skipped operator delete  (UVec4.h:14)""".}
-{.emit: """# Skipped operator new[]  (UVec4.h:14)""".}
-{.emit: """# Skipped operator delete[]  (UVec4.h:14)""".}
+# Skipped sFixW (SIMD register type)  (Vec3.h:304)
+# Skipped operator new  (UVec4.h:14)
+# Skipped operator delete  (UVec4.h:14)
+# Skipped operator delete  (UVec4.h:14)
+# Skipped operator new[]  (UVec4.h:14)
+# Skipped operator delete[]  (UVec4.h:14)
+# Skipped operator delete[]  (UVec4.h:14)
+# Skipped operator new  (UVec4.h:14)
+# Skipped operator delete  (UVec4.h:14)
+# Skipped operator delete  (UVec4.h:14)
+# Skipped operator new[]  (UVec4.h:14)
+# Skipped operator delete[]  (UVec4.h:14)
+# Skipped operator delete[]  (UVec4.h:14)
+# Skipped operator new  (UVec4.h:14)
+# Skipped operator delete  (UVec4.h:14)
+# Skipped operator new[]  (UVec4.h:14)
+# Skipped operator delete[]  (UVec4.h:14)
 proc UVec4_create *() :UVec4 {.importcpp:"JPH::UVec4(@)", constructor, header:"Jolt/Jolt.h".}
 proc UVec4_create *(inRHS :UVec4) :UVec4 {.importcpp:"JPH::UVec4(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var UVec4; inRHS :UVec4) :var UVec4 {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
-proc UVec4_create *(inRHS :array[4, cuint]) :UVec4 {.importcpp:"JPH::UVec4(@)", constructor, header:"Jolt/Jolt.h".}
+# Skipped UVec4 (SIMD register type)  (UVec4.h:29)
 proc UVec4_create *(inX :cint; inY :cint; inZ :cint; inW :cint) :UVec4 {.importcpp:"JPH::UVec4(@)", constructor, header:"Jolt/Jolt.h".}
 proc `==` *(this :UVec4; inV2 :UVec4Arg) :bool {.importcpp:"# == #", header:"Jolt/Jolt.h".}
 proc `!=` *(this :UVec4; inV2 :UVec4Arg) :bool {.importcpp:"# != #", header:"Jolt/Jolt.h".}
@@ -473,28 +473,28 @@ proc sRandom *[Random](inRandom :var Random) :Vec3 {.importcpp:"JPH::Vec3::sRand
 proc `*` *(inV1 :cfloat; inV2 :Vec3Arg) :Vec3 {.importcpp:"JPH::operator*(@)", header:"Jolt/Jolt.h".}
 proc FlipSign *() :Vec3 {.importcpp:"JPH::Vec3::FlipSign<'*0>(@)", header:"Jolt/Jolt.h".}
 proc sGatherFloat4 *(inBase :ptr cfloat; inOffsets :UVec4Arg) :Vec4 {.importcpp:"JPH::Vec4::sGatherFloat4<'*0>(@)", header:"Jolt/Jolt.h".}
-{.emit: """# Skipped operator new  (Mat44.h:15)""".}
-{.emit: """# Skipped operator delete  (Mat44.h:15)""".}
-{.emit: """# Skipped operator delete  (Mat44.h:15)""".}
-{.emit: """# Skipped operator new[]  (Mat44.h:15)""".}
-{.emit: """# Skipped operator delete[]  (Mat44.h:15)""".}
-{.emit: """# Skipped operator delete[]  (Mat44.h:15)""".}
-{.emit: """# Skipped operator new  (Mat44.h:15)""".}
-{.emit: """# Skipped operator delete  (Mat44.h:15)""".}
-{.emit: """# Skipped operator delete  (Mat44.h:15)""".}
-{.emit: """# Skipped operator new[]  (Mat44.h:15)""".}
-{.emit: """# Skipped operator delete[]  (Mat44.h:15)""".}
-{.emit: """# Skipped operator delete[]  (Mat44.h:15)""".}
-{.emit: """# Skipped operator new  (Mat44.h:15)""".}
-{.emit: """# Skipped operator delete  (Mat44.h:15)""".}
-{.emit: """# Skipped operator new[]  (Mat44.h:15)""".}
-{.emit: """# Skipped operator delete[]  (Mat44.h:15)""".}
+# Skipped operator new  (Mat44.h:15)
+# Skipped operator delete  (Mat44.h:15)
+# Skipped operator delete  (Mat44.h:15)
+# Skipped operator new[]  (Mat44.h:15)
+# Skipped operator delete[]  (Mat44.h:15)
+# Skipped operator delete[]  (Mat44.h:15)
+# Skipped operator new  (Mat44.h:15)
+# Skipped operator delete  (Mat44.h:15)
+# Skipped operator delete  (Mat44.h:15)
+# Skipped operator new[]  (Mat44.h:15)
+# Skipped operator delete[]  (Mat44.h:15)
+# Skipped operator delete[]  (Mat44.h:15)
+# Skipped operator new  (Mat44.h:15)
+# Skipped operator delete  (Mat44.h:15)
+# Skipped operator new[]  (Mat44.h:15)
+# Skipped operator delete[]  (Mat44.h:15)
 proc Mat44_create *() :Mat44 {.importcpp:"JPH::Mat44(@)", constructor, header:"Jolt/Jolt.h".}
 proc Mat44_create *(inC1 :Vec4Arg; inC2 :Vec4Arg; inC3 :Vec4Arg; inC4 :Vec4Arg) :Mat44 {.importcpp:"JPH::Mat44(@)", constructor, header:"Jolt/Jolt.h".}
 proc Mat44_create *(inC1 :Vec4Arg; inC2 :Vec4Arg; inC3 :Vec4Arg; inC4 :Vec3Arg) :Mat44 {.importcpp:"JPH::Mat44(@)", constructor, header:"Jolt/Jolt.h".}
 proc Mat44_create *(inM2 :Mat44) :Mat44 {.importcpp:"JPH::Mat44(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var Mat44; inM2 :Mat44) :var Mat44 {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
-proc Mat44_create *(inC1 :array[4, cfloat]; inC2 :array[4, cfloat]; inC3 :array[4, cfloat]; inC4 :array[4, cfloat]) :Mat44 {.importcpp:"JPH::Mat44(@)", constructor, header:"Jolt/Jolt.h".}
+# Skipped Mat44 (SIMD register type)  (Mat44.h:29)
 proc sZero *(_ :typedesc[Mat44]) :Mat44 {.importcpp:"JPH::Mat44::sZero(@)", header:"Jolt/Jolt.h".}
 proc sIdentity *(_ :typedesc[Mat44]) :Mat44 {.importcpp:"JPH::Mat44::sIdentity(@)", header:"Jolt/Jolt.h".}
 proc sNaN *(_ :typedesc[Mat44]) :Mat44 {.importcpp:"JPH::Mat44::sNaN(@)", header:"Jolt/Jolt.h".}
@@ -571,22 +571,22 @@ proc PreScaled *(this :Mat44; inScale :Vec3Arg) :Mat44 {.importcpp:"#.PreScaled(
 proc PostScaled *(this :Mat44; inScale :Vec3Arg) :Mat44 {.importcpp:"#.PostScaled(@)", header:"Jolt/Jolt.h".}
 proc Decompose *(this :Mat44; outScale :var Vec3) :Mat44 {.importcpp:"#.Decompose(@)", header:"Jolt/Jolt.h".}
 proc ToMat44 *(this :Mat44) :Mat44 {.importcpp:"#.ToMat44(@)", header:"Jolt/Jolt.h".}
-{.emit: """# Skipped operator new  (Quat.h:35)""".}
-{.emit: """# Skipped operator delete  (Quat.h:35)""".}
-{.emit: """# Skipped operator delete  (Quat.h:35)""".}
-{.emit: """# Skipped operator new[]  (Quat.h:35)""".}
-{.emit: """# Skipped operator delete[]  (Quat.h:35)""".}
-{.emit: """# Skipped operator delete[]  (Quat.h:35)""".}
-{.emit: """# Skipped operator new  (Quat.h:35)""".}
-{.emit: """# Skipped operator delete  (Quat.h:35)""".}
-{.emit: """# Skipped operator delete  (Quat.h:35)""".}
-{.emit: """# Skipped operator new[]  (Quat.h:35)""".}
-{.emit: """# Skipped operator delete[]  (Quat.h:35)""".}
-{.emit: """# Skipped operator delete[]  (Quat.h:35)""".}
-{.emit: """# Skipped operator new  (Quat.h:35)""".}
-{.emit: """# Skipped operator delete  (Quat.h:35)""".}
-{.emit: """# Skipped operator new[]  (Quat.h:35)""".}
-{.emit: """# Skipped operator delete[]  (Quat.h:35)""".}
+# Skipped operator new  (Quat.h:35)
+# Skipped operator delete  (Quat.h:35)
+# Skipped operator delete  (Quat.h:35)
+# Skipped operator new[]  (Quat.h:35)
+# Skipped operator delete[]  (Quat.h:35)
+# Skipped operator delete[]  (Quat.h:35)
+# Skipped operator new  (Quat.h:35)
+# Skipped operator delete  (Quat.h:35)
+# Skipped operator delete  (Quat.h:35)
+# Skipped operator new[]  (Quat.h:35)
+# Skipped operator delete[]  (Quat.h:35)
+# Skipped operator delete[]  (Quat.h:35)
+# Skipped operator new  (Quat.h:35)
+# Skipped operator delete  (Quat.h:35)
+# Skipped operator new[]  (Quat.h:35)
+# Skipped operator delete[]  (Quat.h:35)
 proc Quat_create *() :Quat {.importcpp:"JPH::Quat(@)", constructor, header:"Jolt/Jolt.h".}
 proc Quat_create *(inRHS :Quat) :Quat {.importcpp:"JPH::Quat(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var Quat; inRHS :Quat) :var Quat {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
@@ -651,22 +651,22 @@ proc StoreFloat3 *(this :Quat; outV :ptr Float3) {.importcpp:"#.StoreFloat3(@)",
 proc StoreFloat4 *(this :Quat; outV :ptr Float4) {.importcpp:"#.StoreFloat4(@)", header:"Jolt/Jolt.h".}
 proc CompressUnitQuat *(this :Quat) :cint {.importcpp:"#.CompressUnitQuat(@)", header:"Jolt/Jolt.h".}
 proc sDecompressUnitQuat *(_ :typedesc[Quat]; inValue :cint) :Quat {.importcpp:"JPH::Quat::sDecompressUnitQuat(@)", header:"Jolt/Jolt.h".}
-{.emit: """# Skipped operator new  (Double3.h:15)""".}
-{.emit: """# Skipped operator delete  (Double3.h:15)""".}
-{.emit: """# Skipped operator delete  (Double3.h:15)""".}
-{.emit: """# Skipped operator new[]  (Double3.h:15)""".}
-{.emit: """# Skipped operator delete[]  (Double3.h:15)""".}
-{.emit: """# Skipped operator delete[]  (Double3.h:15)""".}
-{.emit: """# Skipped operator new  (Double3.h:15)""".}
-{.emit: """# Skipped operator delete  (Double3.h:15)""".}
-{.emit: """# Skipped operator delete  (Double3.h:15)""".}
-{.emit: """# Skipped operator new[]  (Double3.h:15)""".}
-{.emit: """# Skipped operator delete[]  (Double3.h:15)""".}
-{.emit: """# Skipped operator delete[]  (Double3.h:15)""".}
-{.emit: """# Skipped operator new  (Double3.h:15)""".}
-{.emit: """# Skipped operator delete  (Double3.h:15)""".}
-{.emit: """# Skipped operator new[]  (Double3.h:15)""".}
-{.emit: """# Skipped operator delete[]  (Double3.h:15)""".}
+# Skipped operator new  (Double3.h:15)
+# Skipped operator delete  (Double3.h:15)
+# Skipped operator delete  (Double3.h:15)
+# Skipped operator new[]  (Double3.h:15)
+# Skipped operator delete[]  (Double3.h:15)
+# Skipped operator delete[]  (Double3.h:15)
+# Skipped operator new  (Double3.h:15)
+# Skipped operator delete  (Double3.h:15)
+# Skipped operator delete  (Double3.h:15)
+# Skipped operator new[]  (Double3.h:15)
+# Skipped operator delete[]  (Double3.h:15)
+# Skipped operator delete[]  (Double3.h:15)
+# Skipped operator new  (Double3.h:15)
+# Skipped operator delete  (Double3.h:15)
+# Skipped operator new[]  (Double3.h:15)
+# Skipped operator delete[]  (Double3.h:15)
 proc Double3_create *() :Double3 {.importcpp:"JPH::Double3(@)", constructor, header:"Jolt/Jolt.h".}
 proc Double3_create *(inRHS :Double3) :Double3 {.importcpp:"JPH::Double3(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var Double3; inRHS :Double3) :var Double3 {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
@@ -675,28 +675,28 @@ proc `[]` *(this :Double3; inCoordinate :cint) :cdouble {.importcpp:"#[#]", head
 proc `==` *(this :Double3; inRHS :Double3) :bool {.importcpp:"# == #", header:"Jolt/Jolt.h".}
 proc `!=` *(this :Double3; inRHS :Double3) :bool {.importcpp:"# != #", header:"Jolt/Jolt.h".}
 proc call *(this :Hash; t :Double3) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
-{.emit: """# Skipped operator new  (DVec3.h:16)""".}
-{.emit: """# Skipped operator delete  (DVec3.h:16)""".}
-{.emit: """# Skipped operator delete  (DVec3.h:16)""".}
-{.emit: """# Skipped operator new[]  (DVec3.h:16)""".}
-{.emit: """# Skipped operator delete[]  (DVec3.h:16)""".}
-{.emit: """# Skipped operator delete[]  (DVec3.h:16)""".}
-{.emit: """# Skipped operator new  (DVec3.h:16)""".}
-{.emit: """# Skipped operator delete  (DVec3.h:16)""".}
-{.emit: """# Skipped operator delete  (DVec3.h:16)""".}
-{.emit: """# Skipped operator new[]  (DVec3.h:16)""".}
-{.emit: """# Skipped operator delete[]  (DVec3.h:16)""".}
-{.emit: """# Skipped operator delete[]  (DVec3.h:16)""".}
-{.emit: """# Skipped operator new  (DVec3.h:16)""".}
-{.emit: """# Skipped operator delete  (DVec3.h:16)""".}
-{.emit: """# Skipped operator new[]  (DVec3.h:16)""".}
-{.emit: """# Skipped operator delete[]  (DVec3.h:16)""".}
+# Skipped operator new  (DVec3.h:16)
+# Skipped operator delete  (DVec3.h:16)
+# Skipped operator delete  (DVec3.h:16)
+# Skipped operator new[]  (DVec3.h:16)
+# Skipped operator delete[]  (DVec3.h:16)
+# Skipped operator delete[]  (DVec3.h:16)
+# Skipped operator new  (DVec3.h:16)
+# Skipped operator delete  (DVec3.h:16)
+# Skipped operator delete  (DVec3.h:16)
+# Skipped operator new[]  (DVec3.h:16)
+# Skipped operator delete[]  (DVec3.h:16)
+# Skipped operator delete[]  (DVec3.h:16)
+# Skipped operator new  (DVec3.h:16)
+# Skipped operator delete  (DVec3.h:16)
+# Skipped operator new[]  (DVec3.h:16)
+# Skipped operator delete[]  (DVec3.h:16)
 proc DVec3_create *() :DVec3 {.importcpp:"JPH::DVec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc DVec3_create *(inRHS :DVec3) :DVec3 {.importcpp:"JPH::DVec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var DVec3; inRHS :DVec3) :var DVec3 {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
 proc DVec3_create *(inRHS :Vec3Arg) :DVec3 {.importcpp:"JPH::DVec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc DVec3_create *(inRHS :Vec4Arg) :DVec3 {.importcpp:"JPH::DVec3(@)", constructor, header:"Jolt/Jolt.h".}
-proc DVec3_create *(inRHS :float64x2x2_t) :DVec3 {.importcpp:"JPH::DVec3(@)", constructor, header:"Jolt/Jolt.h".}
+# Skipped DVec3 (SIMD register type)  (DVec3.h:42)
 proc DVec3_create *(inX :cdouble; inY :cdouble; inZ :cdouble) :DVec3 {.importcpp:"JPH::DVec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc DVec3_create *(inV :Double3) :DVec3 {.importcpp:"JPH::DVec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc sZero *(_ :typedesc[DVec3]) :DVec3 {.importcpp:"JPH::DVec3::sZero(@)", header:"Jolt/Jolt.h".}
@@ -770,31 +770,31 @@ proc Normalized *(this :DVec3) :DVec3 {.importcpp:"#.Normalized(@)", header:"Jol
 proc Sqrt *(this :DVec3) :DVec3 {.importcpp:"#.Sqrt(@)", header:"Jolt/Jolt.h".}
 proc GetSign *(this :DVec3) :DVec3 {.importcpp:"#.GetSign(@)", header:"Jolt/Jolt.h".}
 proc CheckW *(this :DVec3) {.importcpp:"#.CheckW(@)", header:"Jolt/Jolt.h".}
-proc sFixW *(_ :typedesc[DVec3]; inValue :float64x2x2_t) :float64x2x2_t {.importcpp:"JPH::DVec3::sFixW(@)", header:"Jolt/Jolt.h".}
+# Skipped sFixW (SIMD register type)  (DVec3.h:274)
 proc call *(this :Hash; t :DVec3) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
-{.emit: """# Skipped operator new  (DMat44.h:15)""".}
-{.emit: """# Skipped operator delete  (DMat44.h:15)""".}
-{.emit: """# Skipped operator delete  (DMat44.h:15)""".}
-{.emit: """# Skipped operator new[]  (DMat44.h:15)""".}
-{.emit: """# Skipped operator delete[]  (DMat44.h:15)""".}
-{.emit: """# Skipped operator delete[]  (DMat44.h:15)""".}
-{.emit: """# Skipped operator new  (DMat44.h:15)""".}
-{.emit: """# Skipped operator delete  (DMat44.h:15)""".}
-{.emit: """# Skipped operator delete  (DMat44.h:15)""".}
-{.emit: """# Skipped operator new[]  (DMat44.h:15)""".}
-{.emit: """# Skipped operator delete[]  (DMat44.h:15)""".}
-{.emit: """# Skipped operator delete[]  (DMat44.h:15)""".}
-{.emit: """# Skipped operator new  (DMat44.h:15)""".}
-{.emit: """# Skipped operator delete  (DMat44.h:15)""".}
-{.emit: """# Skipped operator new[]  (DMat44.h:15)""".}
-{.emit: """# Skipped operator delete[]  (DMat44.h:15)""".}
+# Skipped operator new  (DMat44.h:15)
+# Skipped operator delete  (DMat44.h:15)
+# Skipped operator delete  (DMat44.h:15)
+# Skipped operator new[]  (DMat44.h:15)
+# Skipped operator delete[]  (DMat44.h:15)
+# Skipped operator delete[]  (DMat44.h:15)
+# Skipped operator new  (DMat44.h:15)
+# Skipped operator delete  (DMat44.h:15)
+# Skipped operator delete  (DMat44.h:15)
+# Skipped operator new[]  (DMat44.h:15)
+# Skipped operator delete[]  (DMat44.h:15)
+# Skipped operator delete[]  (DMat44.h:15)
+# Skipped operator new  (DMat44.h:15)
+# Skipped operator delete  (DMat44.h:15)
+# Skipped operator new[]  (DMat44.h:15)
+# Skipped operator delete[]  (DMat44.h:15)
 proc DMat44_create *() :DMat44 {.importcpp:"JPH::DMat44(@)", constructor, header:"Jolt/Jolt.h".}
 proc DMat44_create *(inC1 :Vec4Arg; inC2 :Vec4Arg; inC3 :Vec4Arg; inC4 :DVec3Arg) :DMat44 {.importcpp:"JPH::DMat44(@)", constructor, header:"Jolt/Jolt.h".}
 proc DMat44_create *(inM2 :DMat44) :DMat44 {.importcpp:"JPH::DMat44(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var DMat44; inM2 :DMat44) :var DMat44 {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
 proc DMat44_create *(inM :Mat44Arg) :DMat44 {.importcpp:"JPH::DMat44(@)", constructor, header:"Jolt/Jolt.h".}
 proc DMat44_create *(inRot :Mat44Arg; inT :DVec3Arg) :DMat44 {.importcpp:"JPH::DMat44(@)", constructor, header:"Jolt/Jolt.h".}
-proc DMat44_create *(inC1 :array[4, cfloat]; inC2 :array[4, cfloat]; inC3 :array[4, cfloat]; inC4 :float64x2x2_t) :DMat44 {.importcpp:"JPH::DMat44(@)", constructor, header:"Jolt/Jolt.h".}
+# Skipped DMat44 (SIMD register type)  (DMat44.h:32)
 proc sZero *(_ :typedesc[DMat44]) :DMat44 {.importcpp:"JPH::DMat44::sZero(@)", header:"Jolt/Jolt.h".}
 proc sIdentity *(_ :typedesc[DMat44]) :DMat44 {.importcpp:"JPH::DMat44::sIdentity(@)", header:"Jolt/Jolt.h".}
 proc sRotation *(_ :typedesc[DMat44]; inQuat :QuatArg) :DMat44 {.importcpp:"JPH::DMat44::sRotation(@)", header:"Jolt/Jolt.h".}

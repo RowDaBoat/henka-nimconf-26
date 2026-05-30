@@ -39,7 +39,7 @@ type
   Mat44Arg * = Mat44
   DMat44Arg * = DMat44
   StaticArray *[T]{.importcpp:"JPH::StaticArray", header:"Jolt/Jolt.h".}= object
-    mSize *:size_type
+    mSize *:cuint
   Float3 *{.importcpp:"JPH::Float3", header:"Jolt/Jolt.h".}= object
     x *:cfloat
     y *:cfloat
@@ -96,6 +96,7 @@ proc call *(this :Hash; inValue :cstring) :cint {.importcpp:"#(@)", header:"Jolt
 proc call *(this :Hash; inValue :cchar) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
 proc call *(this :Hash; inValue :cint) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
 proc HashCombine *[T](ioSeed :var cint; inValue :T) {.importcpp:"JPH::HashCombine<'*0>(@)", header:"Jolt/Jolt.h".}
+proc HashCombineArgs *[FirstValue](inFirstValue :FirstValue) :cint {.varargs, importcpp:"JPH::HashCombineArgs(@)", header:"Jolt/Jolt.h".}
 const
   JPH_PI *:cfloat= 3.1415927410125732
   cLargeFloat *:cfloat= 999999986991104.0
@@ -116,20 +117,22 @@ proc CountLeadingZeros *(inValue :cint) :uint {.importcpp:"JPH::CountLeadingZero
 proc CountBits *(inValue :cint) :uint {.importcpp:"JPH::CountBits(@)", header:"Jolt/Jolt.h".}
 proc GetNextPowerOf2 *(inValue :cint) :cint {.importcpp:"JPH::GetNextPowerOf2(@)", header:"Jolt/Jolt.h".}
 proc BitCast *[To, From](inValue :From) :To {.importcpp:"JPH::BitCast<'*0>(@)", header:"Jolt/Jolt.h".}
-proc new *(inCount :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer) {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inSize :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc newArray *(inCount :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc deleteArray *(inPointer :pointer) {.importcpp, header:"Jolt/Jolt.h".}
-proc deleteArray *(inPointer :pointer; inSize :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc new *(inCount :cint; inAlignment :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inSize :cint; inAlignment :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc newArray *(inCount :cint; inAlignment :cint) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc deleteArray *(inPointer :pointer; inSize :cint; inAlignment :cint) {.importcpp, header:"Jolt/Jolt.h".}
-proc new *(inCount :cint; inPointer :pointer) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc delete *(inPointer :pointer; inPlace :pointer) {.importcpp, header:"Jolt/Jolt.h".}
-proc newArray *(inCount :cint; inPointer :pointer) :pointer {.importcpp, header:"Jolt/Jolt.h".}
-proc deleteArray *(inPointer :pointer; inPlace :pointer) {.importcpp, header:"Jolt/Jolt.h".}
+{.emit: """# Skipped operator new  (Float4.h:13)""".}
+{.emit: """# Skipped operator delete  (Float4.h:13)""".}
+{.emit: """# Skipped operator delete  (Float4.h:13)""".}
+{.emit: """# Skipped operator new[]  (Float4.h:13)""".}
+{.emit: """# Skipped operator delete[]  (Float4.h:13)""".}
+{.emit: """# Skipped operator delete[]  (Float4.h:13)""".}
+{.emit: """# Skipped operator new  (Float4.h:13)""".}
+{.emit: """# Skipped operator delete  (Float4.h:13)""".}
+{.emit: """# Skipped operator delete  (Float4.h:13)""".}
+{.emit: """# Skipped operator new[]  (Float4.h:13)""".}
+{.emit: """# Skipped operator delete[]  (Float4.h:13)""".}
+{.emit: """# Skipped operator delete[]  (Float4.h:13)""".}
+{.emit: """# Skipped operator new  (Float4.h:13)""".}
+{.emit: """# Skipped operator delete  (Float4.h:13)""".}
+{.emit: """# Skipped operator new[]  (Float4.h:13)""".}
+{.emit: """# Skipped operator delete[]  (Float4.h:13)""".}
 proc Float4_create *() :Float4 {.importcpp:"JPH::Float4(@)", constructor, header:"Jolt/Jolt.h".}
 proc Float4_create *(inRHS :Float4) :Float4 {.importcpp:"JPH::Float4(@)", constructor, header:"Jolt/Jolt.h".}
 proc Float4_create *(inX :cfloat; inY :cfloat; inZ :cfloat; inW :cfloat) :Float4 {.importcpp:"JPH::Float4(@)", constructor, header:"Jolt/Jolt.h".}
@@ -143,34 +146,50 @@ const
   SWIZZLE_Z *:cint= 2
   SWIZZLE_W *:cint= 3
   SWIZZLE_UNUSED *:cint= 2
+{.emit: """# Skipped operator new  (Vec4.h:16)""".}
+{.emit: """# Skipped operator delete  (Vec4.h:16)""".}
+{.emit: """# Skipped operator delete  (Vec4.h:16)""".}
+{.emit: """# Skipped operator new[]  (Vec4.h:16)""".}
+{.emit: """# Skipped operator delete[]  (Vec4.h:16)""".}
+{.emit: """# Skipped operator delete[]  (Vec4.h:16)""".}
+{.emit: """# Skipped operator new  (Vec4.h:16)""".}
+{.emit: """# Skipped operator delete  (Vec4.h:16)""".}
+{.emit: """# Skipped operator delete  (Vec4.h:16)""".}
+{.emit: """# Skipped operator new[]  (Vec4.h:16)""".}
+{.emit: """# Skipped operator delete[]  (Vec4.h:16)""".}
+{.emit: """# Skipped operator delete[]  (Vec4.h:16)""".}
+{.emit: """# Skipped operator new  (Vec4.h:16)""".}
+{.emit: """# Skipped operator delete  (Vec4.h:16)""".}
+{.emit: """# Skipped operator new[]  (Vec4.h:16)""".}
+{.emit: """# Skipped operator delete[]  (Vec4.h:16)""".}
 proc Vec4_create *() :Vec4 {.importcpp:"JPH::Vec4(@)", constructor, header:"Jolt/Jolt.h".}
 proc Vec4_create *(inRHS :Vec4) :Vec4 {.importcpp:"JPH::Vec4(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var Vec4; inRHS :Vec4) :var Vec4 {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
 proc Vec4_create *(inRHS :Vec3Arg) :Vec4 {.importcpp:"JPH::Vec4(@)", constructor, header:"Jolt/Jolt.h".}
 proc Vec4_create *(inRHS :Vec3Arg; inW :cfloat) :Vec4 {.importcpp:"JPH::Vec4(@)", constructor, header:"Jolt/Jolt.h".}
-proc Vec4_create *(inRHS :Type) :Vec4 {.importcpp:"JPH::Vec4(@)", constructor, header:"Jolt/Jolt.h".}
+proc Vec4_create *(inRHS :array[4, cfloat]) :Vec4 {.importcpp:"JPH::Vec4(@)", constructor, header:"Jolt/Jolt.h".}
 proc Vec4_create *(inX :cfloat; inY :cfloat; inZ :cfloat; inW :cfloat) :Vec4 {.importcpp:"JPH::Vec4(@)", constructor, header:"Jolt/Jolt.h".}
-proc sZero *() :Vec4 {.importcpp:"JPH::Vec4::sZero(@)", header:"Jolt/Jolt.h".}
-proc sOne *() :Vec4 {.importcpp:"JPH::Vec4::sOne(@)", header:"Jolt/Jolt.h".}
-proc sNaN *() :Vec4 {.importcpp:"JPH::Vec4::sNaN(@)", header:"Jolt/Jolt.h".}
-proc sReplicate *(inV :cfloat) :Vec4 {.importcpp:"JPH::Vec4::sReplicate(@)", header:"Jolt/Jolt.h".}
-proc sLoadFloat4 *(inV :ptr Float4) :Vec4 {.importcpp:"JPH::Vec4::sLoadFloat4(@)", header:"Jolt/Jolt.h".}
-proc sLoadFloat4Aligned *(inV :ptr Float4) :Vec4 {.importcpp:"JPH::Vec4::sLoadFloat4Aligned(@)", header:"Jolt/Jolt.h".}
-proc sMin *(inV1 :Vec4Arg; inV2 :Vec4Arg) :Vec4 {.importcpp:"JPH::Vec4::sMin(@)", header:"Jolt/Jolt.h".}
-proc sMax *(inV1 :Vec4Arg; inV2 :Vec4Arg) :Vec4 {.importcpp:"JPH::Vec4::sMax(@)", header:"Jolt/Jolt.h".}
-proc sClamp *(inV :Vec4Arg; inMin :Vec4Arg; inMax :Vec4Arg) :Vec4 {.importcpp:"JPH::Vec4::sClamp(@)", header:"Jolt/Jolt.h".}
-proc sEquals *(inV1 :Vec4Arg; inV2 :Vec4Arg) :UVec4 {.importcpp:"JPH::Vec4::sEquals(@)", header:"Jolt/Jolt.h".}
-proc sLess *(inV1 :Vec4Arg; inV2 :Vec4Arg) :UVec4 {.importcpp:"JPH::Vec4::sLess(@)", header:"Jolt/Jolt.h".}
-proc sLessOrEqual *(inV1 :Vec4Arg; inV2 :Vec4Arg) :UVec4 {.importcpp:"JPH::Vec4::sLessOrEqual(@)", header:"Jolt/Jolt.h".}
-proc sGreater *(inV1 :Vec4Arg; inV2 :Vec4Arg) :UVec4 {.importcpp:"JPH::Vec4::sGreater(@)", header:"Jolt/Jolt.h".}
-proc sGreaterOrEqual *(inV1 :Vec4Arg; inV2 :Vec4Arg) :UVec4 {.importcpp:"JPH::Vec4::sGreaterOrEqual(@)", header:"Jolt/Jolt.h".}
-proc sFusedMultiplyAdd *(inMul1 :Vec4Arg; inMul2 :Vec4Arg; inAdd :Vec4Arg) :Vec4 {.importcpp:"JPH::Vec4::sFusedMultiplyAdd(@)", header:"Jolt/Jolt.h".}
-proc sSelect *(inNotSet :Vec4Arg; inSet :Vec4Arg; inControl :UVec4Arg) :Vec4 {.importcpp:"JPH::Vec4::sSelect(@)", header:"Jolt/Jolt.h".}
-proc sOr *(inV1 :Vec4Arg; inV2 :Vec4Arg) :Vec4 {.importcpp:"JPH::Vec4::sOr(@)", header:"Jolt/Jolt.h".}
-proc sXor *(inV1 :Vec4Arg; inV2 :Vec4Arg) :Vec4 {.importcpp:"JPH::Vec4::sXor(@)", header:"Jolt/Jolt.h".}
-proc sAnd *(inV1 :Vec4Arg; inV2 :Vec4Arg) :Vec4 {.importcpp:"JPH::Vec4::sAnd(@)", header:"Jolt/Jolt.h".}
-proc sSort4 *(ioValue :var Vec4; ioIndex :var UVec4) {.importcpp:"JPH::Vec4::sSort4(@)", header:"Jolt/Jolt.h".}
-proc sSort4Reverse *(ioValue :var Vec4; ioIndex :var UVec4) {.importcpp:"JPH::Vec4::sSort4Reverse(@)", header:"Jolt/Jolt.h".}
+proc sZero *(_ :typedesc[Vec4]) :Vec4 {.importcpp:"JPH::Vec4::sZero(@)", header:"Jolt/Jolt.h".}
+proc sOne *(_ :typedesc[Vec4]) :Vec4 {.importcpp:"JPH::Vec4::sOne(@)", header:"Jolt/Jolt.h".}
+proc sNaN *(_ :typedesc[Vec4]) :Vec4 {.importcpp:"JPH::Vec4::sNaN(@)", header:"Jolt/Jolt.h".}
+proc sReplicate *(_ :typedesc[Vec4]; inV :cfloat) :Vec4 {.importcpp:"JPH::Vec4::sReplicate(@)", header:"Jolt/Jolt.h".}
+proc sLoadFloat4 *(_ :typedesc[Vec4]; inV :ptr Float4) :Vec4 {.importcpp:"JPH::Vec4::sLoadFloat4(@)", header:"Jolt/Jolt.h".}
+proc sLoadFloat4Aligned *(_ :typedesc[Vec4]; inV :ptr Float4) :Vec4 {.importcpp:"JPH::Vec4::sLoadFloat4Aligned(@)", header:"Jolt/Jolt.h".}
+proc sMin *(_ :typedesc[Vec4]; inV1 :Vec4Arg; inV2 :Vec4Arg) :Vec4 {.importcpp:"JPH::Vec4::sMin(@)", header:"Jolt/Jolt.h".}
+proc sMax *(_ :typedesc[Vec4]; inV1 :Vec4Arg; inV2 :Vec4Arg) :Vec4 {.importcpp:"JPH::Vec4::sMax(@)", header:"Jolt/Jolt.h".}
+proc sClamp *(_ :typedesc[Vec4]; inV :Vec4Arg; inMin :Vec4Arg; inMax :Vec4Arg) :Vec4 {.importcpp:"JPH::Vec4::sClamp(@)", header:"Jolt/Jolt.h".}
+proc sEquals *(_ :typedesc[Vec4]; inV1 :Vec4Arg; inV2 :Vec4Arg) :UVec4 {.importcpp:"JPH::Vec4::sEquals(@)", header:"Jolt/Jolt.h".}
+proc sLess *(_ :typedesc[Vec4]; inV1 :Vec4Arg; inV2 :Vec4Arg) :UVec4 {.importcpp:"JPH::Vec4::sLess(@)", header:"Jolt/Jolt.h".}
+proc sLessOrEqual *(_ :typedesc[Vec4]; inV1 :Vec4Arg; inV2 :Vec4Arg) :UVec4 {.importcpp:"JPH::Vec4::sLessOrEqual(@)", header:"Jolt/Jolt.h".}
+proc sGreater *(_ :typedesc[Vec4]; inV1 :Vec4Arg; inV2 :Vec4Arg) :UVec4 {.importcpp:"JPH::Vec4::sGreater(@)", header:"Jolt/Jolt.h".}
+proc sGreaterOrEqual *(_ :typedesc[Vec4]; inV1 :Vec4Arg; inV2 :Vec4Arg) :UVec4 {.importcpp:"JPH::Vec4::sGreaterOrEqual(@)", header:"Jolt/Jolt.h".}
+proc sFusedMultiplyAdd *(_ :typedesc[Vec4]; inMul1 :Vec4Arg; inMul2 :Vec4Arg; inAdd :Vec4Arg) :Vec4 {.importcpp:"JPH::Vec4::sFusedMultiplyAdd(@)", header:"Jolt/Jolt.h".}
+proc sSelect *(_ :typedesc[Vec4]; inNotSet :Vec4Arg; inSet :Vec4Arg; inControl :UVec4Arg) :Vec4 {.importcpp:"JPH::Vec4::sSelect(@)", header:"Jolt/Jolt.h".}
+proc sOr *(_ :typedesc[Vec4]; inV1 :Vec4Arg; inV2 :Vec4Arg) :Vec4 {.importcpp:"JPH::Vec4::sOr(@)", header:"Jolt/Jolt.h".}
+proc sXor *(_ :typedesc[Vec4]; inV1 :Vec4Arg; inV2 :Vec4Arg) :Vec4 {.importcpp:"JPH::Vec4::sXor(@)", header:"Jolt/Jolt.h".}
+proc sAnd *(_ :typedesc[Vec4]; inV1 :Vec4Arg; inV2 :Vec4Arg) :Vec4 {.importcpp:"JPH::Vec4::sAnd(@)", header:"Jolt/Jolt.h".}
+proc sSort4 *(_ :typedesc[Vec4]; ioValue :var Vec4; ioIndex :var UVec4) {.importcpp:"JPH::Vec4::sSort4(@)", header:"Jolt/Jolt.h".}
+proc sSort4Reverse *(_ :typedesc[Vec4]; ioValue :var Vec4; ioIndex :var UVec4) {.importcpp:"JPH::Vec4::sSort4Reverse(@)", header:"Jolt/Jolt.h".}
 proc GetX *(this :Vec4) :cfloat {.importcpp:"#.GetX(@)", header:"Jolt/Jolt.h".}
 proc GetY *(this :Vec4) :cfloat {.importcpp:"#.GetY(@)", header:"Jolt/Jolt.h".}
 proc GetZ *(this :Vec4) :cfloat {.importcpp:"#.GetZ(@)", header:"Jolt/Jolt.h".}
@@ -212,7 +231,7 @@ proc GetLowestComponentIndex *(this :Vec4) :cint {.importcpp:"#.GetLowestCompone
 proc GetHighestComponentIndex *(this :Vec4) :cint {.importcpp:"#.GetHighestComponentIndex(@)", header:"Jolt/Jolt.h".}
 proc Abs *(this :Vec4) :Vec4 {.importcpp:"#.Abs(@)", header:"Jolt/Jolt.h".}
 proc Reciprocal *(this :Vec4) :Vec4 {.importcpp:"#.Reciprocal(@)", header:"Jolt/Jolt.h".}
-proc sDifferenceOfProducts *(inA :Vec4Arg; inB :Vec4Arg; inC :Vec4Arg; inD :Vec4Arg) :Vec4 {.importcpp:"JPH::Vec4::sDifferenceOfProducts(@)", header:"Jolt/Jolt.h".}
+proc sDifferenceOfProducts *(_ :typedesc[Vec4]; inA :Vec4Arg; inB :Vec4Arg; inC :Vec4Arg; inD :Vec4Arg) :Vec4 {.importcpp:"JPH::Vec4::sDifferenceOfProducts(@)", header:"Jolt/Jolt.h".}
 proc DotV *(this :Vec4; inV2 :Vec4Arg) :Vec4 {.importcpp:"#.DotV(@)", header:"Jolt/Jolt.h".}
 proc Dot *(this :Vec4; inV2 :Vec4Arg) :cfloat {.importcpp:"#.Dot(@)", header:"Jolt/Jolt.h".}
 proc LengthSq *(this :Vec4) :cfloat {.importcpp:"#.LengthSq(@)", header:"Jolt/Jolt.h".}
@@ -232,9 +251,9 @@ proc Tan *(this :Vec4) :Vec4 {.importcpp:"#.Tan(@)", header:"Jolt/Jolt.h".}
 proc ASin *(this :Vec4) :Vec4 {.importcpp:"#.ASin(@)", header:"Jolt/Jolt.h".}
 proc ACos *(this :Vec4) :Vec4 {.importcpp:"#.ACos(@)", header:"Jolt/Jolt.h".}
 proc ATan *(this :Vec4) :Vec4 {.importcpp:"#.ATan(@)", header:"Jolt/Jolt.h".}
-proc sATan2 *(inY :Vec4Arg; inX :Vec4Arg) :Vec4 {.importcpp:"JPH::Vec4::sATan2(@)", header:"Jolt/Jolt.h".}
+proc sATan2 *(_ :typedesc[Vec4]; inY :Vec4Arg; inX :Vec4Arg) :Vec4 {.importcpp:"JPH::Vec4::sATan2(@)", header:"Jolt/Jolt.h".}
 proc CompressUnitVector *(this :Vec4) :cint {.importcpp:"#.CompressUnitVector(@)", header:"Jolt/Jolt.h".}
-proc sDecompressUnitVector *(inValue :cint) :Vec4 {.importcpp:"JPH::Vec4::sDecompressUnitVector(@)", header:"Jolt/Jolt.h".}
+proc sDecompressUnitVector *(_ :typedesc[Vec4]; inValue :cint) :Vec4 {.importcpp:"JPH::Vec4::sDecompressUnitVector(@)", header:"Jolt/Jolt.h".}
 proc Sin *(inX :cfloat) :cfloat {.importcpp:"JPH::Sin(@)", header:"Jolt/Jolt.h".}
 proc Cos *(inX :cfloat) :cfloat {.importcpp:"JPH::Cos(@)", header:"Jolt/Jolt.h".}
 proc Tan *(inX :cfloat) :cfloat {.importcpp:"JPH::Tan(@)", header:"Jolt/Jolt.h".}
@@ -243,6 +262,22 @@ proc ACos *(inX :cfloat) :cfloat {.importcpp:"JPH::ACos(@)", header:"Jolt/Jolt.h
 proc ACosApproximate *(inX :cfloat) :cfloat {.importcpp:"JPH::ACosApproximate(@)", header:"Jolt/Jolt.h".}
 proc ATan *(inX :cfloat) :cfloat {.importcpp:"JPH::ATan(@)", header:"Jolt/Jolt.h".}
 proc ATan2 *(inY :cfloat; inX :cfloat) :cfloat {.importcpp:"JPH::ATan2(@)", header:"Jolt/Jolt.h".}
+{.emit: """# Skipped operator new  (Float3.h:15)""".}
+{.emit: """# Skipped operator delete  (Float3.h:15)""".}
+{.emit: """# Skipped operator delete  (Float3.h:15)""".}
+{.emit: """# Skipped operator new[]  (Float3.h:15)""".}
+{.emit: """# Skipped operator delete[]  (Float3.h:15)""".}
+{.emit: """# Skipped operator delete[]  (Float3.h:15)""".}
+{.emit: """# Skipped operator new  (Float3.h:15)""".}
+{.emit: """# Skipped operator delete  (Float3.h:15)""".}
+{.emit: """# Skipped operator delete  (Float3.h:15)""".}
+{.emit: """# Skipped operator new[]  (Float3.h:15)""".}
+{.emit: """# Skipped operator delete[]  (Float3.h:15)""".}
+{.emit: """# Skipped operator delete[]  (Float3.h:15)""".}
+{.emit: """# Skipped operator new  (Float3.h:15)""".}
+{.emit: """# Skipped operator delete  (Float3.h:15)""".}
+{.emit: """# Skipped operator new[]  (Float3.h:15)""".}
+{.emit: """# Skipped operator delete[]  (Float3.h:15)""".}
 proc Float3_create *() :Float3 {.importcpp:"JPH::Float3(@)", constructor, header:"Jolt/Jolt.h".}
 proc Float3_create *(inRHS :Float3) :Float3 {.importcpp:"JPH::Float3(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var Float3; inRHS :Float3) :var Float3 {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
@@ -250,32 +285,52 @@ proc Float3_create *(inX :cfloat; inY :cfloat; inZ :cfloat) :Float3 {.importcpp:
 proc `[]` *(this :Float3; inCoordinate :cint) :cfloat {.importcpp:"#[#]", header:"Jolt/Jolt.h".}
 proc `==` *(this :Float3; inRHS :Float3) :bool {.importcpp:"# == #", header:"Jolt/Jolt.h".}
 proc `!=` *(this :Float3; inRHS :Float3) :bool {.importcpp:"# != #", header:"Jolt/Jolt.h".}
-proc call *(this :Hash; t :JPH::Float3) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
+proc call *(this :Hash; t :Float3) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
+{.emit: """# Skipped operator new  (Vec3.h:19)""".}
+{.emit: """# Skipped operator delete  (Vec3.h:19)""".}
+{.emit: """# Skipped operator delete  (Vec3.h:19)""".}
+{.emit: """# Skipped operator new[]  (Vec3.h:19)""".}
+{.emit: """# Skipped operator delete[]  (Vec3.h:19)""".}
+{.emit: """# Skipped operator delete[]  (Vec3.h:19)""".}
+{.emit: """# Skipped operator new  (Vec3.h:19)""".}
+{.emit: """# Skipped operator delete  (Vec3.h:19)""".}
+{.emit: """# Skipped operator delete  (Vec3.h:19)""".}
+{.emit: """# Skipped operator new[]  (Vec3.h:19)""".}
+{.emit: """# Skipped operator delete[]  (Vec3.h:19)""".}
+{.emit: """# Skipped operator delete[]  (Vec3.h:19)""".}
+{.emit: """# Skipped operator new  (Vec3.h:19)""".}
+{.emit: """# Skipped operator delete  (Vec3.h:19)""".}
+{.emit: """# Skipped operator new[]  (Vec3.h:19)""".}
+{.emit: """# Skipped operator delete[]  (Vec3.h:19)""".}
 proc Vec3_create *() :Vec3 {.importcpp:"JPH::Vec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc Vec3_create *(inRHS :Vec3) :Vec3 {.importcpp:"JPH::Vec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var Vec3; inRHS :Vec3) :var Vec3 {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
 proc Vec3_create *(inRHS :Vec4Arg) :Vec3 {.importcpp:"JPH::Vec3(@)", constructor, header:"Jolt/Jolt.h".}
-proc Vec3_create *(inRHS :Type) :Vec3 {.importcpp:"JPH::Vec3(@)", constructor, header:"Jolt/Jolt.h".}
+proc Vec3_create *(inRHS :array[4, cfloat]) :Vec3 {.importcpp:"JPH::Vec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc Vec3_create *(inV :Float3) :Vec3 {.importcpp:"JPH::Vec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc Vec3_create *(inX :cfloat; inY :cfloat; inZ :cfloat) :Vec3 {.importcpp:"JPH::Vec3(@)", constructor, header:"Jolt/Jolt.h".}
-proc sAxisX *() :Vec3 {.importcpp:"JPH::Vec3::sAxisX(@)", header:"Jolt/Jolt.h".}
-proc sAxisY *() :Vec3 {.importcpp:"JPH::Vec3::sAxisY(@)", header:"Jolt/Jolt.h".}
-proc sAxisZ *() :Vec3 {.importcpp:"JPH::Vec3::sAxisZ(@)", header:"Jolt/Jolt.h".}
-proc sLoadFloat3Unsafe *(inV :Float3) :Vec3 {.importcpp:"JPH::Vec3::sLoadFloat3Unsafe(@)", header:"Jolt/Jolt.h".}
-proc sMin *(inV1 :Vec3Arg; inV2 :Vec3Arg) :Vec3 {.importcpp:"JPH::Vec3::sMin(@)", header:"Jolt/Jolt.h".}
-proc sMax *(inV1 :Vec3Arg; inV2 :Vec3Arg) :Vec3 {.importcpp:"JPH::Vec3::sMax(@)", header:"Jolt/Jolt.h".}
-proc sClamp *(inV :Vec3Arg; inMin :Vec3Arg; inMax :Vec3Arg) :Vec3 {.importcpp:"JPH::Vec3::sClamp(@)", header:"Jolt/Jolt.h".}
-proc sEquals *(inV1 :Vec3Arg; inV2 :Vec3Arg) :UVec4 {.importcpp:"JPH::Vec3::sEquals(@)", header:"Jolt/Jolt.h".}
-proc sLess *(inV1 :Vec3Arg; inV2 :Vec3Arg) :UVec4 {.importcpp:"JPH::Vec3::sLess(@)", header:"Jolt/Jolt.h".}
-proc sLessOrEqual *(inV1 :Vec3Arg; inV2 :Vec3Arg) :UVec4 {.importcpp:"JPH::Vec3::sLessOrEqual(@)", header:"Jolt/Jolt.h".}
-proc sGreater *(inV1 :Vec3Arg; inV2 :Vec3Arg) :UVec4 {.importcpp:"JPH::Vec3::sGreater(@)", header:"Jolt/Jolt.h".}
-proc sGreaterOrEqual *(inV1 :Vec3Arg; inV2 :Vec3Arg) :UVec4 {.importcpp:"JPH::Vec3::sGreaterOrEqual(@)", header:"Jolt/Jolt.h".}
-proc sFusedMultiplyAdd *(inMul1 :Vec3Arg; inMul2 :Vec3Arg; inAdd :Vec3Arg) :Vec3 {.importcpp:"JPH::Vec3::sFusedMultiplyAdd(@)", header:"Jolt/Jolt.h".}
-proc sSelect *(inNotSet :Vec3Arg; inSet :Vec3Arg; inControl :UVec4Arg) :Vec3 {.importcpp:"JPH::Vec3::sSelect(@)", header:"Jolt/Jolt.h".}
-proc sOr *(inV1 :Vec3Arg; inV2 :Vec3Arg) :Vec3 {.importcpp:"JPH::Vec3::sOr(@)", header:"Jolt/Jolt.h".}
-proc sXor *(inV1 :Vec3Arg; inV2 :Vec3Arg) :Vec3 {.importcpp:"JPH::Vec3::sXor(@)", header:"Jolt/Jolt.h".}
-proc sAnd *(inV1 :Vec3Arg; inV2 :Vec3Arg) :Vec3 {.importcpp:"JPH::Vec3::sAnd(@)", header:"Jolt/Jolt.h".}
-proc sUnitSpherical *(inTheta :cfloat; inPhi :cfloat) :Vec3 {.importcpp:"JPH::Vec3::sUnitSpherical(@)", header:"Jolt/Jolt.h".}
+proc sZero *(_ :typedesc[Vec3]) :Vec3 {.importcpp:"JPH::Vec3::sZero(@)", header:"Jolt/Jolt.h".}
+proc sOne *(_ :typedesc[Vec3]) :Vec3 {.importcpp:"JPH::Vec3::sOne(@)", header:"Jolt/Jolt.h".}
+proc sNaN *(_ :typedesc[Vec3]) :Vec3 {.importcpp:"JPH::Vec3::sNaN(@)", header:"Jolt/Jolt.h".}
+proc sAxisX *(_ :typedesc[Vec3]) :Vec3 {.importcpp:"JPH::Vec3::sAxisX(@)", header:"Jolt/Jolt.h".}
+proc sAxisY *(_ :typedesc[Vec3]) :Vec3 {.importcpp:"JPH::Vec3::sAxisY(@)", header:"Jolt/Jolt.h".}
+proc sAxisZ *(_ :typedesc[Vec3]) :Vec3 {.importcpp:"JPH::Vec3::sAxisZ(@)", header:"Jolt/Jolt.h".}
+proc sReplicate *(_ :typedesc[Vec3]; inV :cfloat) :Vec3 {.importcpp:"JPH::Vec3::sReplicate(@)", header:"Jolt/Jolt.h".}
+proc sLoadFloat3Unsafe *(_ :typedesc[Vec3]; inV :Float3) :Vec3 {.importcpp:"JPH::Vec3::sLoadFloat3Unsafe(@)", header:"Jolt/Jolt.h".}
+proc sMin *(_ :typedesc[Vec3]; inV1 :Vec3Arg; inV2 :Vec3Arg) :Vec3 {.importcpp:"JPH::Vec3::sMin(@)", header:"Jolt/Jolt.h".}
+proc sMax *(_ :typedesc[Vec3]; inV1 :Vec3Arg; inV2 :Vec3Arg) :Vec3 {.importcpp:"JPH::Vec3::sMax(@)", header:"Jolt/Jolt.h".}
+proc sClamp *(_ :typedesc[Vec3]; inV :Vec3Arg; inMin :Vec3Arg; inMax :Vec3Arg) :Vec3 {.importcpp:"JPH::Vec3::sClamp(@)", header:"Jolt/Jolt.h".}
+proc sEquals *(_ :typedesc[Vec3]; inV1 :Vec3Arg; inV2 :Vec3Arg) :UVec4 {.importcpp:"JPH::Vec3::sEquals(@)", header:"Jolt/Jolt.h".}
+proc sLess *(_ :typedesc[Vec3]; inV1 :Vec3Arg; inV2 :Vec3Arg) :UVec4 {.importcpp:"JPH::Vec3::sLess(@)", header:"Jolt/Jolt.h".}
+proc sLessOrEqual *(_ :typedesc[Vec3]; inV1 :Vec3Arg; inV2 :Vec3Arg) :UVec4 {.importcpp:"JPH::Vec3::sLessOrEqual(@)", header:"Jolt/Jolt.h".}
+proc sGreater *(_ :typedesc[Vec3]; inV1 :Vec3Arg; inV2 :Vec3Arg) :UVec4 {.importcpp:"JPH::Vec3::sGreater(@)", header:"Jolt/Jolt.h".}
+proc sGreaterOrEqual *(_ :typedesc[Vec3]; inV1 :Vec3Arg; inV2 :Vec3Arg) :UVec4 {.importcpp:"JPH::Vec3::sGreaterOrEqual(@)", header:"Jolt/Jolt.h".}
+proc sFusedMultiplyAdd *(_ :typedesc[Vec3]; inMul1 :Vec3Arg; inMul2 :Vec3Arg; inAdd :Vec3Arg) :Vec3 {.importcpp:"JPH::Vec3::sFusedMultiplyAdd(@)", header:"Jolt/Jolt.h".}
+proc sSelect *(_ :typedesc[Vec3]; inNotSet :Vec3Arg; inSet :Vec3Arg; inControl :UVec4Arg) :Vec3 {.importcpp:"JPH::Vec3::sSelect(@)", header:"Jolt/Jolt.h".}
+proc sOr *(_ :typedesc[Vec3]; inV1 :Vec3Arg; inV2 :Vec3Arg) :Vec3 {.importcpp:"JPH::Vec3::sOr(@)", header:"Jolt/Jolt.h".}
+proc sXor *(_ :typedesc[Vec3]; inV1 :Vec3Arg; inV2 :Vec3Arg) :Vec3 {.importcpp:"JPH::Vec3::sXor(@)", header:"Jolt/Jolt.h".}
+proc sAnd *(_ :typedesc[Vec3]; inV1 :Vec3Arg; inV2 :Vec3Arg) :Vec3 {.importcpp:"JPH::Vec3::sAnd(@)", header:"Jolt/Jolt.h".}
+proc sUnitSpherical *(_ :typedesc[Vec3]; inTheta :cfloat; inPhi :cfloat) :Vec3 {.importcpp:"JPH::Vec3::sUnitSpherical(@)", header:"Jolt/Jolt.h".}
 proc GetX *(this :Vec3) :cfloat {.importcpp:"#.GetX(@)", header:"Jolt/Jolt.h".}
 proc GetY *(this :Vec3) :cfloat {.importcpp:"#.GetY(@)", header:"Jolt/Jolt.h".}
 proc GetZ *(this :Vec3) :cfloat {.importcpp:"#.GetZ(@)", header:"Jolt/Jolt.h".}
@@ -310,7 +365,7 @@ proc GetLowestComponentIndex *(this :Vec3) :cint {.importcpp:"#.GetLowestCompone
 proc GetHighestComponentIndex *(this :Vec3) :cint {.importcpp:"#.GetHighestComponentIndex(@)", header:"Jolt/Jolt.h".}
 proc Abs *(this :Vec3) :Vec3 {.importcpp:"#.Abs(@)", header:"Jolt/Jolt.h".}
 proc Reciprocal *(this :Vec3) :Vec3 {.importcpp:"#.Reciprocal(@)", header:"Jolt/Jolt.h".}
-proc sDifferenceOfProducts *(inA :Vec3Arg; inB :Vec3Arg; inC :Vec3Arg; inD :Vec3Arg) :Vec3 {.importcpp:"JPH::Vec3::sDifferenceOfProducts(@)", header:"Jolt/Jolt.h".}
+proc sDifferenceOfProducts *(_ :typedesc[Vec3]; inA :Vec3Arg; inB :Vec3Arg; inC :Vec3Arg; inD :Vec3Arg) :Vec3 {.importcpp:"JPH::Vec3::sDifferenceOfProducts(@)", header:"Jolt/Jolt.h".}
 proc Cross *(this :Vec3; inV2 :Vec3Arg) :Vec3 {.importcpp:"#.Cross(@)", header:"Jolt/Jolt.h".}
 proc CrossPrecise *(this :Vec3; inV2 :Vec3Arg) :Vec3 {.importcpp:"#.CrossPrecise(@)", header:"Jolt/Jolt.h".}
 proc DotV *(this :Vec3; inV2 :Vec3Arg) :Vec3 {.importcpp:"#.DotV(@)", header:"Jolt/Jolt.h".}
@@ -330,28 +385,46 @@ proc Sqrt *(this :Vec3) :Vec3 {.importcpp:"#.Sqrt(@)", header:"Jolt/Jolt.h".}
 proc GetNormalizedPerpendicular *(this :Vec3) :Vec3 {.importcpp:"#.GetNormalizedPerpendicular(@)", header:"Jolt/Jolt.h".}
 proc GetSign *(this :Vec3) :Vec3 {.importcpp:"#.GetSign(@)", header:"Jolt/Jolt.h".}
 proc CompressUnitVector *(this :Vec3) :cint {.importcpp:"#.CompressUnitVector(@)", header:"Jolt/Jolt.h".}
+proc sDecompressUnitVector *(_ :typedesc[Vec3]; inValue :cint) :Vec3 {.importcpp:"JPH::Vec3::sDecompressUnitVector(@)", header:"Jolt/Jolt.h".}
 proc CheckW *(this :Vec3) {.importcpp:"#.CheckW(@)", header:"Jolt/Jolt.h".}
-proc sFixW *(inValue :Type) :Type {.importcpp:"JPH::Vec3::sFixW(@)", header:"Jolt/Jolt.h".}
+proc sFixW *(_ :typedesc[Vec3]; inValue :array[4, cfloat]) :array[4, cfloat] {.importcpp:"JPH::Vec3::sFixW(@)", header:"Jolt/Jolt.h".}
+{.emit: """# Skipped operator new  (UVec4.h:14)""".}
+{.emit: """# Skipped operator delete  (UVec4.h:14)""".}
+{.emit: """# Skipped operator delete  (UVec4.h:14)""".}
+{.emit: """# Skipped operator new[]  (UVec4.h:14)""".}
+{.emit: """# Skipped operator delete[]  (UVec4.h:14)""".}
+{.emit: """# Skipped operator delete[]  (UVec4.h:14)""".}
+{.emit: """# Skipped operator new  (UVec4.h:14)""".}
+{.emit: """# Skipped operator delete  (UVec4.h:14)""".}
+{.emit: """# Skipped operator delete  (UVec4.h:14)""".}
+{.emit: """# Skipped operator new[]  (UVec4.h:14)""".}
+{.emit: """# Skipped operator delete[]  (UVec4.h:14)""".}
+{.emit: """# Skipped operator delete[]  (UVec4.h:14)""".}
+{.emit: """# Skipped operator new  (UVec4.h:14)""".}
+{.emit: """# Skipped operator delete  (UVec4.h:14)""".}
+{.emit: """# Skipped operator new[]  (UVec4.h:14)""".}
+{.emit: """# Skipped operator delete[]  (UVec4.h:14)""".}
 proc UVec4_create *() :UVec4 {.importcpp:"JPH::UVec4(@)", constructor, header:"Jolt/Jolt.h".}
 proc UVec4_create *(inRHS :UVec4) :UVec4 {.importcpp:"JPH::UVec4(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var UVec4; inRHS :UVec4) :var UVec4 {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
-proc UVec4_create *(inRHS :Type) :UVec4 {.importcpp:"JPH::UVec4(@)", constructor, header:"Jolt/Jolt.h".}
+proc UVec4_create *(inRHS :array[4, cuint]) :UVec4 {.importcpp:"JPH::UVec4(@)", constructor, header:"Jolt/Jolt.h".}
 proc UVec4_create *(inX :cint; inY :cint; inZ :cint; inW :cint) :UVec4 {.importcpp:"JPH::UVec4(@)", constructor, header:"Jolt/Jolt.h".}
 proc `==` *(this :UVec4; inV2 :UVec4Arg) :bool {.importcpp:"# == #", header:"Jolt/Jolt.h".}
 proc `!=` *(this :UVec4; inV2 :UVec4Arg) :bool {.importcpp:"# != #", header:"Jolt/Jolt.h".}
-proc sReplicate *(inV :cint) :UVec4 {.importcpp:"JPH::UVec4::sReplicate(@)", header:"Jolt/Jolt.h".}
-proc sLoadInt *(inV :ptr cint) :UVec4 {.importcpp:"JPH::UVec4::sLoadInt(@)", header:"Jolt/Jolt.h".}
-proc sLoadInt4 *(inV :ptr cint) :UVec4 {.importcpp:"JPH::UVec4::sLoadInt4(@)", header:"Jolt/Jolt.h".}
-proc sLoadInt4Aligned *(inV :ptr cint) :UVec4 {.importcpp:"JPH::UVec4::sLoadInt4Aligned(@)", header:"Jolt/Jolt.h".}
-proc sMin *(inV1 :UVec4Arg; inV2 :UVec4Arg) :UVec4 {.importcpp:"JPH::UVec4::sMin(@)", header:"Jolt/Jolt.h".}
-proc sMax *(inV1 :UVec4Arg; inV2 :UVec4Arg) :UVec4 {.importcpp:"JPH::UVec4::sMax(@)", header:"Jolt/Jolt.h".}
-proc sEquals *(inV1 :UVec4Arg; inV2 :UVec4Arg) :UVec4 {.importcpp:"JPH::UVec4::sEquals(@)", header:"Jolt/Jolt.h".}
-proc sSelect *(inNotSet :UVec4Arg; inSet :UVec4Arg; inControl :UVec4Arg) :UVec4 {.importcpp:"JPH::UVec4::sSelect(@)", header:"Jolt/Jolt.h".}
-proc sOr *(inV1 :UVec4Arg; inV2 :UVec4Arg) :UVec4 {.importcpp:"JPH::UVec4::sOr(@)", header:"Jolt/Jolt.h".}
-proc sXor *(inV1 :UVec4Arg; inV2 :UVec4Arg) :UVec4 {.importcpp:"JPH::UVec4::sXor(@)", header:"Jolt/Jolt.h".}
-proc sAnd *(inV1 :UVec4Arg; inV2 :UVec4Arg) :UVec4 {.importcpp:"JPH::UVec4::sAnd(@)", header:"Jolt/Jolt.h".}
-proc sNot *(inV1 :UVec4Arg) :UVec4 {.importcpp:"JPH::UVec4::sNot(@)", header:"Jolt/Jolt.h".}
-proc sSort4True *(inValue :UVec4Arg; inIndex :UVec4Arg) :UVec4 {.importcpp:"JPH::UVec4::sSort4True(@)", header:"Jolt/Jolt.h".}
+proc sZero *(_ :typedesc[UVec4]) :UVec4 {.importcpp:"JPH::UVec4::sZero(@)", header:"Jolt/Jolt.h".}
+proc sReplicate *(_ :typedesc[UVec4]; inV :cint) :UVec4 {.importcpp:"JPH::UVec4::sReplicate(@)", header:"Jolt/Jolt.h".}
+proc sLoadInt *(_ :typedesc[UVec4]; inV :ptr cint) :UVec4 {.importcpp:"JPH::UVec4::sLoadInt(@)", header:"Jolt/Jolt.h".}
+proc sLoadInt4 *(_ :typedesc[UVec4]; inV :ptr cint) :UVec4 {.importcpp:"JPH::UVec4::sLoadInt4(@)", header:"Jolt/Jolt.h".}
+proc sLoadInt4Aligned *(_ :typedesc[UVec4]; inV :ptr cint) :UVec4 {.importcpp:"JPH::UVec4::sLoadInt4Aligned(@)", header:"Jolt/Jolt.h".}
+proc sMin *(_ :typedesc[UVec4]; inV1 :UVec4Arg; inV2 :UVec4Arg) :UVec4 {.importcpp:"JPH::UVec4::sMin(@)", header:"Jolt/Jolt.h".}
+proc sMax *(_ :typedesc[UVec4]; inV1 :UVec4Arg; inV2 :UVec4Arg) :UVec4 {.importcpp:"JPH::UVec4::sMax(@)", header:"Jolt/Jolt.h".}
+proc sEquals *(_ :typedesc[UVec4]; inV1 :UVec4Arg; inV2 :UVec4Arg) :UVec4 {.importcpp:"JPH::UVec4::sEquals(@)", header:"Jolt/Jolt.h".}
+proc sSelect *(_ :typedesc[UVec4]; inNotSet :UVec4Arg; inSet :UVec4Arg; inControl :UVec4Arg) :UVec4 {.importcpp:"JPH::UVec4::sSelect(@)", header:"Jolt/Jolt.h".}
+proc sOr *(_ :typedesc[UVec4]; inV1 :UVec4Arg; inV2 :UVec4Arg) :UVec4 {.importcpp:"JPH::UVec4::sOr(@)", header:"Jolt/Jolt.h".}
+proc sXor *(_ :typedesc[UVec4]; inV1 :UVec4Arg; inV2 :UVec4Arg) :UVec4 {.importcpp:"JPH::UVec4::sXor(@)", header:"Jolt/Jolt.h".}
+proc sAnd *(_ :typedesc[UVec4]; inV1 :UVec4Arg; inV2 :UVec4Arg) :UVec4 {.importcpp:"JPH::UVec4::sAnd(@)", header:"Jolt/Jolt.h".}
+proc sNot *(_ :typedesc[UVec4]; inV1 :UVec4Arg) :UVec4 {.importcpp:"JPH::UVec4::sNot(@)", header:"Jolt/Jolt.h".}
+proc sSort4True *(_ :typedesc[UVec4]; inValue :UVec4Arg; inIndex :UVec4Arg) :UVec4 {.importcpp:"JPH::UVec4::sSort4True(@)", header:"Jolt/Jolt.h".}
 proc GetX *(this :UVec4) :cint {.importcpp:"#.GetX(@)", header:"Jolt/Jolt.h".}
 proc GetY *(this :UVec4) :cint {.importcpp:"#.GetY(@)", header:"Jolt/Jolt.h".}
 proc GetZ *(this :UVec4) :cint {.importcpp:"#.GetZ(@)", header:"Jolt/Jolt.h".}
@@ -395,36 +468,54 @@ proc sGatherInt4 *(inBase :ptr cint; inOffsets :UVec4Arg) :UVec4 {.importcpp:"JP
 proc LogicalShiftLeft *() :UVec4 {.importcpp:"JPH::UVec4::LogicalShiftLeft<'*0>(@)", header:"Jolt/Jolt.h".}
 proc LogicalShiftRight *() :UVec4 {.importcpp:"JPH::UVec4::LogicalShiftRight<'*0>(@)", header:"Jolt/Jolt.h".}
 proc ArithmeticShiftRight *() :UVec4 {.importcpp:"JPH::UVec4::ArithmeticShiftRight<'*0>(@)", header:"Jolt/Jolt.h".}
-proc call *(this :Hash; t :JPH::Vec3) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
+proc call *(this :Hash; t :Vec3) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
 proc sRandom *[Random](inRandom :var Random) :Vec3 {.importcpp:"JPH::Vec3::sRandom<'*0>(@)", header:"Jolt/Jolt.h".}
 proc `*` *(inV1 :cfloat; inV2 :Vec3Arg) :Vec3 {.importcpp:"JPH::operator*(@)", header:"Jolt/Jolt.h".}
 proc FlipSign *() :Vec3 {.importcpp:"JPH::Vec3::FlipSign<'*0>(@)", header:"Jolt/Jolt.h".}
 proc sGatherFloat4 *(inBase :ptr cfloat; inOffsets :UVec4Arg) :Vec4 {.importcpp:"JPH::Vec4::sGatherFloat4<'*0>(@)", header:"Jolt/Jolt.h".}
+{.emit: """# Skipped operator new  (Mat44.h:15)""".}
+{.emit: """# Skipped operator delete  (Mat44.h:15)""".}
+{.emit: """# Skipped operator delete  (Mat44.h:15)""".}
+{.emit: """# Skipped operator new[]  (Mat44.h:15)""".}
+{.emit: """# Skipped operator delete[]  (Mat44.h:15)""".}
+{.emit: """# Skipped operator delete[]  (Mat44.h:15)""".}
+{.emit: """# Skipped operator new  (Mat44.h:15)""".}
+{.emit: """# Skipped operator delete  (Mat44.h:15)""".}
+{.emit: """# Skipped operator delete  (Mat44.h:15)""".}
+{.emit: """# Skipped operator new[]  (Mat44.h:15)""".}
+{.emit: """# Skipped operator delete[]  (Mat44.h:15)""".}
+{.emit: """# Skipped operator delete[]  (Mat44.h:15)""".}
+{.emit: """# Skipped operator new  (Mat44.h:15)""".}
+{.emit: """# Skipped operator delete  (Mat44.h:15)""".}
+{.emit: """# Skipped operator new[]  (Mat44.h:15)""".}
+{.emit: """# Skipped operator delete[]  (Mat44.h:15)""".}
 proc Mat44_create *() :Mat44 {.importcpp:"JPH::Mat44(@)", constructor, header:"Jolt/Jolt.h".}
 proc Mat44_create *(inC1 :Vec4Arg; inC2 :Vec4Arg; inC3 :Vec4Arg; inC4 :Vec4Arg) :Mat44 {.importcpp:"JPH::Mat44(@)", constructor, header:"Jolt/Jolt.h".}
 proc Mat44_create *(inC1 :Vec4Arg; inC2 :Vec4Arg; inC3 :Vec4Arg; inC4 :Vec3Arg) :Mat44 {.importcpp:"JPH::Mat44(@)", constructor, header:"Jolt/Jolt.h".}
 proc Mat44_create *(inM2 :Mat44) :Mat44 {.importcpp:"JPH::Mat44(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var Mat44; inM2 :Mat44) :var Mat44 {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
-proc Mat44_create *(inC1 :Type; inC2 :Type; inC3 :Type; inC4 :Type) :Mat44 {.importcpp:"JPH::Mat44(@)", constructor, header:"Jolt/Jolt.h".}
-proc sIdentity *() :Mat44 {.importcpp:"JPH::Mat44::sIdentity(@)", header:"Jolt/Jolt.h".}
-proc sLoadFloat4x4 *(inV :ptr Float4) :Mat44 {.importcpp:"JPH::Mat44::sLoadFloat4x4(@)", header:"Jolt/Jolt.h".}
-proc sLoadFloat4x4Aligned *(inV :ptr Float4) :Mat44 {.importcpp:"JPH::Mat44::sLoadFloat4x4Aligned(@)", header:"Jolt/Jolt.h".}
-proc sRotationX *(inX :cfloat) :Mat44 {.importcpp:"JPH::Mat44::sRotationX(@)", header:"Jolt/Jolt.h".}
-proc sRotationY *(inY :cfloat) :Mat44 {.importcpp:"JPH::Mat44::sRotationY(@)", header:"Jolt/Jolt.h".}
-proc sRotationZ *(inZ :cfloat) :Mat44 {.importcpp:"JPH::Mat44::sRotationZ(@)", header:"Jolt/Jolt.h".}
-proc sRotation *(inAxis :Vec3Arg; inAngle :cfloat) :Mat44 {.importcpp:"JPH::Mat44::sRotation(@)", header:"Jolt/Jolt.h".}
-proc sRotation *(inQuat :QuatArg) :Mat44 {.importcpp:"JPH::Mat44::sRotation(@)", header:"Jolt/Jolt.h".}
-proc sTranslation *(inV :Vec3Arg) :Mat44 {.importcpp:"JPH::Mat44::sTranslation(@)", header:"Jolt/Jolt.h".}
-proc sRotationTranslation *(inR :QuatArg; inT :Vec3Arg) :Mat44 {.importcpp:"JPH::Mat44::sRotationTranslation(@)", header:"Jolt/Jolt.h".}
-proc sInverseRotationTranslation *(inR :QuatArg; inT :Vec3Arg) :Mat44 {.importcpp:"JPH::Mat44::sInverseRotationTranslation(@)", header:"Jolt/Jolt.h".}
-proc sScale *(inScale :cfloat) :Mat44 {.importcpp:"JPH::Mat44::sScale(@)", header:"Jolt/Jolt.h".}
-proc sScale *(inV :Vec3Arg) :Mat44 {.importcpp:"JPH::Mat44::sScale(@)", header:"Jolt/Jolt.h".}
-proc sOuterProduct *(inV1 :Vec3Arg; inV2 :Vec3Arg) :Mat44 {.importcpp:"JPH::Mat44::sOuterProduct(@)", header:"Jolt/Jolt.h".}
-proc sCrossProduct *(inV :Vec3Arg) :Mat44 {.importcpp:"JPH::Mat44::sCrossProduct(@)", header:"Jolt/Jolt.h".}
-proc sQuatLeftMultiply *(inQ :QuatArg) :Mat44 {.importcpp:"JPH::Mat44::sQuatLeftMultiply(@)", header:"Jolt/Jolt.h".}
-proc sQuatRightMultiply *(inQ :QuatArg) :Mat44 {.importcpp:"JPH::Mat44::sQuatRightMultiply(@)", header:"Jolt/Jolt.h".}
-proc sLookAt *(inPos :Vec3Arg; inTarget :Vec3Arg; inUp :Vec3Arg) :Mat44 {.importcpp:"JPH::Mat44::sLookAt(@)", header:"Jolt/Jolt.h".}
-proc sPerspective *(inFovY :cfloat; inAspect :cfloat; inNear :cfloat; inFar :cfloat) :Mat44 {.importcpp:"JPH::Mat44::sPerspective(@)", header:"Jolt/Jolt.h".}
+proc Mat44_create *(inC1 :array[4, cfloat]; inC2 :array[4, cfloat]; inC3 :array[4, cfloat]; inC4 :array[4, cfloat]) :Mat44 {.importcpp:"JPH::Mat44(@)", constructor, header:"Jolt/Jolt.h".}
+proc sZero *(_ :typedesc[Mat44]) :Mat44 {.importcpp:"JPH::Mat44::sZero(@)", header:"Jolt/Jolt.h".}
+proc sIdentity *(_ :typedesc[Mat44]) :Mat44 {.importcpp:"JPH::Mat44::sIdentity(@)", header:"Jolt/Jolt.h".}
+proc sNaN *(_ :typedesc[Mat44]) :Mat44 {.importcpp:"JPH::Mat44::sNaN(@)", header:"Jolt/Jolt.h".}
+proc sLoadFloat4x4 *(_ :typedesc[Mat44]; inV :ptr Float4) :Mat44 {.importcpp:"JPH::Mat44::sLoadFloat4x4(@)", header:"Jolt/Jolt.h".}
+proc sLoadFloat4x4Aligned *(_ :typedesc[Mat44]; inV :ptr Float4) :Mat44 {.importcpp:"JPH::Mat44::sLoadFloat4x4Aligned(@)", header:"Jolt/Jolt.h".}
+proc sRotationX *(_ :typedesc[Mat44]; inX :cfloat) :Mat44 {.importcpp:"JPH::Mat44::sRotationX(@)", header:"Jolt/Jolt.h".}
+proc sRotationY *(_ :typedesc[Mat44]; inY :cfloat) :Mat44 {.importcpp:"JPH::Mat44::sRotationY(@)", header:"Jolt/Jolt.h".}
+proc sRotationZ *(_ :typedesc[Mat44]; inZ :cfloat) :Mat44 {.importcpp:"JPH::Mat44::sRotationZ(@)", header:"Jolt/Jolt.h".}
+proc sRotation *(_ :typedesc[Mat44]; inAxis :Vec3Arg; inAngle :cfloat) :Mat44 {.importcpp:"JPH::Mat44::sRotation(@)", header:"Jolt/Jolt.h".}
+proc sRotation *(_ :typedesc[Mat44]; inQuat :QuatArg) :Mat44 {.importcpp:"JPH::Mat44::sRotation(@)", header:"Jolt/Jolt.h".}
+proc sTranslation *(_ :typedesc[Mat44]; inV :Vec3Arg) :Mat44 {.importcpp:"JPH::Mat44::sTranslation(@)", header:"Jolt/Jolt.h".}
+proc sRotationTranslation *(_ :typedesc[Mat44]; inR :QuatArg; inT :Vec3Arg) :Mat44 {.importcpp:"JPH::Mat44::sRotationTranslation(@)", header:"Jolt/Jolt.h".}
+proc sInverseRotationTranslation *(_ :typedesc[Mat44]; inR :QuatArg; inT :Vec3Arg) :Mat44 {.importcpp:"JPH::Mat44::sInverseRotationTranslation(@)", header:"Jolt/Jolt.h".}
+proc sScale *(_ :typedesc[Mat44]; inScale :cfloat) :Mat44 {.importcpp:"JPH::Mat44::sScale(@)", header:"Jolt/Jolt.h".}
+proc sScale *(_ :typedesc[Mat44]; inV :Vec3Arg) :Mat44 {.importcpp:"JPH::Mat44::sScale(@)", header:"Jolt/Jolt.h".}
+proc sOuterProduct *(_ :typedesc[Mat44]; inV1 :Vec3Arg; inV2 :Vec3Arg) :Mat44 {.importcpp:"JPH::Mat44::sOuterProduct(@)", header:"Jolt/Jolt.h".}
+proc sCrossProduct *(_ :typedesc[Mat44]; inV :Vec3Arg) :Mat44 {.importcpp:"JPH::Mat44::sCrossProduct(@)", header:"Jolt/Jolt.h".}
+proc sQuatLeftMultiply *(_ :typedesc[Mat44]; inQ :QuatArg) :Mat44 {.importcpp:"JPH::Mat44::sQuatLeftMultiply(@)", header:"Jolt/Jolt.h".}
+proc sQuatRightMultiply *(_ :typedesc[Mat44]; inQ :QuatArg) :Mat44 {.importcpp:"JPH::Mat44::sQuatRightMultiply(@)", header:"Jolt/Jolt.h".}
+proc sLookAt *(_ :typedesc[Mat44]; inPos :Vec3Arg; inTarget :Vec3Arg; inUp :Vec3Arg) :Mat44 {.importcpp:"JPH::Mat44::sLookAt(@)", header:"Jolt/Jolt.h".}
+proc sPerspective *(_ :typedesc[Mat44]; inFovY :cfloat; inAspect :cfloat; inNear :cfloat; inFar :cfloat) :Mat44 {.importcpp:"JPH::Mat44::sPerspective(@)", header:"Jolt/Jolt.h".}
 proc call *(this :Mat44; inRow :uint; inColumn :uint) :cfloat {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
 proc call *(this :var Mat44; inRow :uint; inColumn :uint) :var cfloat {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
 proc `==` *(this :Mat44; inM2 :Mat44Arg) :bool {.importcpp:"# == #", header:"Jolt/Jolt.h".}
@@ -480,6 +571,22 @@ proc PreScaled *(this :Mat44; inScale :Vec3Arg) :Mat44 {.importcpp:"#.PreScaled(
 proc PostScaled *(this :Mat44; inScale :Vec3Arg) :Mat44 {.importcpp:"#.PostScaled(@)", header:"Jolt/Jolt.h".}
 proc Decompose *(this :Mat44; outScale :var Vec3) :Mat44 {.importcpp:"#.Decompose(@)", header:"Jolt/Jolt.h".}
 proc ToMat44 *(this :Mat44) :Mat44 {.importcpp:"#.ToMat44(@)", header:"Jolt/Jolt.h".}
+{.emit: """# Skipped operator new  (Quat.h:35)""".}
+{.emit: """# Skipped operator delete  (Quat.h:35)""".}
+{.emit: """# Skipped operator delete  (Quat.h:35)""".}
+{.emit: """# Skipped operator new[]  (Quat.h:35)""".}
+{.emit: """# Skipped operator delete[]  (Quat.h:35)""".}
+{.emit: """# Skipped operator delete[]  (Quat.h:35)""".}
+{.emit: """# Skipped operator new  (Quat.h:35)""".}
+{.emit: """# Skipped operator delete  (Quat.h:35)""".}
+{.emit: """# Skipped operator delete  (Quat.h:35)""".}
+{.emit: """# Skipped operator new[]  (Quat.h:35)""".}
+{.emit: """# Skipped operator delete[]  (Quat.h:35)""".}
+{.emit: """# Skipped operator delete[]  (Quat.h:35)""".}
+{.emit: """# Skipped operator new  (Quat.h:35)""".}
+{.emit: """# Skipped operator delete  (Quat.h:35)""".}
+{.emit: """# Skipped operator new[]  (Quat.h:35)""".}
+{.emit: """# Skipped operator delete[]  (Quat.h:35)""".}
 proc Quat_create *() :Quat {.importcpp:"JPH::Quat(@)", constructor, header:"Jolt/Jolt.h".}
 proc Quat_create *(inRHS :Quat) :Quat {.importcpp:"JPH::Quat(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var Quat; inRHS :Quat) :var Quat {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
@@ -502,10 +609,13 @@ proc SetY *(this :var Quat; inY :cfloat) {.importcpp:"#.SetY(@)", header:"Jolt/J
 proc SetZ *(this :var Quat; inZ :cfloat) {.importcpp:"#.SetZ(@)", header:"Jolt/Jolt.h".}
 proc SetW *(this :var Quat; inW :cfloat) {.importcpp:"#.SetW(@)", header:"Jolt/Jolt.h".}
 proc Set *(this :var Quat; inX :cfloat; inY :cfloat; inZ :cfloat; inW :cfloat) {.importcpp:"#.Set(@)", header:"Jolt/Jolt.h".}
+proc sZero *(_ :typedesc[Quat]) :Quat {.importcpp:"JPH::Quat::sZero(@)", header:"Jolt/Jolt.h".}
+proc sIdentity *(_ :typedesc[Quat]) :Quat {.importcpp:"JPH::Quat::sIdentity(@)", header:"Jolt/Jolt.h".}
+proc sRotation *(_ :typedesc[Quat]; inAxis :Vec3Arg; inAngle :cfloat) :Quat {.importcpp:"JPH::Quat::sRotation(@)", header:"Jolt/Jolt.h".}
 proc GetAxisAngle *(this :Quat; outAxis :var Vec3; outAngle :var cfloat) {.importcpp:"#.GetAxisAngle(@)", header:"Jolt/Jolt.h".}
 proc GetAngularVelocity *(this :Quat; inDeltaTime :cfloat) :Vec3 {.importcpp:"#.GetAngularVelocity(@)", header:"Jolt/Jolt.h".}
-proc sFromTo *(inFrom :Vec3Arg; inTo :Vec3Arg) :Quat {.importcpp:"JPH::Quat::sFromTo(@)", header:"Jolt/Jolt.h".}
-proc sEulerAngles *(inAngles :Vec3Arg) :Quat {.importcpp:"JPH::Quat::sEulerAngles(@)", header:"Jolt/Jolt.h".}
+proc sFromTo *(_ :typedesc[Quat]; inFrom :Vec3Arg; inTo :Vec3Arg) :Quat {.importcpp:"JPH::Quat::sFromTo(@)", header:"Jolt/Jolt.h".}
+proc sEulerAngles *(_ :typedesc[Quat]; inAngles :Vec3Arg) :Quat {.importcpp:"JPH::Quat::sEulerAngles(@)", header:"Jolt/Jolt.h".}
 proc GetEulerAngles *(this :Quat) :Vec3 {.importcpp:"#.GetEulerAngles(@)", header:"Jolt/Jolt.h".}
 proc LengthSq *(this :Quat) :cfloat {.importcpp:"#.LengthSq(@)", header:"Jolt/Jolt.h".}
 proc Length *(this :Quat) :cfloat {.importcpp:"#.Length(@)", header:"Jolt/Jolt.h".}
@@ -521,7 +631,7 @@ proc `*` *(this :Quat; inRHS :QuatArg) :Quat {.importcpp:"# * #", header:"Jolt/J
 proc `*` *(this :Quat; inValue :cfloat) :Quat {.importcpp:"# * #", header:"Jolt/Jolt.h".}
 proc `/` *(this :Quat; inValue :cfloat) :Quat {.importcpp:"# / #", header:"Jolt/Jolt.h".}
 proc `*` *(this :Quat; inValue :Vec3Arg) :Vec3 {.importcpp:"# * #", header:"Jolt/Jolt.h".}
-proc sMultiplyImaginary *(inLHS :Vec3Arg; inRHS :QuatArg) :Quat {.importcpp:"JPH::Quat::sMultiplyImaginary(@)", header:"Jolt/Jolt.h".}
+proc sMultiplyImaginary *(_ :typedesc[Quat]; inLHS :Vec3Arg; inRHS :QuatArg) :Quat {.importcpp:"JPH::Quat::sMultiplyImaginary(@)", header:"Jolt/Jolt.h".}
 proc InverseRotate *(this :Quat; inValue :Vec3Arg) :Vec3 {.importcpp:"#.InverseRotate(@)", header:"Jolt/Jolt.h".}
 proc RotateAxisX *(this :Quat) :Vec3 {.importcpp:"#.RotateAxisX(@)", header:"Jolt/Jolt.h".}
 proc RotateAxisY *(this :Quat) :Vec3 {.importcpp:"#.RotateAxisY(@)", header:"Jolt/Jolt.h".}
@@ -536,10 +646,27 @@ proc GetTwist *(this :Quat; inAxis :Vec3Arg) :Quat {.importcpp:"#.GetTwist(@)", 
 proc GetSwingTwist *(this :Quat; outSwing :var Quat; outTwist :var Quat) {.importcpp:"#.GetSwingTwist(@)", header:"Jolt/Jolt.h".}
 proc LERP *(this :Quat; inDestination :QuatArg; inFraction :cfloat) :Quat {.importcpp:"#.LERP(@)", header:"Jolt/Jolt.h".}
 proc SLERP *(this :Quat; inDestination :QuatArg; inFraction :cfloat) :Quat {.importcpp:"#.SLERP(@)", header:"Jolt/Jolt.h".}
+proc sLoadFloat3Unsafe *(_ :typedesc[Quat]; inV :Float3) :Quat {.importcpp:"JPH::Quat::sLoadFloat3Unsafe(@)", header:"Jolt/Jolt.h".}
 proc StoreFloat3 *(this :Quat; outV :ptr Float3) {.importcpp:"#.StoreFloat3(@)", header:"Jolt/Jolt.h".}
 proc StoreFloat4 *(this :Quat; outV :ptr Float4) {.importcpp:"#.StoreFloat4(@)", header:"Jolt/Jolt.h".}
 proc CompressUnitQuat *(this :Quat) :cint {.importcpp:"#.CompressUnitQuat(@)", header:"Jolt/Jolt.h".}
-proc sDecompressUnitQuat *(inValue :cint) :Quat {.importcpp:"JPH::Quat::sDecompressUnitQuat(@)", header:"Jolt/Jolt.h".}
+proc sDecompressUnitQuat *(_ :typedesc[Quat]; inValue :cint) :Quat {.importcpp:"JPH::Quat::sDecompressUnitQuat(@)", header:"Jolt/Jolt.h".}
+{.emit: """# Skipped operator new  (Double3.h:15)""".}
+{.emit: """# Skipped operator delete  (Double3.h:15)""".}
+{.emit: """# Skipped operator delete  (Double3.h:15)""".}
+{.emit: """# Skipped operator new[]  (Double3.h:15)""".}
+{.emit: """# Skipped operator delete[]  (Double3.h:15)""".}
+{.emit: """# Skipped operator delete[]  (Double3.h:15)""".}
+{.emit: """# Skipped operator new  (Double3.h:15)""".}
+{.emit: """# Skipped operator delete  (Double3.h:15)""".}
+{.emit: """# Skipped operator delete  (Double3.h:15)""".}
+{.emit: """# Skipped operator new[]  (Double3.h:15)""".}
+{.emit: """# Skipped operator delete[]  (Double3.h:15)""".}
+{.emit: """# Skipped operator delete[]  (Double3.h:15)""".}
+{.emit: """# Skipped operator new  (Double3.h:15)""".}
+{.emit: """# Skipped operator delete  (Double3.h:15)""".}
+{.emit: """# Skipped operator new[]  (Double3.h:15)""".}
+{.emit: """# Skipped operator delete[]  (Double3.h:15)""".}
 proc Double3_create *() :Double3 {.importcpp:"JPH::Double3(@)", constructor, header:"Jolt/Jolt.h".}
 proc Double3_create *(inRHS :Double3) :Double3 {.importcpp:"JPH::Double3(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var Double3; inRHS :Double3) :var Double3 {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
@@ -547,36 +674,58 @@ proc Double3_create *(inX :cdouble; inY :cdouble; inZ :cdouble) :Double3 {.impor
 proc `[]` *(this :Double3; inCoordinate :cint) :cdouble {.importcpp:"#[#]", header:"Jolt/Jolt.h".}
 proc `==` *(this :Double3; inRHS :Double3) :bool {.importcpp:"# == #", header:"Jolt/Jolt.h".}
 proc `!=` *(this :Double3; inRHS :Double3) :bool {.importcpp:"# != #", header:"Jolt/Jolt.h".}
-proc call *(this :Hash; t :JPH::Double3) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
+proc call *(this :Hash; t :Double3) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
+{.emit: """# Skipped operator new  (DVec3.h:16)""".}
+{.emit: """# Skipped operator delete  (DVec3.h:16)""".}
+{.emit: """# Skipped operator delete  (DVec3.h:16)""".}
+{.emit: """# Skipped operator new[]  (DVec3.h:16)""".}
+{.emit: """# Skipped operator delete[]  (DVec3.h:16)""".}
+{.emit: """# Skipped operator delete[]  (DVec3.h:16)""".}
+{.emit: """# Skipped operator new  (DVec3.h:16)""".}
+{.emit: """# Skipped operator delete  (DVec3.h:16)""".}
+{.emit: """# Skipped operator delete  (DVec3.h:16)""".}
+{.emit: """# Skipped operator new[]  (DVec3.h:16)""".}
+{.emit: """# Skipped operator delete[]  (DVec3.h:16)""".}
+{.emit: """# Skipped operator delete[]  (DVec3.h:16)""".}
+{.emit: """# Skipped operator new  (DVec3.h:16)""".}
+{.emit: """# Skipped operator delete  (DVec3.h:16)""".}
+{.emit: """# Skipped operator new[]  (DVec3.h:16)""".}
+{.emit: """# Skipped operator delete[]  (DVec3.h:16)""".}
 proc DVec3_create *() :DVec3 {.importcpp:"JPH::DVec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc DVec3_create *(inRHS :DVec3) :DVec3 {.importcpp:"JPH::DVec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var DVec3; inRHS :DVec3) :var DVec3 {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
 proc DVec3_create *(inRHS :Vec3Arg) :DVec3 {.importcpp:"JPH::DVec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc DVec3_create *(inRHS :Vec4Arg) :DVec3 {.importcpp:"JPH::DVec3(@)", constructor, header:"Jolt/Jolt.h".}
-proc DVec3_create *(inRHS :TypeArg) :DVec3 {.importcpp:"JPH::DVec3(@)", constructor, header:"Jolt/Jolt.h".}
+proc DVec3_create *(inRHS :float64x2x2_t) :DVec3 {.importcpp:"JPH::DVec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc DVec3_create *(inX :cdouble; inY :cdouble; inZ :cdouble) :DVec3 {.importcpp:"JPH::DVec3(@)", constructor, header:"Jolt/Jolt.h".}
 proc DVec3_create *(inV :Double3) :DVec3 {.importcpp:"JPH::DVec3(@)", constructor, header:"Jolt/Jolt.h".}
-proc sReplicate *(inV :cdouble) :DVec3 {.importcpp:"JPH::DVec3::sReplicate(@)", header:"Jolt/Jolt.h".}
-proc sLoadDouble3Unsafe *(inV :Double3) :DVec3 {.importcpp:"JPH::DVec3::sLoadDouble3Unsafe(@)", header:"Jolt/Jolt.h".}
+proc sZero *(_ :typedesc[DVec3]) :DVec3 {.importcpp:"JPH::DVec3::sZero(@)", header:"Jolt/Jolt.h".}
+proc sOne *(_ :typedesc[DVec3]) :DVec3 {.importcpp:"JPH::DVec3::sOne(@)", header:"Jolt/Jolt.h".}
+proc sAxisX *(_ :typedesc[DVec3]) :DVec3 {.importcpp:"JPH::DVec3::sAxisX(@)", header:"Jolt/Jolt.h".}
+proc sAxisY *(_ :typedesc[DVec3]) :DVec3 {.importcpp:"JPH::DVec3::sAxisY(@)", header:"Jolt/Jolt.h".}
+proc sAxisZ *(_ :typedesc[DVec3]) :DVec3 {.importcpp:"JPH::DVec3::sAxisZ(@)", header:"Jolt/Jolt.h".}
+proc sReplicate *(_ :typedesc[DVec3]; inV :cdouble) :DVec3 {.importcpp:"JPH::DVec3::sReplicate(@)", header:"Jolt/Jolt.h".}
+proc sNaN *(_ :typedesc[DVec3]) :DVec3 {.importcpp:"JPH::DVec3::sNaN(@)", header:"Jolt/Jolt.h".}
+proc sLoadDouble3Unsafe *(_ :typedesc[DVec3]; inV :Double3) :DVec3 {.importcpp:"JPH::DVec3::sLoadDouble3Unsafe(@)", header:"Jolt/Jolt.h".}
 proc StoreDouble3 *(this :DVec3; outV :ptr Double3) {.importcpp:"#.StoreDouble3(@)", header:"Jolt/Jolt.h".}
 proc toVec3 *(this :DVec3) :Vec3 {.importcpp:"#.operator Vec3(@)", header:"Jolt/Jolt.h".}
 proc PrepareRoundToZero *(this :DVec3) :DVec3 {.importcpp:"#.PrepareRoundToZero(@)", header:"Jolt/Jolt.h".}
 proc PrepareRoundToInf *(this :DVec3) :DVec3 {.importcpp:"#.PrepareRoundToInf(@)", header:"Jolt/Jolt.h".}
 proc ToVec3RoundDown *(this :DVec3) :Vec3 {.importcpp:"#.ToVec3RoundDown(@)", header:"Jolt/Jolt.h".}
 proc ToVec3RoundUp *(this :DVec3) :Vec3 {.importcpp:"#.ToVec3RoundUp(@)", header:"Jolt/Jolt.h".}
-proc sMin *(inV1 :DVec3Arg; inV2 :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sMin(@)", header:"Jolt/Jolt.h".}
-proc sMax *(inV1 :DVec3Arg; inV2 :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sMax(@)", header:"Jolt/Jolt.h".}
-proc sClamp *(inV :DVec3Arg; inMin :DVec3Arg; inMax :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sClamp(@)", header:"Jolt/Jolt.h".}
-proc sEquals *(inV1 :DVec3Arg; inV2 :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sEquals(@)", header:"Jolt/Jolt.h".}
-proc sLess *(inV1 :DVec3Arg; inV2 :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sLess(@)", header:"Jolt/Jolt.h".}
-proc sLessOrEqual *(inV1 :DVec3Arg; inV2 :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sLessOrEqual(@)", header:"Jolt/Jolt.h".}
-proc sGreater *(inV1 :DVec3Arg; inV2 :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sGreater(@)", header:"Jolt/Jolt.h".}
-proc sGreaterOrEqual *(inV1 :DVec3Arg; inV2 :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sGreaterOrEqual(@)", header:"Jolt/Jolt.h".}
-proc sFusedMultiplyAdd *(inMul1 :DVec3Arg; inMul2 :DVec3Arg; inAdd :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sFusedMultiplyAdd(@)", header:"Jolt/Jolt.h".}
-proc sSelect *(inNotSet :DVec3Arg; inSet :DVec3Arg; inControl :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sSelect(@)", header:"Jolt/Jolt.h".}
-proc sOr *(inV1 :DVec3Arg; inV2 :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sOr(@)", header:"Jolt/Jolt.h".}
-proc sXor *(inV1 :DVec3Arg; inV2 :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sXor(@)", header:"Jolt/Jolt.h".}
-proc sAnd *(inV1 :DVec3Arg; inV2 :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sAnd(@)", header:"Jolt/Jolt.h".}
+proc sMin *(_ :typedesc[DVec3]; inV1 :DVec3Arg; inV2 :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sMin(@)", header:"Jolt/Jolt.h".}
+proc sMax *(_ :typedesc[DVec3]; inV1 :DVec3Arg; inV2 :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sMax(@)", header:"Jolt/Jolt.h".}
+proc sClamp *(_ :typedesc[DVec3]; inV :DVec3Arg; inMin :DVec3Arg; inMax :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sClamp(@)", header:"Jolt/Jolt.h".}
+proc sEquals *(_ :typedesc[DVec3]; inV1 :DVec3Arg; inV2 :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sEquals(@)", header:"Jolt/Jolt.h".}
+proc sLess *(_ :typedesc[DVec3]; inV1 :DVec3Arg; inV2 :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sLess(@)", header:"Jolt/Jolt.h".}
+proc sLessOrEqual *(_ :typedesc[DVec3]; inV1 :DVec3Arg; inV2 :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sLessOrEqual(@)", header:"Jolt/Jolt.h".}
+proc sGreater *(_ :typedesc[DVec3]; inV1 :DVec3Arg; inV2 :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sGreater(@)", header:"Jolt/Jolt.h".}
+proc sGreaterOrEqual *(_ :typedesc[DVec3]; inV1 :DVec3Arg; inV2 :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sGreaterOrEqual(@)", header:"Jolt/Jolt.h".}
+proc sFusedMultiplyAdd *(_ :typedesc[DVec3]; inMul1 :DVec3Arg; inMul2 :DVec3Arg; inAdd :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sFusedMultiplyAdd(@)", header:"Jolt/Jolt.h".}
+proc sSelect *(_ :typedesc[DVec3]; inNotSet :DVec3Arg; inSet :DVec3Arg; inControl :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sSelect(@)", header:"Jolt/Jolt.h".}
+proc sOr *(_ :typedesc[DVec3]; inV1 :DVec3Arg; inV2 :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sOr(@)", header:"Jolt/Jolt.h".}
+proc sXor *(_ :typedesc[DVec3]; inV1 :DVec3Arg; inV2 :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sXor(@)", header:"Jolt/Jolt.h".}
+proc sAnd *(_ :typedesc[DVec3]; inV1 :DVec3Arg; inV2 :DVec3Arg) :DVec3 {.importcpp:"JPH::DVec3::sAnd(@)", header:"Jolt/Jolt.h".}
 proc GetTrues *(this :DVec3) :cint {.importcpp:"#.GetTrues(@)", header:"Jolt/Jolt.h".}
 proc TestAnyTrue *(this :DVec3) :bool {.importcpp:"#.TestAnyTrue(@)", header:"Jolt/Jolt.h".}
 proc TestAllTrue *(this :DVec3) :bool {.importcpp:"#.TestAllTrue(@)", header:"Jolt/Jolt.h".}
@@ -621,18 +770,38 @@ proc Normalized *(this :DVec3) :DVec3 {.importcpp:"#.Normalized(@)", header:"Jol
 proc Sqrt *(this :DVec3) :DVec3 {.importcpp:"#.Sqrt(@)", header:"Jolt/Jolt.h".}
 proc GetSign *(this :DVec3) :DVec3 {.importcpp:"#.GetSign(@)", header:"Jolt/Jolt.h".}
 proc CheckW *(this :DVec3) {.importcpp:"#.CheckW(@)", header:"Jolt/Jolt.h".}
-proc sFixW *(inValue :TypeArg) :Type {.importcpp:"JPH::DVec3::sFixW(@)", header:"Jolt/Jolt.h".}
-proc call *(this :Hash; t :JPH::DVec3) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
+proc sFixW *(_ :typedesc[DVec3]; inValue :float64x2x2_t) :float64x2x2_t {.importcpp:"JPH::DVec3::sFixW(@)", header:"Jolt/Jolt.h".}
+proc call *(this :Hash; t :DVec3) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
+{.emit: """# Skipped operator new  (DMat44.h:15)""".}
+{.emit: """# Skipped operator delete  (DMat44.h:15)""".}
+{.emit: """# Skipped operator delete  (DMat44.h:15)""".}
+{.emit: """# Skipped operator new[]  (DMat44.h:15)""".}
+{.emit: """# Skipped operator delete[]  (DMat44.h:15)""".}
+{.emit: """# Skipped operator delete[]  (DMat44.h:15)""".}
+{.emit: """# Skipped operator new  (DMat44.h:15)""".}
+{.emit: """# Skipped operator delete  (DMat44.h:15)""".}
+{.emit: """# Skipped operator delete  (DMat44.h:15)""".}
+{.emit: """# Skipped operator new[]  (DMat44.h:15)""".}
+{.emit: """# Skipped operator delete[]  (DMat44.h:15)""".}
+{.emit: """# Skipped operator delete[]  (DMat44.h:15)""".}
+{.emit: """# Skipped operator new  (DMat44.h:15)""".}
+{.emit: """# Skipped operator delete  (DMat44.h:15)""".}
+{.emit: """# Skipped operator new[]  (DMat44.h:15)""".}
+{.emit: """# Skipped operator delete[]  (DMat44.h:15)""".}
 proc DMat44_create *() :DMat44 {.importcpp:"JPH::DMat44(@)", constructor, header:"Jolt/Jolt.h".}
 proc DMat44_create *(inC1 :Vec4Arg; inC2 :Vec4Arg; inC3 :Vec4Arg; inC4 :DVec3Arg) :DMat44 {.importcpp:"JPH::DMat44(@)", constructor, header:"Jolt/Jolt.h".}
 proc DMat44_create *(inM2 :DMat44) :DMat44 {.importcpp:"JPH::DMat44(@)", constructor, header:"Jolt/Jolt.h".}
 proc assign *(this :var DMat44; inM2 :DMat44) :var DMat44 {.importcpp:"# = #", discardable, header:"Jolt/Jolt.h".}
 proc DMat44_create *(inM :Mat44Arg) :DMat44 {.importcpp:"JPH::DMat44(@)", constructor, header:"Jolt/Jolt.h".}
 proc DMat44_create *(inRot :Mat44Arg; inT :DVec3Arg) :DMat44 {.importcpp:"JPH::DMat44(@)", constructor, header:"Jolt/Jolt.h".}
-proc DMat44_create *(inC1 :Type; inC2 :Type; inC3 :Type; inC4 :DTypeArg) :DMat44 {.importcpp:"JPH::DMat44(@)", constructor, header:"Jolt/Jolt.h".}
-proc sTranslation *(inV :DVec3Arg) :DMat44 {.importcpp:"JPH::DMat44::sTranslation(@)", header:"Jolt/Jolt.h".}
-proc sRotationTranslation *(inR :QuatArg; inT :DVec3Arg) :DMat44 {.importcpp:"JPH::DMat44::sRotationTranslation(@)", header:"Jolt/Jolt.h".}
-proc sInverseRotationTranslation *(inR :QuatArg; inT :DVec3Arg) :DMat44 {.importcpp:"JPH::DMat44::sInverseRotationTranslation(@)", header:"Jolt/Jolt.h".}
+proc DMat44_create *(inC1 :array[4, cfloat]; inC2 :array[4, cfloat]; inC3 :array[4, cfloat]; inC4 :float64x2x2_t) :DMat44 {.importcpp:"JPH::DMat44(@)", constructor, header:"Jolt/Jolt.h".}
+proc sZero *(_ :typedesc[DMat44]) :DMat44 {.importcpp:"JPH::DMat44::sZero(@)", header:"Jolt/Jolt.h".}
+proc sIdentity *(_ :typedesc[DMat44]) :DMat44 {.importcpp:"JPH::DMat44::sIdentity(@)", header:"Jolt/Jolt.h".}
+proc sRotation *(_ :typedesc[DMat44]; inQuat :QuatArg) :DMat44 {.importcpp:"JPH::DMat44::sRotation(@)", header:"Jolt/Jolt.h".}
+proc sTranslation *(_ :typedesc[DMat44]; inV :DVec3Arg) :DMat44 {.importcpp:"JPH::DMat44::sTranslation(@)", header:"Jolt/Jolt.h".}
+proc sRotationTranslation *(_ :typedesc[DMat44]; inR :QuatArg; inT :DVec3Arg) :DMat44 {.importcpp:"JPH::DMat44::sRotationTranslation(@)", header:"Jolt/Jolt.h".}
+proc sInverseRotationTranslation *(_ :typedesc[DMat44]; inR :QuatArg; inT :DVec3Arg) :DMat44 {.importcpp:"JPH::DMat44::sInverseRotationTranslation(@)", header:"Jolt/Jolt.h".}
+proc sScale *(_ :typedesc[DMat44]; inV :Vec3Arg) :DMat44 {.importcpp:"JPH::DMat44::sScale(@)", header:"Jolt/Jolt.h".}
 proc ToMat44 *(this :DMat44) :Mat44 {.importcpp:"#.ToMat44(@)", header:"Jolt/Jolt.h".}
 proc `==` *(this :DMat44; inM2 :DMat44Arg) :bool {.importcpp:"# == #", header:"Jolt/Jolt.h".}
 proc `!=` *(this :DMat44; inM2 :DMat44Arg) :bool {.importcpp:"# != #", header:"Jolt/Jolt.h".}

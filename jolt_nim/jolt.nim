@@ -7,29 +7,29 @@ type
   AlignedFreeFunction * = proc (a0 :pointer) {.cdecl.}
   TraceFunction * = proc (a0 :cstring) {.cdecl.}
   AssertFailedFunction * = proc (a0 :cstring; a1 :cstring; a2 :cstring; a3 :uint) :bool {.cdecl.}
-  AssertLastParam *{.incompleteStruct, importcpp:"JPH::AssertLastParam", header:"Jolt/Jolt.h".}= object
+  AssertLastParam *{.incompleteStruct, importcpp:"JPH::AssertLastParam", header:"Jolt/RegisterTypes.h".}= object
   AllocatorHasReallocate *[T]{.incompleteStruct, importcpp:"JPH::AllocatorHasReallocate", header:"Jolt/Jolt.h".}= object
   STLAllocator *[T]{.incompleteStruct, importcpp:"JPH::STLAllocator", header:"Jolt/Jolt.h".}= object
-  hash *{.importcpp:"std::hash", header:"Jolt/Jolt.h".}= object
-  Hash *{.importcpp:"JPH::Hash", header:"Jolt/Jolt.h".}= object
-  Array *[T, Allocator]{.importcpp:"JPH::Array", header:"Jolt/Jolt.h".}= object
+  hash *{.inheritable, importcpp:"std::hash", header:"Jolt/Jolt.h".}= object
+  Hash *{.inheritable, importcpp:"JPH::Hash", header:"Jolt/Jolt.h".}= object
+  Array *[T, Allocator]{.importcpp:"JPH::Array", header:"Jolt/RegisterTypes.h".}= object
     mSize *:cint
     mCapacity *:cint
     mElements *:ptr T
-  Float4 *{.importcpp:"JPH::Float4", header:"Jolt/Jolt.h".}= object
+  Float4 *{.inheritable, importcpp:"JPH::Float4", header:"Jolt/Jolt.h".}= object
     x *:cfloat
     y *:cfloat
     z *:cfloat
     w *:cfloat
-  Vec3 *{.importcpp:"JPH::Vec3", header:"Jolt/Jolt.h".}= object
-  DVec3 *{.importcpp:"JPH::DVec3", header:"Jolt/Jolt.h".}= object
-  Vec4 *{.importcpp:"JPH::Vec4", header:"Jolt/Jolt.h".}= object
-  UVec4 *{.importcpp:"JPH::UVec4", header:"Jolt/Jolt.h".}= object
-  BVec16 *{.incompleteStruct, importcpp:"JPH::BVec16", header:"Jolt/Jolt.h".}= object
-  Quat *{.importcpp:"JPH::Quat", header:"Jolt/Jolt.h".}= object
+  Vec3 *{.inheritable, importcpp:"JPH::Vec3", header:"Jolt/Jolt.h".}= object
+  DVec3 *{.inheritable, importcpp:"JPH::DVec3", header:"Jolt/Jolt.h".}= object
+  Vec4 *{.inheritable, importcpp:"JPH::Vec4", header:"Jolt/Jolt.h".}= object
+  UVec4 *{.inheritable, importcpp:"JPH::UVec4", header:"Jolt/Jolt.h".}= object
+  BVec16 *{.inheritable, importcpp:"JPH::BVec16", header:"Jolt/Core/Factory.h".}= object
+  Quat *{.inheritable, importcpp:"JPH::Quat", header:"Jolt/Jolt.h".}= object
     mValue *:Vec4
-  Mat44 *{.importcpp:"JPH::Mat44", header:"Jolt/Jolt.h".}= object
-  DMat44 *{.importcpp:"JPH::DMat44", header:"Jolt/Jolt.h".}= object
+  Mat44 *{.inheritable, importcpp:"JPH::Mat44", header:"Jolt/Jolt.h".}= object
+  DMat44 *{.inheritable, importcpp:"JPH::DMat44", header:"Jolt/Jolt.h".}= object
   Vec3Arg *{.incompleteStruct, importcpp:"Vec3Arg", header:"Jolt/Jolt.h".}= object
   DVec3Arg * = DVec3
   Vec4Arg *{.incompleteStruct, importcpp:"Vec4Arg", header:"Jolt/Jolt.h".}= object
@@ -38,13 +38,13 @@ type
   QuatArg *{.incompleteStruct, importcpp:"QuatArg", header:"Jolt/Jolt.h".}= object
   Mat44Arg * = Mat44
   DMat44Arg * = DMat44
-  StaticArray *[T]{.importcpp:"JPH::StaticArray", header:"Jolt/Jolt.h".}= object
+  StaticArray *[T]{.importcpp:"JPH::StaticArray", header:"Jolt/RegisterTypes.h".}= object
     mSize *:cuint
-  Float3 *{.importcpp:"JPH::Float3", header:"Jolt/Jolt.h".}= object
+  Float3 *{.inheritable, importcpp:"JPH::Float3", header:"Jolt/Jolt.h".}= object
     x *:cfloat
     y *:cfloat
     z *:cfloat
-  Double3 *{.importcpp:"JPH::Double3", header:"Jolt/Jolt.h".}= object
+  Double3 *{.inheritable, importcpp:"JPH::Double3", header:"Jolt/Jolt.h".}= object
     x *:cdouble
     y *:cdouble
     z *:cdouble
@@ -91,10 +91,6 @@ proc HashBytes *(inData :pointer; inSize :uint; inSeed :cint) :cint {.importcpp:
 proc HashString *(inString :cstring; inSeed :cint) :cint {.importcpp:"JPH::HashString(@)", header:"Jolt/Jolt.h".}
 proc Hash64 *(inValue :cint) :cint {.importcpp:"JPH::Hash64(@)", header:"Jolt/Jolt.h".}
 proc call *(this :Hash; inValue :cfloat) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
-proc call *(this :Hash; inValue :cdouble) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
-proc call *(this :Hash; inValue :cstring) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
-proc call *(this :Hash; inValue :cchar) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
-proc call *(this :Hash; inValue :cint) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
 proc HashCombine *[T](ioSeed :var cint; inValue :T) {.importcpp:"JPH::HashCombine<'*0>(@)", header:"Jolt/Jolt.h".}
 proc HashCombineArgs *[FirstValue](inFirstValue :FirstValue) :cint {.varargs, importcpp:"JPH::HashCombineArgs(@)", header:"Jolt/Jolt.h".}
 const
@@ -285,7 +281,6 @@ proc Float3_create *(inX :cfloat; inY :cfloat; inZ :cfloat) :Float3 {.importcpp:
 proc `[]` *(this :Float3; inCoordinate :cint) :cfloat {.importcpp:"#[#]", header:"Jolt/Jolt.h".}
 proc `==` *(this :Float3; inRHS :Float3) :bool {.importcpp:"# == #", header:"Jolt/Jolt.h".}
 proc `!=` *(this :Float3; inRHS :Float3) :bool {.importcpp:"# != #", header:"Jolt/Jolt.h".}
-proc call *(this :Hash; t :Float3) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
 # Skipped operator new  (Vec3.h:19)
 # Skipped operator delete  (Vec3.h:19)
 # Skipped operator delete  (Vec3.h:19)
@@ -331,6 +326,7 @@ proc sOr *(_ :typedesc[Vec3]; inV1 :Vec3Arg; inV2 :Vec3Arg) :Vec3 {.importcpp:"J
 proc sXor *(_ :typedesc[Vec3]; inV1 :Vec3Arg; inV2 :Vec3Arg) :Vec3 {.importcpp:"JPH::Vec3::sXor(@)", header:"Jolt/Jolt.h".}
 proc sAnd *(_ :typedesc[Vec3]; inV1 :Vec3Arg; inV2 :Vec3Arg) :Vec3 {.importcpp:"JPH::Vec3::sAnd(@)", header:"Jolt/Jolt.h".}
 proc sUnitSpherical *(_ :typedesc[Vec3]; inTheta :cfloat; inPhi :cfloat) :Vec3 {.importcpp:"JPH::Vec3::sUnitSpherical(@)", header:"Jolt/Jolt.h".}
+# Skipped sUnitSphere (const static member)  (Vec3.h:111)
 proc GetX *(this :Vec3) :cfloat {.importcpp:"#.GetX(@)", header:"Jolt/Jolt.h".}
 proc GetY *(this :Vec3) :cfloat {.importcpp:"#.GetY(@)", header:"Jolt/Jolt.h".}
 proc GetZ *(this :Vec3) :cfloat {.importcpp:"#.GetZ(@)", header:"Jolt/Jolt.h".}
@@ -468,7 +464,6 @@ proc sGatherInt4 *(inBase :ptr cint; inOffsets :UVec4Arg) :UVec4 {.importcpp:"JP
 proc LogicalShiftLeft *() :UVec4 {.importcpp:"JPH::UVec4::LogicalShiftLeft<'*0>(@)", header:"Jolt/Jolt.h".}
 proc LogicalShiftRight *() :UVec4 {.importcpp:"JPH::UVec4::LogicalShiftRight<'*0>(@)", header:"Jolt/Jolt.h".}
 proc ArithmeticShiftRight *() :UVec4 {.importcpp:"JPH::UVec4::ArithmeticShiftRight<'*0>(@)", header:"Jolt/Jolt.h".}
-proc call *(this :Hash; t :Vec3) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
 proc sRandom *[Random](inRandom :var Random) :Vec3 {.importcpp:"JPH::Vec3::sRandom<'*0>(@)", header:"Jolt/Jolt.h".}
 proc `*` *(inV1 :cfloat; inV2 :Vec3Arg) :Vec3 {.importcpp:"JPH::operator*(@)", header:"Jolt/Jolt.h".}
 proc FlipSign *() :Vec3 {.importcpp:"JPH::Vec3::FlipSign<'*0>(@)", header:"Jolt/Jolt.h".}
@@ -674,7 +669,6 @@ proc Double3_create *(inX :cdouble; inY :cdouble; inZ :cdouble) :Double3 {.impor
 proc `[]` *(this :Double3; inCoordinate :cint) :cdouble {.importcpp:"#[#]", header:"Jolt/Jolt.h".}
 proc `==` *(this :Double3; inRHS :Double3) :bool {.importcpp:"# == #", header:"Jolt/Jolt.h".}
 proc `!=` *(this :Double3; inRHS :Double3) :bool {.importcpp:"# != #", header:"Jolt/Jolt.h".}
-proc call *(this :Hash; t :Double3) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
 # Skipped operator new  (DVec3.h:16)
 # Skipped operator delete  (DVec3.h:16)
 # Skipped operator delete  (DVec3.h:16)
@@ -771,7 +765,8 @@ proc Sqrt *(this :DVec3) :DVec3 {.importcpp:"#.Sqrt(@)", header:"Jolt/Jolt.h".}
 proc GetSign *(this :DVec3) :DVec3 {.importcpp:"#.GetSign(@)", header:"Jolt/Jolt.h".}
 proc CheckW *(this :DVec3) {.importcpp:"#.CheckW(@)", header:"Jolt/Jolt.h".}
 # Skipped sFixW (SIMD register type)  (DVec3.h:274)
-proc call *(this :Hash; t :DVec3) :cint {.importcpp:"#(@)", header:"Jolt/Jolt.h".}
+# Skipped cTrue (const static member)  (DVec3.h:277)
+# Skipped cFalse (const static member)  (DVec3.h:278)
 # Skipped operator new  (DMat44.h:15)
 # Skipped operator delete  (DMat44.h:15)
 # Skipped operator delete  (DMat44.h:15)
@@ -840,3 +835,116 @@ proc GetQuaternion *(this :DMat44) :Quat {.importcpp:"#.GetQuaternion(@)", heade
 proc GetDirectionPreservingMatrix *(this :DMat44) :Mat44 {.importcpp:"#.GetDirectionPreservingMatrix(@)", header:"Jolt/Jolt.h".}
 proc Decompose *(this :DMat44; outScale :var Vec3) :DMat44 {.importcpp:"#.Decompose(@)", header:"Jolt/Jolt.h".}
 proc r *(inValue :clongdouble) :Real {.importcpp:"JPH::literals::operator\"\"_r(@)", header:"Jolt/Jolt.h".}
+type
+  Ref *[T]{.importcpp:"JPH::Ref", header:"Jolt/Core/Factory.h".}= object
+    mPtr *:ptr T
+  RefConst *[T]{.importcpp:"JPH::RefConst", header:"Jolt/Core/Factory.h".}= object
+    mPtr *:ptr T
+  RefTarget *[T]{.importcpp:"JPH::RefTarget", header:"Jolt/Core/Factory.h".}= object
+    mRefCount *:cint
+  RefTargetVirtual *{.inheritable, importcpp:"JPH::RefTargetVirtual", header:"Jolt/Core/Factory.h".}= object
+  RTTI *{.inheritable, importcpp:"JPH::RTTI", header:"Jolt/Core/Factory.h".}= object
+  BaseClass *{.inheritable, importcpp:"JPH::RTTI::BaseClass", header:"Jolt/Core/Factory.h".}= object
+    mRTTI *:ptr RTTI
+    mOffset *:cint
+  HashTable *[Key, KeyValue, HashTableDetail, Hash, KeyEqual]{.importcpp:"JPH::HashTable", header:"Jolt/Core/Factory.h".}= object
+    mData *:ptr KeyValue
+    mControl *:ptr cint
+    mSize *:cint
+    mMaxSize *:cint
+    mLoadLeft *:cint
+  UnorderedMap *[Key, Value, Hash, KeyEqual]{.incompleteStruct, importcpp:"JPH::UnorderedMap", header:"Jolt/Core/Factory.h".}= object
+  UnorderedMapDetail *[Key, Value]{.incompleteStruct, importcpp:"JPH::UnorderedMapDetail", header:"Jolt/Core/Factory.h".}= object
+  Factory *{.inheritable, importcpp:"JPH::Factory", header:"Jolt/Core/Factory.h".}= object
+proc AtomicMin *[T](ioAtomic :var cint; inValue :T; inMemoryOrder :cint) :bool {.importcpp:"JPH::AtomicMin<'*0>(@)", header:"Jolt/Core/Factory.h".}
+proc AtomicMax *[T](ioAtomic :var cint; inValue :T; inMemoryOrder :cint) :bool {.importcpp:"JPH::AtomicMax<'*0>(@)", header:"Jolt/Core/Factory.h".}
+proc destroy *(this :var RefTargetVirtual) {.importcpp:"#.~RefTargetVirtual()", header:"Jolt/Core/Factory.h".}
+proc AddRef *(this :var RefTargetVirtual) {.importcpp:"#.AddRef(@)", header:"Jolt/Core/Factory.h".}
+proc Release *(this :var RefTargetVirtual) {.importcpp:"#.Release(@)", header:"Jolt/Core/Factory.h".}
+proc RTTI_create *(inName :cstring; inSize :cint; inCreateObject :proc () :pointer {.cdecl.}; inDestructObject :proc (a0 :pointer) {.cdecl.}) :RTTI {.importcpp:"JPH::RTTI(@)", constructor, header:"Jolt/Core/Factory.h".}
+proc RTTI_create *(inName :cstring; inSize :cint; inCreateObject :proc () :pointer {.cdecl.}; inDestructObject :proc (a0 :pointer) {.cdecl.}; inCreateRTTI :proc (a0 :var RTTI) {.cdecl.}) :RTTI {.importcpp:"JPH::RTTI(@)", constructor, header:"Jolt/Core/Factory.h".}
+proc GetName *(this :RTTI) :cstring {.importcpp:"#.GetName(@)", header:"Jolt/Core/Factory.h".}
+proc SetName *(this :var RTTI; inName :cstring) {.importcpp:"#.SetName(@)", header:"Jolt/Core/Factory.h".}
+proc GetSize *(this :RTTI) :cint {.importcpp:"#.GetSize(@)", header:"Jolt/Core/Factory.h".}
+proc IsAbstract *(this :RTTI) :bool {.importcpp:"#.IsAbstract(@)", header:"Jolt/Core/Factory.h".}
+proc GetBaseClassCount *(this :RTTI) :cint {.importcpp:"#.GetBaseClassCount(@)", header:"Jolt/Core/Factory.h".}
+proc GetBaseClass *(this :RTTI; inIdx :cint) :ptr RTTI {.importcpp:"#.GetBaseClass(@)", header:"Jolt/Core/Factory.h".}
+proc GetHash *(this :RTTI) :cint {.importcpp:"#.GetHash(@)", header:"Jolt/Core/Factory.h".}
+proc CreateObject *(this :RTTI) :pointer {.importcpp:"#.CreateObject(@)", header:"Jolt/Core/Factory.h".}
+proc DestructObject *(this :RTTI; inObject :pointer) {.importcpp:"#.DestructObject(@)", header:"Jolt/Core/Factory.h".}
+proc AddBaseClass *(this :var RTTI; inRTTI :ptr RTTI; inOffset :cint) {.importcpp:"#.AddBaseClass(@)", header:"Jolt/Core/Factory.h".}
+proc `==` *(this :RTTI; inRHS :RTTI) :bool {.importcpp:"# == #", header:"Jolt/Core/Factory.h".}
+proc `!=` *(this :RTTI; inRHS :RTTI) :bool {.importcpp:"# != #", header:"Jolt/Core/Factory.h".}
+proc IsKindOf *(this :RTTI; inRTTI :ptr RTTI) :bool {.importcpp:"#.IsKindOf(@)", header:"Jolt/Core/Factory.h".}
+proc CastTo *(this :RTTI; inObject :pointer; inRTTI :ptr RTTI) :pointer {.importcpp:"#.CastTo(@)", header:"Jolt/Core/Factory.h".}
+proc IsType *[Type](inObject :ptr Type; inRTTI :ptr RTTI) :bool {.importcpp:"JPH::IsType<'*0>(@)", header:"Jolt/Core/Factory.h".}
+proc IsKindOf *[Type](inObject :ptr Type; inRTTI :ptr RTTI) :bool {.importcpp:"JPH::IsKindOf<'*0>(@)", header:"Jolt/Core/Factory.h".}
+proc DynamicCast *[DstType, SrcType](inObject :ptr SrcType) :ptr DstType {.importcpp:"JPH::DynamicCast<'*0>(@)", header:"Jolt/Core/Factory.h".}
+# Skipped operator new  (BVec16.h:13)
+# Skipped operator delete  (BVec16.h:13)
+# Skipped operator delete  (BVec16.h:13)
+# Skipped operator new[]  (BVec16.h:13)
+# Skipped operator delete[]  (BVec16.h:13)
+# Skipped operator delete[]  (BVec16.h:13)
+# Skipped operator new  (BVec16.h:13)
+# Skipped operator delete  (BVec16.h:13)
+# Skipped operator delete  (BVec16.h:13)
+# Skipped operator new[]  (BVec16.h:13)
+# Skipped operator delete[]  (BVec16.h:13)
+# Skipped operator delete[]  (BVec16.h:13)
+# Skipped operator new  (BVec16.h:13)
+# Skipped operator delete  (BVec16.h:13)
+# Skipped operator new[]  (BVec16.h:13)
+# Skipped operator delete[]  (BVec16.h:13)
+proc BVec16_create *() :BVec16 {.importcpp:"JPH::BVec16(@)", constructor, header:"Jolt/Core/Factory.h".}
+proc BVec16_create *(inRHS :BVec16) :BVec16 {.importcpp:"JPH::BVec16(@)", constructor, header:"Jolt/Core/Factory.h".}
+proc assign *(this :var BVec16; inRHS :BVec16) :var BVec16 {.importcpp:"# = #", discardable, header:"Jolt/Core/Factory.h".}
+# Skipped BVec16 (SIMD register type)  (BVec16.h:28)
+proc BVec16_create *(inB0 :cint; inB1 :cint; inB2 :cint; inB3 :cint; inB4 :cint; inB5 :cint; inB6 :cint; inB7 :cint; inB8 :cint; inB9 :cint; inB10 :cint; inB11 :cint; inB12 :cint; inB13 :cint; inB14 :cint; inB15 :cint) :BVec16 {.importcpp:"JPH::BVec16(@)", constructor, header:"Jolt/Core/Factory.h".}
+proc BVec16_create *(inV0 :cint; inV1 :cint) :BVec16 {.importcpp:"JPH::BVec16(@)", constructor, header:"Jolt/Core/Factory.h".}
+proc `==` *(this :BVec16; inV2 :BVec16Arg) :bool {.importcpp:"# == #", header:"Jolt/Core/Factory.h".}
+proc `!=` *(this :BVec16; inV2 :BVec16Arg) :bool {.importcpp:"# != #", header:"Jolt/Core/Factory.h".}
+proc sZero *(_ :typedesc[BVec16]) :BVec16 {.importcpp:"JPH::BVec16::sZero(@)", header:"Jolt/Core/Factory.h".}
+proc sReplicate *(_ :typedesc[BVec16]; inV :cint) :BVec16 {.importcpp:"JPH::BVec16::sReplicate(@)", header:"Jolt/Core/Factory.h".}
+proc sLoadByte16 *(_ :typedesc[BVec16]; inV :ptr cint) :BVec16 {.importcpp:"JPH::BVec16::sLoadByte16(@)", header:"Jolt/Core/Factory.h".}
+proc sEquals *(_ :typedesc[BVec16]; inV1 :BVec16Arg; inV2 :BVec16Arg) :BVec16 {.importcpp:"JPH::BVec16::sEquals(@)", header:"Jolt/Core/Factory.h".}
+proc sOr *(_ :typedesc[BVec16]; inV1 :BVec16Arg; inV2 :BVec16Arg) :BVec16 {.importcpp:"JPH::BVec16::sOr(@)", header:"Jolt/Core/Factory.h".}
+proc sXor *(_ :typedesc[BVec16]; inV1 :BVec16Arg; inV2 :BVec16Arg) :BVec16 {.importcpp:"JPH::BVec16::sXor(@)", header:"Jolt/Core/Factory.h".}
+proc sAnd *(_ :typedesc[BVec16]; inV1 :BVec16Arg; inV2 :BVec16Arg) :BVec16 {.importcpp:"JPH::BVec16::sAnd(@)", header:"Jolt/Core/Factory.h".}
+proc sNot *(_ :typedesc[BVec16]; inV1 :BVec16Arg) :BVec16 {.importcpp:"JPH::BVec16::sNot(@)", header:"Jolt/Core/Factory.h".}
+proc `[]` *(this :BVec16; inCoordinate :uint) :cint {.importcpp:"#[#]", header:"Jolt/Core/Factory.h".}
+proc `[]` *(this :var BVec16; inCoordinate :uint) :var cint {.importcpp:"#[#]", header:"Jolt/Core/Factory.h".}
+proc TestAnyTrue *(this :BVec16) :bool {.importcpp:"#.TestAnyTrue(@)", header:"Jolt/Core/Factory.h".}
+proc TestAllTrue *(this :BVec16) :bool {.importcpp:"#.TestAllTrue(@)", header:"Jolt/Core/Factory.h".}
+proc GetTrues *(this :BVec16) :cint {.importcpp:"#.GetTrues(@)", header:"Jolt/Core/Factory.h".}
+# Skipped operator new  (Factory.h:16)
+# Skipped operator delete  (Factory.h:16)
+# Skipped operator delete  (Factory.h:16)
+# Skipped operator new[]  (Factory.h:16)
+# Skipped operator delete[]  (Factory.h:16)
+# Skipped operator delete[]  (Factory.h:16)
+# Skipped operator new  (Factory.h:16)
+# Skipped operator delete  (Factory.h:16)
+# Skipped operator delete  (Factory.h:16)
+# Skipped operator new[]  (Factory.h:16)
+# Skipped operator delete[]  (Factory.h:16)
+# Skipped operator delete[]  (Factory.h:16)
+# Skipped operator new  (Factory.h:16)
+# Skipped operator delete  (Factory.h:16)
+# Skipped operator new[]  (Factory.h:16)
+# Skipped operator delete[]  (Factory.h:16)
+proc CreateObject *(this :var Factory; inName :cstring) :pointer {.importcpp:"#.CreateObject(@)", header:"Jolt/Core/Factory.h".}
+proc Find *(this :var Factory; inName :cstring) :ptr RTTI {.importcpp:"#.Find(@)", header:"Jolt/Core/Factory.h".}
+proc Find *(this :var Factory; inHash :cint) :ptr RTTI {.importcpp:"#.Find(@)", header:"Jolt/Core/Factory.h".}
+proc Register *(this :var Factory; inRTTI :ptr RTTI) :bool {.importcpp:"#.Register(@)", header:"Jolt/Core/Factory.h".}
+proc Register *(this :var Factory; inRTTIs :ptr ptr RTTI; inNumber :uint) :bool {.importcpp:"#.Register(@)", header:"Jolt/Core/Factory.h".}
+proc Clear *(this :var Factory) {.importcpp:"#.Clear(@)", header:"Jolt/Core/Factory.h".}
+proc GetAllClasses *(this :Factory) :cint {.importcpp:"#.GetAllClasses(@)", header:"Jolt/Core/Factory.h".}
+proc sInstance *(_ :typedesc[Factory]) :ptr Factory {.importcpp:"JPH::Factory::sInstance@", header:"Jolt/Core/Factory.h".}
+proc `sInstance=` *(_ :typedesc[Factory]; value :ptr Factory) {.importcpp:"JPH::Factory::sInstance = @", header:"Jolt/Core/Factory.h".}
+proc VerifyJoltVersionIDInternal *(inVersionID :cint) :bool {.importcpp:"JPH::VerifyJoltVersionIDInternal(@)", header:"Jolt/RegisterTypes.h".}
+proc VerifyJoltVersionID *() :bool {.importcpp:"JPH::VerifyJoltVersionID(@)", header:"Jolt/RegisterTypes.h".}
+proc RegisterTypesInternal *(inVersionID :cint) {.importcpp:"JPH::RegisterTypesInternal(@)", header:"Jolt/RegisterTypes.h".}
+proc RegisterTypes *() {.importcpp:"JPH::RegisterTypes(@)", header:"Jolt/RegisterTypes.h".}
+proc RegisterHair *() {.importcpp:"JPH::RegisterHair(@)", header:"Jolt/RegisterTypes.h".}
+proc UnregisterTypes *() {.importcpp:"JPH::UnregisterTypes(@)", header:"Jolt/RegisterTypes.h".}

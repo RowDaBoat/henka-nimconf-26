@@ -1,31 +1,55 @@
 #!/bin/sh
-
 set -eu
 
+usage() {
+	cat <<EOF
+Usage: ${0##*/}
+
+Builds and runs the Jolt init demo natively (Nim C++ backend linked to libJolt.a).
+EOF
+}
+
+case "${1:-}" in
+-h | --help)
+	usage
+	exit 0
+	;;
+esac
+
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
-JOLT_SRC="$SCRIPT_DIR/JoltPhysics/Build"
+cd "$SCRIPT_DIR"
 
-BUILD_TYPE=${1:-Distribution}
-BUILD_DIR="$SCRIPT_DIR/build/wasm/$BUILD_TYPE"
+JOLT_LIB=$("$SCRIPT_DIR/build_jolt.sh" native)
+JOLT_BUILD=$(dirname "$JOLT_LIB")
 
-if ! command -v emcmake >/dev/null 2>&1; then
-	echo "error: emcmake not found on PATH. Install Emscripten (e.g. 'brew install emscripten')." >&2
-	exit 1
-fi
+JPH_FLAGS=$(python3 - "$JOLT_BUILD/compile_commands.json" <<'PY'
+import json, sys, shlex
+db = json.load(open(sys.argv[1]))
+entry = next(e for e in db if "/Jolt/" in e["file"] and e["file"].endswith(".cpp"))
+args = shlex.split(entry["command"]) if "command" in entry else entry["arguments"]
+keep = []
+for a in args:
+    if a.startswith(("-D", "-std=", "-march", "-mtune")):
+        keep.append(a)
+    elif a.startswith("-m") and any(s in a for s in
+            ("sse", "avx", "f16c", "fma", "lzcnt", "bmi", "popcnt", "neon", "fpu", "cpu")):
+        keep.append(a)
+print("\n".join(keep))
+PY
+)
 
-echo "Configuring Jolt ($BUILD_TYPE) for WASM in $BUILD_DIR"
-emcmake cmake -S "$JOLT_SRC" -B "$BUILD_DIR" -G "Unix Makefiles" \
-	-DCMAKE_BUILD_TYPE="$BUILD_TYPE" \
-	-DTARGET_UNIT_TESTS=OFF \
-	-DTARGET_HELLO_WORLD=OFF \
-	-DTARGET_PERFORMANCE_TEST=OFF \
-	-DTARGET_SAMPLES=OFF \
-	-DTARGET_VIEWER=OFF \
-	-DENABLE_INSTALL=OFF \
-	-DENABLE_ALL_WARNINGS=OFF
+PASSC="--passC:-I$SCRIPT_DIR/JoltPhysics"
+for f in $JPH_FLAGS; do PASSC="$PASSC --passC:$f"; done
 
-JOBS=$( (command -v nproc >/dev/null 2>&1 && nproc) || sysctl -n hw.ncpu 2>/dev/null || echo 4)
-echo "Building libJolt.a with $JOBS jobs"
-cmake --build "$BUILD_DIR" --target Jolt -j "$JOBS"
+echo "Compiling demo.nim..."
 
-echo "Done: $(find "$BUILD_DIR" -name 'libJolt.a')"
+nim cpp \
+	-d:release \
+	$PASSC \
+	--passL:"$JOLT_LIB" \
+	--out:"$SCRIPT_DIR/build/demo" \
+	demo.nim
+
+echo
+echo "Done:"
+echo "$SCRIPT_DIR/build/demo"

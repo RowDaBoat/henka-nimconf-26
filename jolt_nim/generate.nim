@@ -1,13 +1,12 @@
 # @deps std
 from std/os import parentDir, `/`, normalizedPath
+from std/strutils import endsWith
 # @deps external
 from henka import nil
 
 const thisDir = currentSourcePath().parentDir()
 const joltDir = thisDir/"JoltPhysics"
 
-# Macros whose bodies aren't valid Nim constant expressions (C/C++ token soup,
-# or references to symbols henka doesn't emit). Skip them entirely.
 proc filter(kind: henka.LabelKind, name: string): bool =
   name notin [
     "JPH_EXPORT_GCC_BUG_WORKAROUND",
@@ -23,8 +22,6 @@ proc filter(kind: henka.LabelKind, name: string): bool =
     "JPH_FUNCTION_NAME",
     "JPH_OVERRIDE_NEW_DELETE",
     "JPH_EL",
-    # Compiler-directive macros (__attribute__, _Pragma) that henka emits as
-    # raw {.emit.} C, dumping junk into the generated C output.
     "JPH_INLINE",
     "JPH_PRECISE_MATH_ON",
     "JPH_PRECISE_MATH_OFF",
@@ -32,11 +29,28 @@ proc filter(kind: henka.LabelKind, name: string): bool =
 
 when isMainModule:
   let output = henka.generate(
-    inputFile    = joltDir/"Jolt"/"Jolt.h",
+    inputFiles   = @[
+      joltDir/"Jolt"/"Jolt.h",
+      joltDir/"Jolt"/"Core"/"Factory.h",
+      joltDir/"Jolt"/"RegisterTypes.h",
+    ],
     rootPath     = joltDir.normalizedPath,
-    clangArgs    = @["-I" & joltDir.normalizedPath],
+    clangArgs    = @[
+      "-I" & joltDir.normalizedPath,
+      "-std=c++17",
+      "-include", joltDir.normalizedPath/"Jolt"/"Jolt.h",
+    ],
     isCpp        = true,
     symbolFilter = filter,
+    singleFileParse = false,
     linkMode     = henka.LinkMode.header,
   )
-  system.writeFile(thisDir/"jolt.nim", output)
+
+  var combined = ""
+  for module in output.modules:
+    if module.definitions.len > 0:
+      combined.add module.definitions
+      if not combined.endsWith("\n"):
+        combined.add "\n"
+
+  system.writeFile(thisDir/"jolt.nim", combined)

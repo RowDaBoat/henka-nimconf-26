@@ -12,6 +12,18 @@ template title =
   slide:
     nbText "## Henka, Bind Anything"
 
+    nbRawHtml """
+  <div id="game"></div>
+  <script src="/node_modules/phaser/dist/phaser.min.js"></script>
+  <script type="module">
+    import * as Box2D from "/node_modules/phaser-box2d/dist/PhaserBox2D.min.js"
+    Object.assign(globalThis, Box2D)
+    const s = document.createElement("script")
+    s.src = "/bullet_heaven/bullet_heaven.js"
+    document.body.appendChild(s)
+  </script>
+  """
+
     fragmentFadeIn:
       nbText &"How {langNim}👑 can be glued to just about any language."
 

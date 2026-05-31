@@ -1,2 +1,5 @@
 [submodule "jolt_nim/JoltPhysics"]
 	path = jolt_nim/JoltPhysics
+[submodule "phaser_nim"]
+	path = phaser_nim
+	url = git@github.com:MechasNotBrains/nimconf-survivor.git

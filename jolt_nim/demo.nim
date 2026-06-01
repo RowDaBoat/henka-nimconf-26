@@ -92,6 +92,8 @@ proc createAndAddBody(bi: ptr BodyInterface; settings: ptr BodyCreationSettings;
   {.importcpp: "#->CreateAndAddBody(*#, (JPH::EActivation)#)".}
 proc getCenterOfMassPosition(bi: ptr BodyInterface; id: BodyID): Vec3
   {.importcpp: "#->GetCenterOfMassPosition(#)".}
+proc getRotation(bi: ptr BodyInterface; id: BodyID): Quat
+  {.importcpp: "#->GetRotation(#)".}
 
 # --- demo ---------------------------------------------------------------------
 # Two object layers and two broad-phase layers: static vs moving.

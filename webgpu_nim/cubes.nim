@@ -16,26 +16,7 @@ import std/strformat
 import std/[math, random]
 # @deps wgpu
 import wgpu
-
-when defined(emscripten):
-  # The browser provides WebGPU and drives the render loop for us.
-  proc emscripten_set_main_loop(
-    f                 :proc() {.cdecl.};
-    fps               :cint;
-    simulateInfinite  :cint;
-    ) {.importc, header:"<emscripten.h>".}
-  # Mouse position in normalized [-1, 1] coords, fed by a listener in index.html.
-  {.emit: """
-#include <emscripten.h>
-EM_JS(float, henka_mouse_x, (), { return window.__mx || 0.0; });
-EM_JS(float, henka_mouse_y, (), { return window.__my || 0.0; });
-""".}
-  proc henka_mouse_x() :cfloat {.importc, nodecl.}
-  proc henka_mouse_y() :cfloat {.importc, nodecl.}
-else:
-  # @deps external
-  from nglfw as glfw import nil
-
+import jolt
 
 #_______________________________________
 # @section Camera
@@ -50,6 +31,207 @@ const
   initialH :int32 = 540
   renderScale :int32 = 2   # supersample factor: render larger, CSS shows it at logical size
 
+var LIMIT = 100
+
+#_______________________________________
+# @section Geometry
+#  8 corners, 36 indices (12 triangles). No per-vertex color: cubes are grey.
+#_____________________________
+type Vertex = object
+  pos {.align: 16.} :array[4, float32]
+
+type CubeInstance = object
+  #offset   {.align: 16.} :array[4, float32]
+  #rotation {.align: 16.} :array[4, float32]
+  transform {.align: 16.} :Mat44
+
+const s = cubeSize
+let cubeVertices = [
+  Vertex(pos: [-s, -s, -s, 0]), Vertex(pos: [ s, -s, -s, 0]),
+  Vertex(pos: [ s,  s, -s, 0]), Vertex(pos: [-s,  s, -s, 0]),
+  Vertex(pos: [-s, -s,  s, 0]), Vertex(pos: [ s, -s,  s, 0]),
+  Vertex(pos: [ s,  s,  s, 0]), Vertex(pos: [-s,  s,  s, 0]),
+]
+
+const cubeIndices = [
+  0'u16, 1, 2,  0, 2, 3,   # back   (-z)
+  4,     6, 5,  4, 7, 6,   # front  (+z)
+  0,     4, 5,  0, 5, 1,   # bottom (-y)
+  3,     2, 6,  3, 6, 7,   # top    (+y)
+  0,     3, 7,  0, 7, 4,   # left   (-x)
+  1,     5, 6,  1, 6, 2,   # right  (+x)
+]
+
+
+######################
+## Jolt integration ##
+######################
+{.emit: """/*INCLUDESECTION*/
+#include <Jolt/Jolt.h>
+#include <Jolt/Core/TempAllocator.h>
+#include <Jolt/Core/JobSystemThreadPool.h>
+#include <Jolt/Physics/PhysicsSystem.h>
+#include <Jolt/Physics/Body/BodyCreationSettings.h>
+#include <Jolt/Physics/Collision/Shape/BoxShape.h>
+#include <Jolt/Physics/Collision/ObjectLayerPairFilterTable.h>
+#include <Jolt/Physics/Collision/BroadPhase/BroadPhaseLayerInterfaceTable.h>
+#include <Jolt/Physics/Collision/BroadPhase/ObjectVsBroadPhaseLayerFilterTable.h>
+""".}
+
+# --- opaque handle types ------------------------------------------------------
+type
+  PhysicsSystem {.importcpp: "JPH::PhysicsSystem".} = object
+  BodyInterface {.importcpp: "JPH::BodyInterface".} = object
+  TempAllocatorImpl {.importcpp: "JPH::TempAllocatorImpl".} = object
+  JobSystemThreadPool {.importcpp: "JPH::JobSystemThreadPool".} = object
+  ObjectLayerPairFilterTable {.importcpp: "JPH::ObjectLayerPairFilterTable".} = object
+  BroadPhaseLayerInterfaceTable {.importcpp: "JPH::BroadPhaseLayerInterfaceTable".} = object
+  ObjectVsBroadPhaseLayerFilterTable {.importcpp: "JPH::ObjectVsBroadPhaseLayerFilterTable".} = object
+  BodyCreationSettings {.importcpp: "JPH::BodyCreationSettings".} = object
+  Shape {.importcpp: "JPH::Shape".} = object
+  BodyID {.importcpp: "JPH::BodyID".} = object
+
+# EMotionType / EActivation are `enum class`es; pass the integer value and cast
+# in the C++ pattern rather than binding the enums.
+const
+  motionStatic  = 0.cint
+  motionDynamic = 2.cint
+  activate      = 0.cint
+  dontActivate  = 1.cint
+
+# --- inline physics bindings --------------------------------------------------
+proc newPhysicsSystem(): ptr PhysicsSystem
+  {.importcpp: "new JPH::PhysicsSystem()".}
+proc newTempAllocator(size: cuint): ptr TempAllocatorImpl
+  {.importcpp: "new JPH::TempAllocatorImpl(#)".}
+proc newJobSystem(maxJobs, maxBarriers: cuint; numThreads: cint): ptr JobSystemThreadPool
+  {.importcpp: "new JPH::JobSystemThreadPool(@)".}
+proc newObjectLayerPairFilterTable(numLayers: cuint): ptr ObjectLayerPairFilterTable
+  {.importcpp: "new JPH::ObjectLayerPairFilterTable(#)".}
+proc newBroadPhaseLayerInterfaceTable(numObjLayers, numBpLayers: cuint): ptr BroadPhaseLayerInterfaceTable
+  {.importcpp: "new JPH::BroadPhaseLayerInterfaceTable(@)".}
+proc newObjectVsBroadPhaseLayerFilterTable(
+    bpli: ptr BroadPhaseLayerInterfaceTable; numBpLayers: cuint;
+    olp: ptr ObjectLayerPairFilterTable; numObjLayers: cuint): ptr ObjectVsBroadPhaseLayerFilterTable
+  {.importcpp: "new JPH::ObjectVsBroadPhaseLayerFilterTable(*#, #, *#, #)".}
+
+proc enableCollision(t: ptr ObjectLayerPairFilterTable; layer1, layer2: cushort)
+  {.importcpp: "#->EnableCollision(@)".}
+proc mapObjectToBroadPhaseLayer(t: ptr BroadPhaseLayerInterfaceTable; objLayer: cushort; bpLayer: uint8)
+  {.importcpp: "#->MapObjectToBroadPhaseLayer(#, JPH::BroadPhaseLayer(#))".}
+
+proc init(sys: ptr PhysicsSystem; maxBodies, numBodyMutexes, maxBodyPairs, maxContactConstraints: cuint;
+          bpli: ptr BroadPhaseLayerInterfaceTable;
+          ovb: ptr ObjectVsBroadPhaseLayerFilterTable;
+          olp: ptr ObjectLayerPairFilterTable)
+  {.importcpp: "#->Init(#, #, #, #, *#, *#, *#)".}
+proc getBodyInterface(sys: ptr PhysicsSystem): ptr BodyInterface
+  {.importcpp: "(& #->GetBodyInterface())".}
+proc optimizeBroadPhase(sys: ptr PhysicsSystem)
+  {.importcpp: "#->OptimizeBroadPhase()".}
+proc update(sys: ptr PhysicsSystem; dt: cfloat; collisionSteps: cint;
+            tempAlloc: ptr TempAllocatorImpl; jobSys: ptr JobSystemThreadPool): cint
+  {.importcpp: "(int)#->Update(#, #, #, #)", discardable.}
+
+proc newBoxShape(halfExtent: Vec3; convexRadius: cfloat): ptr Shape
+  {.importcpp: "new JPH::BoxShape(@)".}
+proc newBodyCreationSettings(shape: ptr Shape; pos: Vec3; rot: Quat;
+                             motionType: cint; objectLayer: cushort): ptr BodyCreationSettings
+  {.importcpp: "new JPH::BodyCreationSettings(#, #, #, (JPH::EMotionType)#, #)".}
+proc createAndAddBody(bi: ptr BodyInterface; settings: ptr BodyCreationSettings; activation: cint): BodyID
+  {.importcpp: "#->CreateAndAddBody(*#, (JPH::EActivation)#)".}
+proc getCenterOfMassPosition(bi: ptr BodyInterface; id: BodyID): Vec3
+  {.importcpp: "#->GetCenterOfMassPosition(#)".}
+proc getRotation(bi: ptr BodyInterface; id: BodyID): Quat
+  {.importcpp: "#->GetRotation(#)".}
+proc getCenterOfMassTransform(bi: ptr BodyInterface; id: BodyID): RMat44
+  {.importcpp: "#->GetCenterOfMassTransform(#)".}
+
+# --- demo ---------------------------------------------------------------------
+# Two object layers and two broad-phase layers: static vs moving.
+const
+  layerNonMoving = 0.cushort
+  layerMoving    = 1.cushort
+  bpNonMoving    = 0.uint8
+  bpMoving       = 1.uint8
+
+var physics       : ptr PhysicsSystem       = nil
+var tempAllocator : ptr TempAllocatorImpl   = nil
+var jobSystem     : ptr JobSystemThreadPool = nil
+var bodies        : ptr BodyInterface       = nil
+var cubes         : array[50, BodyID]
+var instances     : seq[CubeInstance]
+
+proc initJolt() =
+  # 1. Bring Jolt up (from the generated bindings).
+  RegisterDefaultAllocator()
+  var factory: Factory
+  Factory.sInstance = addr factory
+  RegisterTypes()
+
+  # 2. Allocators and job system for the simulation.
+  tempAllocator = newTempAllocator(10 * 1024 * 1024)
+  jobSystem = newJobSystem(2048, 8, 2)
+
+  # 3. Collision layer configuration (concrete Table implementations).
+  let objectLayerPairFilter = newObjectLayerPairFilterTable(2)
+  objectLayerPairFilter.enableCollision(layerMoving, layerNonMoving)
+  objectLayerPairFilter.enableCollision(layerMoving, layerMoving)
+
+  let broadPhaseLayerInterface = newBroadPhaseLayerInterfaceTable(2, 2)
+  broadPhaseLayerInterface.mapObjectToBroadPhaseLayer(layerNonMoving, bpNonMoving)
+  broadPhaseLayerInterface.mapObjectToBroadPhaseLayer(layerMoving, bpMoving)
+
+  let objectVsBroadPhaseLayerFilter =
+    newObjectVsBroadPhaseLayerFilterTable(broadPhaseLayerInterface, 2, objectLayerPairFilter, 2)
+
+  # 4. The physics system. Gravity defaults to (0, -9.81, 0).
+  physics = newPhysicsSystem()
+  physics.init(1024, 0, 1024, 1024,
+    broadPhaseLayerInterface, objectVsBroadPhaseLayerFilter, objectLayerPairFilter)
+  bodies = physics.getBodyInterface()
+
+  # 5. Static floor at (0, 0, 0), size (10, 0.1, 10)  ->  half extents (5, 0.05, 5).
+  let floorShape = newBoxShape(Vec3_create(50.0, 0.05, 50.0), 0.04)
+  let floorSettings = newBodyCreationSettings(
+    floorShape, Vec3_create(0.0, -4.0, 0.0), Quat.sIdentity(), motionStatic, layerNonMoving)
+  discard bodies.createAndAddBody(floorSettings, dontActivate)
+
+  # 6. Dynamic cubes
+  for (id, instance) in instances.pairs:
+    let position = instance.transform.GetTranslation()
+    let rotation = instance.transform.GetQuaternion()
+    let cubeShape = newBoxShape(Vec3_create(cubeSize, cubeSize, cubeSize), 0.05)
+    let cubeSettings = newBodyCreationSettings(cubeShape, position, rotation, motionDynamic, layerMoving)
+
+    cubes[id] = bodies.createAndAddBody(cubeSettings, activate)
+
+  physics.optimizeBroadPhase()
+
+
+########################
+## WebGPU integration ##
+########################
+when defined(emscripten):
+  proc emscripten_get_now(): cdouble {.importc, header:"<emscripten.h>".}
+  # The browser provides WebGPU and drives the render loop for us.
+  proc emscripten_set_main_loop(
+    f                 :proc() {.cdecl.};
+    fps               :cint;
+    simulateInfinite  :cint;
+    ) {.importc, header:"<emscripten.h>".}
+  # Mouse position in normalized [-1, 1] coords, fed by a listener in index.html.
+  {.emit: """
+#include <emscripten.h>
+EM_JS(float, mouse_x, (), { return window.__mx || 0.0; });
+EM_JS(float, mouse_y, (), { return window.__my || 0.0; });
+""".}
+  proc mouse_x() :cfloat {.importc, nodecl.}
+  proc mouse_y() :cfloat {.importc, nodecl.}
+else:
+  # @deps external
+  from nglfw as glfw import nil
+
 
 #_______________________________________
 # @section Cube Shader
@@ -59,30 +241,45 @@ const
 #_____________________________
 const shaderCode = """
 struct Uniforms {
-  aspect    : f32,
-  ambient   : f32,           // ambient light level (0 = fully dark)
-  lightView : vec3<f32>,     // point-light position in view space
+  aspect: f32,
+  ambient: f32,
+  lightView: vec4<f32>,
 };
 @group(0) @binding(0) var<uniform> u : Uniforms;
 
+struct Instances {
+  transform : array<mat4x4<f32>, 50>
+};
+@group(0) @binding(1) var<uniform> instances : Instances;
+
 struct VSIn {
-  @location(0) position : vec3<f32>,
-  @location(1) offset   : vec3<f32>,   // per-instance world position
-  @location(2) rotation : vec3<f32>,   // per-instance euler angles
+  @location(0) position : vec4<f32>,
 };
 struct VSOut {
   @builtin(position) pos     : vec4<f32>,
   @location(0)       viewPos : vec3<f32>,
+  @location(1)       color   : vec3<f32>,
 };
 
-fn rotX(a :f32) ->mat3x3<f32> { let c = cos(a); let s = sin(a); return mat3x3<f32>(1.0,0.0,0.0,  0.0,c,s,  0.0,-s,c); }
-fn rotY(a :f32) ->mat3x3<f32> { let c = cos(a); let s = sin(a); return mat3x3<f32>(c,0.0,-s,  0.0,1.0,0.0,  s,0.0,c); }
-fn rotZ(a :f32) ->mat3x3<f32> { let c = cos(a); let s = sin(a); return mat3x3<f32>(c,s,0.0,  -s,c,0.0,  0.0,0.0,1.0); }
+const draculaLen = 12;
+const dracula = array<vec3<f32>, draculaLen>(
+  vec3(40.0, 42.0, 54.0)    / 255.0,
+  vec3(98.0, 114.0, 164.0)  / 255.0,
+  vec3(68.0, 71.0, 90.0)    / 255.0,
+  vec3(248.0, 248.0, 242.0) / 255.0,
+  vec3(98.0, 114.0, 164.0)  / 255.0,
+  vec3(255.0, 85.0, 85.0)   / 255.0,
+  vec3(255.0, 184.0, 108.0) / 255.0,
+  vec3(241.0, 250.0, 140.0) / 255.0,
+  vec3(80.0, 250.0, 123.0)  / 255.0,
+  vec3(139.0, 233.0, 253.0) / 255.0,
+  vec3(189.0, 147.0, 249.0) / 255.0,
+  vec3(255.0, 121.0, 198.0) / 255.0,
+);
 
 @vertex
-fn vs_main(in :VSIn) ->VSOut {
-  let rot     = rotZ(in.rotation.z) * rotY(in.rotation.y) * rotX(in.rotation.x);
-  let world   = rot * in.position + in.offset;
+fn vs_main(in :VSIn, @builtin(instance_index) instanceIndex: u32) ->VSOut {
+  let world   = instances.transform[instanceIndex] * in.position;
   let viewPos = vec3<f32>(world.x, world.y, world.z - 10.0);  // matches camDist
 
   // Right-handed perspective mapping depth to [0, 1] (WebGPU convention)
@@ -100,76 +297,70 @@ fn vs_main(in :VSIn) ->VSOut {
   var out :VSOut;
   out.pos     = proj * vec4<f32>(viewPos, 1.0);
   out.viewPos = viewPos;
+  out.color   = dracula[instanceIndex % draculaLen];
   return out;
+}
+
+fn faceforward(N: vec3<f32>, I: vec3<f32>, Nref: vec3<f32>) -> vec3<f32> {
+  if (dot(Nref, I) < 0.0) {
+    return N;
+  } else {
+    return -N;
+  }
 }
 
 @fragment
 fn fs_main(in :VSOut) ->@location(0) vec4<f32> {
-  // Flat per-face normal from the rate of change of view-space position
   var n = normalize(cross(dpdx(in.viewPos), dpdy(in.viewPos)));
-  n = n * sign(n.z + 1e-5);                          // face the camera (+z in view space)
+  let V = normalize(-in.viewPos);        // fragment-to-camera in view space
+  n = faceforward(n, -V, n);             // flip n if it points away from the camera
 
   // Point light with distance attenuation
-  let toLight = u.lightView - in.viewPos;
+  let toLight = u.lightView.xyz - in.viewPos;
   let dist    = length(toLight);
   let L       = toLight / dist;
   let diff    = max(dot(n, L), 0.0);
-  let atten   = 1.0 / (1.0 + 0.05 * dist * dist);
+  let atten   = 1.0 / (1.0 + 0.0125 * dist * dist);
 
-  let albedo    = 0.85;                              // grey base colour
-  let intensity = u.ambient + 1.4 * diff * atten;    // ambient + point light
-  let g = albedo * intensity;
-  return vec4<f32>(g, g, g, 1.0);
+  // Blinn-Phong specular
+  let H = normalize(L + V);
+  let shininess = 64.0; // larger = tighter highlight
+  let spec = pow(max(dot(n, H), 0.0), shininess);
+
+  let albedo    = in.color;
+
+  let ambientTerm  = u.ambient;
+  let diffuseTerm  = diff * atten;
+  let specularTerm = 2.0 * spec * atten;
+
+  //let color =
+  //    albedo * (ambientTerm + diffuseTerm) +
+  //    vec3<f32>(1.0) * specularTerm;
+  let color =
+    albedo * (ambientTerm + diffuseTerm + 0.2 * specularTerm);
+  return vec4<f32>(color, 1.0);
 }
 """
 
+proc createCubeInstances(): seq[CubeInstance] =
+  const gridCols = 10
+  const gridRows = 5
+  const spacing  = 1.9'f32
 
-#_______________________________________
-# @section Geometry
-#  8 corners, 36 indices (12 triangles). No per-vertex color: cubes are grey.
-#_____________________________
-type Vertex = object
-  pos :array[3, float32]
-
-type CubeInstance = object
-  offset   :array[3, float32]
-  rotation :array[3, float32]
-
-const s = cubeSize
-let cubeVertices = [
-  Vertex(pos: [-s, -s, -s]), Vertex(pos: [ s, -s, -s]),
-  Vertex(pos: [ s,  s, -s]), Vertex(pos: [-s,  s, -s]),
-  Vertex(pos: [-s, -s,  s]), Vertex(pos: [ s, -s,  s]),
-  Vertex(pos: [ s,  s,  s]), Vertex(pos: [-s,  s,  s]),
-]
-
-const cubeIndices = [
-  0'u16, 1, 2,  0, 2, 3,   # back   (-z)
-  4,     6, 5,  4, 7, 6,   # front  (+z)
-  0,     4, 5,  0, 5, 1,   # bottom (-y)
-  3,     2, 6,  3, 6, 7,   # top    (+y)
-  0,     3, 7,  0, 7, 4,   # left   (-x)
-  1,     5, 6,  1, 6, 2,   # right  (+x)
-]
-
-# An n x m grid filling the visible z = 0 plane; each cube keeps a random rotation.
-const
-  gridCols = 10
-  gridRows = 5
-const spacing = 1.9'f32                                # distance between cube centers
-let instances = block:
   var rng = initRand(20260528)
+
   template rf(lo, hi :float32): float32 = lo + rng.rand(1.0).float32 * (hi - lo)
-  var arr :seq[CubeInstance]
+
   for row in 0 ..< gridRows:
     for col in 0 ..< gridCols:
       let x = (col.float32 - (gridCols.float32 - 1.0'f32) * 0.5'f32) * spacing
       let y = (row.float32 - (gridRows.float32 - 1.0'f32) * 0.5'f32) * spacing
-      arr.add CubeInstance(
-        offset:   [x.float32, y.float32, 0.0'f32],
-        rotation: [rf(0.0, TAU), rf(0.0, TAU), rf(0.0, TAU)],
-      )
-  arr
+      let t = Mat44.sTranslation(cast[Vec3Arg](Vec3_create(x, y, 0.0'f32)))
+      let r = Mat44.sRotation(cast[QuatArg](Quat.sEulerAngles(cast[Vec3Arg](Vec3_create(rf(0.0, TAU), rf(0.0, TAU), rf(0.0, TAU))))))
+      result.add CubeInstance(transform: t * r)
+
+proc instancesBytes(): uint64 =
+  (instances.len * sizeof(CubeInstance)).uint64
 
 
 #_______________________________________
@@ -182,12 +373,9 @@ const
   depthFormat          = TextureFormat.Depth24Plus
 
 type Uniforms = object
-  aspect  :float32           # offset 0
-  ambient :float32           # offset 4
-  pad0    :float32           # offset 8  (vec3 below must align to 16)
-  pad1    :float32           # offset 12
-  light   :array[3, float32] # offset 16 (view-space point-light position)
-  pad2    :float32           # offset 28 (struct size padded to 32)
+  aspect  : float32
+  ambient : float32
+  light   {.align: 16.} : array[4, float32]
 
 var
   instance   :Instance
@@ -250,7 +438,6 @@ proc onDeviceReady=
   # --- Geometry + instance buffers ---
   let vertexBytes   = (cubeVertices.len * sizeof(Vertex)).uint64
   let indexBytes    = (cubeIndices.len  * sizeof(uint16)).uint64
-  let instanceBytes = (instances.len    * sizeof(CubeInstance)).uint64
 
   vertexBuf = device.create(vaddr BufferDescriptor(
     nextInChain: nil, label: "Cube Vertices".toStringView(),
@@ -258,44 +445,65 @@ proc onDeviceReady=
   indexBuf = device.create(vaddr BufferDescriptor(
     nextInChain: nil, label: "Cube Indices".toStringView(),
     usage: BufferUsage_Index or BufferUsage_CopyDst, size: indexBytes, mappedAtCreation: false.uint32))
+
+  echo "@@@@@@@@ Instances len: ", instancesBytes()
   instanceBuf = device.create(vaddr BufferDescriptor(
     nextInChain: nil, label: "Instances".toStringView(),
-    usage: BufferUsage_Vertex or BufferUsage_CopyDst, size: instanceBytes, mappedAtCreation: false.uint32))
+    usage: BufferUsage_Uniform or BufferUsage_CopyDst, size: instancesBytes(), mappedAtCreation: false.uint32))
 
   queue.write(vertexBuf,   0, cubeVertices[0].unsafeAddr, vertexBytes.csize_t)
   queue.write(indexBuf,    0, cubeIndices[0].unsafeAddr,  indexBytes.csize_t)
-  queue.write(instanceBuf, 0, instances[0].unsafeAddr,    instanceBytes.csize_t)
+  queue.write(instanceBuf, 0, instances[0].unsafeAddr,    instancesBytes().csize_t)
 
   # --- Uniform buffer (aspect ratio), bound to the vertex stage ---
   uniformBuf = device.create(vaddr BufferDescriptor(
     nextInChain: nil, label: "Uniforms".toStringView(),
     usage: BufferUsage_Uniform or BufferUsage_CopyDst, size: sizeof(Uniforms).uint64, mappedAtCreation: false.uint32))
 
-  let bindGroupLayout = device.createLayout(vaddr BindGroupLayoutDescriptor(
-    nextInChain : nil,
-    label       : "Uniforms Layout".toStringView(),
-    entryCount  : 1,
-    entries     : vaddr BindGroupLayoutEntry(
+  let bindGroupLayoutEntries = @[
+    BindGroupLayoutEntry(
       nextInChain : nil,
       binding     : 0,
       visibility  : ShaderStage_Vertex or ShaderStage_Fragment,
       buffer      : BufferBindingLayout(`type`: BufferBindingType.Uniform),
       ),
-    ))
-
-  bindGroup = device.create(vaddr BindGroupDescriptor(
+    BindGroupLayoutEntry(
+      nextInChain : nil,
+      binding     : 1,
+      visibility  : ShaderStage_Vertex or ShaderStage_Fragment,
+      buffer      : BufferBindingLayout(`type`: BufferBindingType.Uniform),
+      ),
+  ]
+  let bindGroupLayout = device.createLayout(vaddr BindGroupLayoutDescriptor(
     nextInChain : nil,
-    label       : "Uniforms Bind Group".toStringView(),
-    layout      : bindGroupLayout,
-    entryCount  : 1,
-    entries     : vaddr BindGroupEntry(
+    label       : "Uniforms Layout".toStringView(),
+    entryCount  : bindGroupLayoutEntries.len.uint32,
+    entries     : bindGroupLayoutEntries[0].addr
+  ))
+
+  let bindGroupEntries = @[
+    BindGroupEntry(
       nextInChain : nil,
       binding     : 0,
       buffer      : uniformBuf,
       offset      : 0,
       size        : sizeof(Uniforms).uint64,
       ),
-    ))
+    BindGroupEntry(
+      nextInChain : nil,
+      binding     : 1,
+      buffer      : instanceBuf,
+      offset      : 0,
+      size        : sizeof(CubeInstance).uint64 * instances.len.uint64,
+      )
+  ]
+  bindGroup = device.create(vaddr BindGroupDescriptor(
+    nextInChain : nil,
+    label       : "Uniforms Bind Group".toStringView(),
+    layout      : bindGroupLayout,
+    entryCount  : bindGroupEntries.len.uint32,
+    entries     : bindGroupEntries[0].addr
+  ))
 
   let pipelineLayout = device.create(vaddr PipelineLayoutDescriptor(
     nextInChain          : nil,
@@ -304,17 +512,11 @@ proc onDeviceReady=
     bindGroupLayouts     : vaddr bindGroupLayout,
     ))
 
-  # --- Vertex layout: buffer 0 = per-vertex (pos), buffer 1 = per-instance (offset, rotation) ---
   var vertexAttrs = [
     VertexAttribute(format: VertexFormat.Float32x3, offset: 0, shaderLocation: 0),   # position
   ]
-  var instanceAttrs = [
-    VertexAttribute(format: VertexFormat.Float32x3, offset:  0, shaderLocation: 1),  # offset
-    VertexAttribute(format: VertexFormat.Float32x3, offset: 12, shaderLocation: 2),  # rotation
-  ]
   var vertexLayouts = [
     VertexBufferLayout(stepMode: VertexStepMode.Vertex,   arrayStride: sizeof(Vertex).uint64,   attributeCount: 1, attributes: vertexAttrs[0].addr),
-    VertexBufferLayout(stepMode: VertexStepMode.Instance, arrayStride: sizeof(CubeInstance).uint64, attributeCount: 2, attributes: instanceAttrs[0].addr),
   ]
 
   pipeline = device.create(vaddr RenderPipelineDescriptor(
@@ -326,7 +528,7 @@ proc onDeviceReady=
       entryPoint              : "vs_main".toStringView(),
       constantCount           : 0,
       constants               : nil,
-      bufferCount             : 2,
+      bufferCount             : 1,
       buffers                 : vertexLayouts[0].addr,
       ), #:: vertex
     primitive                 : PrimitiveState(
@@ -414,7 +616,7 @@ proc onDeviceReady=
     sampleCount     : 1,
     viewFormatCount : 0,
     viewFormats     : nil,
-    ))
+  ))
   depthView = depthTex.create(nil)
   echo &":: Surface configured at {config.width} x {config.height}. Rendering {instances.len} cubes."
 
@@ -422,11 +624,26 @@ proc onDeviceReady=
     # Hand the render loop over to the browser (fps 0 = use requestAnimationFrame)
     emscripten_set_main_loop(drawFrame, 0.cint, 1.cint)
 
+var lastMs     = 0.0'f32
+const fixedDt   = 1.0'f32 / 60.0'f32
+var accumulator = 0.0'f32
 
 #_______________________________________
 # @section Render
 #_____________________________
-proc drawFrame=
+proc drawFrame() =
+  let now = emscripten_get_now()
+  let dt  = float32((now - lastMs) / 1000.0)
+  lastMs = now
+  accumulator += dt
+
+  while accumulator >= fixedDt:
+    physics.update(fixedDt, 10.cint, tempAllocator, jobSystem)
+    accumulator -= fixedDt
+
+    for (id, instance) in instances.mpairs:
+      instance.transform = bodies.getCenterOfMassTransform(cubes[id])
+
   var surfaceTexture = SurfaceTexture()
   surface.getCurrentTexture(surfaceTexture.addr)
   case surfaceTexture.status
@@ -446,8 +663,8 @@ proc drawFrame=
 
   # Read the mouse (normalized [-1, 1]) and place the point light on the cube plane
   when defined(emscripten):
-    let mx = henka_mouse_x().float32
-    let my = henka_mouse_y().float32
+    let mx = mouse_x().float32
+    let my = mouse_y().float32
   else:
     let mx = 0.0'f32
     let my = 0.0'f32
@@ -455,9 +672,10 @@ proc drawFrame=
   let halfH  = camDist * tan(fovY * 0.5).float32     # visible half-height at the cube plane
   let halfW  = halfH * aspect
   uniforms.aspect  = aspect
-  uniforms.ambient = 0.06'f32
-  uniforms.light   = [mx * halfW, my * halfH, lightZ - camDist]
+  uniforms.ambient = 0.12'f32
+  uniforms.light   = [mx * halfW, my * halfH, lightZ - camDist, 0.0]
   queue.write(uniformBuf, 0, uniforms.addr, sizeof(Uniforms).csize_t)
+  queue.write(instanceBuf, 0, instances[0].unsafeAddr, instancesBytes().csize_t)
 
   let view = surfaceTexture.texture.create(nil)
   var encoder = device.create(vaddr CommandEncoderDescriptor(
@@ -475,7 +693,7 @@ proc drawFrame=
       resolveTarget        : nil,
       loadOp               : Clear,
       storeOp              : Store,
-      clearValue           : Color(r:0.1, g:0.1, b:0.1, a:1.0),
+      clearValue           : Color(r: 32.0 / 255.0 , g: 8.0 / 255.0 , b: 40.0 / 255.0, a: 1.0),
       ), #:: colorAttachments
     depthStencilAttachment : vaddr RenderPassDepthStencilAttachment(
       nextInChain          : nil,
@@ -493,7 +711,7 @@ proc drawFrame=
   renderPass.set(pipeline)
   renderPass.set(0, bindGroup, 0, nil)
   renderPass.setVertexBuffer(0, vertexBuf,   0, (cubeVertices.len * sizeof(Vertex)).uint64)
-  renderPass.setVertexBuffer(1, instanceBuf, 0, (instances.len    * sizeof(CubeInstance)).uint64)
+  #renderPass.setVertexBuffer(1, instanceBuf, 0, (instances.len    * sizeof(CubeInstance)).uint64)
   renderPass.setIndexBuffer(indexBuf, IndexFormat.Uint16, 0, (cubeIndices.len * sizeof(uint16)).uint64)
   renderPass.drawIndexed(cubeIndices.len.uint32, instances.len.uint32, 0, 0, 0)
   renderPass.End()
@@ -581,6 +799,8 @@ proc deviceRequestCB(status :RequestDeviceStatus; got :Device; message :StringVi
 # @section Entry Point
 #_____________________________
 proc run=
+  instances = createCubeInstances()
+  initJolt()
   echo "Hello WebGPU Cubes"
 
   # Init the instance + surface

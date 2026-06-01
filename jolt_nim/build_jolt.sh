@@ -27,6 +27,9 @@ native)
 	CMAKE="cmake"
 	;;
 wasm)
+	# Single-threaded wasm (no -pthread), matching Jolt's own Emscripten targets
+	# and its JobSystemThreadPool WASM path. This also means the consumer must be
+	# built without pthreads so the page needs no SharedArrayBuffer / COOP+COEP.
 	BUILD_DIR="$SCRIPT_DIR/build/wasm"
 	if ! command -v emcmake >/dev/null 2>&1; then
 		echo "error: emcmake not found on PATH. Install Emscripten (e.g. 'brew install emscripten')." >&2
@@ -42,6 +45,7 @@ esac
 
 echo "Configuring Jolt ($TARGET) in $BUILD_DIR" >&2
 $CMAKE -S "$JOLT_SRC" -B "$BUILD_DIR" -G "Unix Makefiles" \
+	-DCMAKE_CXX_FLAGS=-g \
 	-DCMAKE_BUILD_TYPE=Distribution \
 	-DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
 	-DTARGET_UNIT_TESTS=OFF \

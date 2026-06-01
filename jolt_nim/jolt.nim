@@ -30,12 +30,12 @@ type
     mValue *:Vec4
   Mat44 *{.inheritable, importcpp:"JPH::Mat44", header:"Jolt/Jolt.h".}= object
   DMat44 *{.inheritable, importcpp:"JPH::DMat44", header:"Jolt/Jolt.h".}= object
-  Vec3Arg *{.incompleteStruct, importcpp:"Vec3Arg", header:"Jolt/Jolt.h".}= object
+  Vec3Arg *{.#[incompleteStruct,]# importcpp:"JPH::Vec3Arg", header:"Jolt/Jolt.h".}= object
   DVec3Arg * = DVec3
   Vec4Arg *{.incompleteStruct, importcpp:"Vec4Arg", header:"Jolt/Jolt.h".}= object
   UVec4Arg *{.incompleteStruct, importcpp:"UVec4Arg", header:"Jolt/Jolt.h".}= object
   BVec16Arg *{.incompleteStruct, importcpp:"BVec16Arg", header:"Jolt/Jolt.h".}= object
-  QuatArg *{.incompleteStruct, importcpp:"QuatArg", header:"Jolt/Jolt.h".}= object
+  QuatArg *{.#[incompleteStruct,]# importcpp:"JPH::QuatArg", header:"Jolt/Jolt.h".}= object
   Mat44Arg * = Mat44
   DMat44Arg * = DMat44
   StaticArray *[T]{.importcpp:"JPH::StaticArray", header:"Jolt/RegisterTypes.h".}= object

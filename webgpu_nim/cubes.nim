@@ -354,8 +354,9 @@ proc createCubeInstances(): seq[CubeInstance] =
   for row in 0 ..< gridRows:
     for col in 0 ..< gridCols:
       let x = (col.float32 - (gridCols.float32 - 1.0'f32) * 0.5'f32) * spacing
-      let y = (row.float32 - (gridRows.float32 - 1.0'f32) * 0.5'f32) * spacing
-      let t = Mat44.sTranslation(cast[Vec3Arg](Vec3_create(x, y, 0.0'f32)))
+      let y = (row.float32 - (gridRows.float32 - 1.0'f32) * 0.5'f32) * spacing + 18.0'f32
+      let z = row.float32 * 0.25'f32
+      let t = Mat44.sTranslation(cast[Vec3Arg](Vec3_create(x, y, z)))
       let r = Mat44.sRotation(cast[QuatArg](Quat.sEulerAngles(cast[Vec3Arg](Vec3_create(rf(0.0, TAU), rf(0.0, TAU), rf(0.0, TAU))))))
       result.add CubeInstance(transform: t * r)
 

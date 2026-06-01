@@ -229,6 +229,8 @@ template showcase =
       listItem(fadeIn):
         nbText "Phaser JS bindings, proof of concept."
       listItem(fadeIn):
+        nbText "Phaser Box2D JS bindings, proof of concept."
+      listItem(fadeIn):
         nbText "Nim JS backend."
 
 

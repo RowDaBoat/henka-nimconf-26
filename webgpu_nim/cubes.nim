@@ -23,13 +23,13 @@ import jolt
 #  Shared between the CPU (to size the wall) and the shader (must match).
 #_____________________________
 const
-  camDist  = 10.0'f32  # distance from the camera to the z = 0 wall plane
-  fovY     = 1.0'f32   # vertical field of view (radians)
-  cubeSize = 0.8'f32   # cube half-extent
-  lightZ   = 4.0'f32   # point-light depth: in front of the cubes, toward the camera
-  initialW :int32 = 960
-  initialH :int32 = 540
-  renderScale :int32 = 2   # supersample factor: render larger, CSS shows it at logical size
+  camDist             = 10.0'f32
+  fovY                = 1.0'f32
+  cubeSize            = 0.8'f32
+  lightZ              = 4.0'f32
+  initialW    : int32 = 960
+  initialH    : int32 = 540
+  renderScale : int32 = 2
 
 var LIMIT = 100
 
@@ -447,7 +447,6 @@ proc onDeviceReady=
     nextInChain: nil, label: "Cube Indices".toStringView(),
     usage: BufferUsage_Index or BufferUsage_CopyDst, size: indexBytes, mappedAtCreation: false.uint32))
 
-  echo "@@@@@@@@ Instances len: ", instancesBytes()
   instanceBuf = device.create(vaddr BufferDescriptor(
     nextInChain: nil, label: "Instances".toStringView(),
     usage: BufferUsage_Uniform or BufferUsage_CopyDst, size: instancesBytes(), mappedAtCreation: false.uint32))

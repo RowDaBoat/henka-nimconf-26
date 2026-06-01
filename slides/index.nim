@@ -8,21 +8,50 @@ let langC    {.inject.} = color(nimYellow, "C")
 let langCpp  {.inject.} = color(nimYellow, "C++")
 let langJsTs {.inject.} = color(nimYellow, "JS/TS")
 
+const nimconfSurvivor = """
+  <div id="game"></div>
+  <script src="/survivor_demo/node_modules/phaser/dist/phaser.min.js"></script>
+  <script type="module">
+    import * as Box2D from "/survivor_demo/node_modules/phaser-box2d/dist/PhaserBox2D.min.js"
+    Object.assign(globalThis, Box2D)
+    const s = document.createElement("script")
+    s.src = "/survivor_demo/bullet_heaven.js"
+    document.body.appendChild(s)
+  </script>
+"""
+
+const webgpuJolt = """
+  <style>
+    #cubes-canvas {
+      display: block;
+      margin: 1rem auto;
+      background: #000;
+      width: 960px;
+      height: 540px;
+    }
+  </style>
+  <canvas id="cubes-canvas" width="1920" height="1080"></canvas>
+  <script>
+    var Module = {
+      canvas:   document.getElementById("cubes-canvas"),
+      print:    function (text) { console.log(text); },
+      printErr: function (text) { console.error(text); },
+    };
+
+    window.__mx = 0;
+    window.__my = 0;
+    Module.canvas.addEventListener("mousemove", function (e) {
+      var r = Module.canvas.getBoundingClientRect();
+      window.__mx = ((e.clientX - r.left) / r.width) * 2 - 1;
+      window.__my = -(((e.clientY - r.top) / r.height) * 2 - 1);
+    });
+  </script>
+  <script src="/cubes_demo/build/cubes.js"></script>
+"""
+
 template title =
   slide:
     nbText "## Henka, Bind Anything"
-
-    nbRawHtml """
-  <div id="game"></div>
-  <script src="/node_modules/phaser/dist/phaser.min.js"></script>
-  <script type="module">
-    import * as Box2D from "/node_modules/phaser-box2d/dist/PhaserBox2D.min.js"
-    Object.assign(globalThis, Box2D)
-    const s = document.createElement("script")
-    s.src = "/bullet_heaven/bullet_heaven.js"
-    document.body.appendChild(s)
-  </script>
-  """
 
     fragmentFadeIn:
       nbText &"How {langNim}👑 can be glued to just about any language."
@@ -174,6 +203,35 @@ $ henka --js lib.js
           pragmaOverride = pragmas # Makes objects pure and inheritable.
         )
 
+
+template showcase =
+  slide:
+    nbText "# Demos!"
+  slide:
+    nbRawHtml webgpuJolt
+
+  slide:
+    nbText "## [WebGPU](https://webgpu.org/) + [Jolt Physics](https://github.com/jrouwe/joltphysics)"
+    unorderedList:
+      listItem(fadeIn):
+        nbText "[WebGPU C bindings](https://github.com/rowdaboat/webgpu-nim), fully supported."
+      listItem(fadeIn):
+        nbText "Jolt Physics C++ bindings, proof of concept."
+      listItem(fadeIn):
+        nbText "Nim C++ backend with emscripten."
+
+  slide:
+    nbRawHtml nimconfSurvivor
+
+  slide:
+    nbText "## [Phaser](https://phaser.io/)"
+    unorderedList:
+      listItem(fadeIn):
+        nbText "Phaser JS bindings, proof of concept."
+      listItem(fadeIn):
+        nbText "Nim JS backend."
+
+
 when isMainModule:
   myInit("index.nim")
 
@@ -181,10 +239,8 @@ when isMainModule:
     title
     whoAreWe
 
-  slide:
-    introduction
-
-  slide:
-    usage
+  slide: introduction
+  slide: usage
+  slide: showcase
 
   nbSave

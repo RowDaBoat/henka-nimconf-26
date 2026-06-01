@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
+mkdir -p build
 nim cpp -d:emscripten cubes.nim
 open http://localhost:8000
 python3 -m http.server 8000

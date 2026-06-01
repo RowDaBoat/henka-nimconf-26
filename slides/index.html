@@ -53,16 +53,6 @@ li {
       <section data-nimib-slide-number="1" >
       <section data-nimib-slide-number="2" >
       <h2>Henka, Bind Anything</h2>
-        <div id="game"></div>
-  <script src="/node_modules/phaser/dist/phaser.min.js"></script>
-  <script type="module">
-    import * as Box2D from "/node_modules/phaser-box2d/dist/PhaserBox2D.min.js"
-    Object.assign(globalThis, Box2D)
-    const s = document.createElement("script")
-    s.src = "/bullet_heaven/bullet_heaven.js"
-    document.body.appendChild(s)
-  </script>
-  
       <div class="fragment fade-in" data-fragment-index="0" data-fragment-index-nimib="0"> 
   
       <p>How <span style="color: #FFE953">Nim</span>👑 can be glued to just about any language.</p>
@@ -285,6 +275,95 @@ $ henka --js lib.js
 )</code></pre>
       </div>
   
+      </section>
+      </section>
+      <section data-nimib-slide-number="13" >
+      <section data-nimib-slide-number="14" >
+      <h1>Demos!</h1>
+      </section>
+      <section data-nimib-slide-number="15" >
+        <style>
+    #cubes-canvas {
+      display: block;
+      margin: 1rem auto;
+      background: #000;
+      width: 960px;
+      height: 540px;
+    }
+  </style>
+  <canvas id="cubes-canvas" width="1920" height="1080"></canvas>
+  <script>
+    var Module = {
+      canvas:   document.getElementById("cubes-canvas"),
+      print:    function (text) { console.log(text); },
+      printErr: function (text) { console.error(text); },
+    };
+
+    window.__mx = 0;
+    window.__my = 0;
+    Module.canvas.addEventListener("mousemove", function (e) {
+      var r = Module.canvas.getBoundingClientRect();
+      window.__mx = ((e.clientX - r.left) / r.width) * 2 - 1;
+      window.__my = -(((e.clientY - r.top) / r.height) * 2 - 1);
+    });
+  </script>
+  <script src="/cubes_demo/build/cubes.js"></script>
+      </section>
+      <section data-nimib-slide-number="16" >
+      <h2><a href="https://webgpu.org/">WebGPU</a> + <a href="https://github.com/jrouwe/joltphysics">Jolt Physics</a></h2>
+      <ul>
+      <div class="fragment fade-in" data-fragment-index="24" data-fragment-index-nimib="24"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="24" data-fragment-index-nimib="24">
+      <p><a href="https://github.com/rowdaboat/webgpu-nim">WebGPU C bindings</a>, fully supported.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="25" data-fragment-index-nimib="25"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="25" data-fragment-index-nimib="25">
+      <p>Jolt Physics C++ bindings, proof of concept.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="26" data-fragment-index-nimib="26"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="26" data-fragment-index-nimib="26">
+      <p>Nim C++ backend with emscripten.</p>
+      </li>
+      </div>
+  
+      </ul>
+      </section>
+      <section data-nimib-slide-number="17" >
+        <div id="game"></div>
+  <script src="/survivor_demo/node_modules/phaser/dist/phaser.min.js"></script>
+  <script type="module">
+    import * as Box2D from "/survivor_demo/node_modules/phaser-box2d/dist/PhaserBox2D.min.js"
+    Object.assign(globalThis, Box2D)
+    const s = document.createElement("script")
+    s.src = "/survivor_demo/bullet_heaven.js"
+    document.body.appendChild(s)
+  </script>
+      </section>
+      <section data-nimib-slide-number="18" >
+      <h2><a href="https://phaser.io/">Phaser</a></h2>
+      <ul>
+      <div class="fragment fade-in" data-fragment-index="27" data-fragment-index-nimib="27"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="27" data-fragment-index-nimib="27">
+      <p>Phaser JS bindings, proof of concept.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="28" data-fragment-index-nimib="28"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="28" data-fragment-index-nimib="28">
+      <p>Nim JS backend.</p>
+      </li>
+      </div>
+  
+      </ul>
       </section>
       </section>
     </div>

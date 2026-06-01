@@ -1,9 +1,16 @@
 #!/bin/bash
 set -e
 
-ln -sf ../phaser_nim/node_modules node_modules
-ln -sf ../phaser_nim/public/resources resources
-nim js --outdir:bullet_heaven ../phaser_nim/src/bullet_heaven.nim
+rm -rf cubes_demo
+mkdir -p cubes_demo
+cp -r ../webgpu_nim/build cubes_demo
+
+rm -rf survivor_demo
+mkdir -p survivor_demo
+cp -r ../phaser_nim/node_modules survivor_demo/node_modules
+cp -r ../phaser_nim/public/resources resources
+nim js --outdir:survivor_demo ../phaser_nim/src/bullet_heaven.nim
+
 nim r index.nim
 open http://localhost:8080
 python3 -m http.server 8080

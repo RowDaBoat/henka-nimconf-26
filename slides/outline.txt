@@ -9,9 +9,9 @@
   - [x] CLI
   - [x] Library
 - Projects showcase
-  - [ ] C demo
-  - [ ] C++ demo
-  - [ ] JS demo
+  - [x] C demo
+  - [x] C++ demo
+  - [x] JS demo
 - [ ] Briefly go over Henka v1
   - [ ] Why it was created
   - [ ] Architecture

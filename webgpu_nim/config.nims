@@ -39,7 +39,7 @@ when defined(emscripten):
   # with (build via `jolt_nim/build_jolt.sh wasm`); these must match or the Jolt
   # struct layouts won't line up. No -msimd128 here, matching the lib.
   let joltRoot = thisDir() / ".." / "jolt_nim"
-  switch("passC", "-I" & (joltRoot / "JoltPhysics"))
+  switch("passC", "-I" & (joltRoot / "src" / "JoltPhysics"))
   switch("passC", "-DJPH_OBJECT_STREAM")
   switch("passC", "-DJPH_USE_CPU_COMPUTE")
   switch("passC", "-DNDEBUG")
@@ -74,7 +74,7 @@ else:
   let joltLib  = joltRoot / "build" / "native" / "libJolt.a"
   let joltCCDB = joltRoot / "build" / "native" / "compile_commands.json"
   if fileExists(joltLib) and fileExists(joltCCDB):
-    switch("passC", "-I" & (joltRoot / "JoltPhysics"))
+    switch("passC", "-I" & (joltRoot / "src" / "JoltPhysics"))
     let extract = "import json,shlex,sys\n" &
       "db=json.load(open(sys.argv[1]))\n" &
       "e=next(x for x in db if '/Jolt/' in x['file'] and x['file'].endswith('.cpp'))\n" &

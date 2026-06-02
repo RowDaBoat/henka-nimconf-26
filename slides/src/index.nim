@@ -1,9 +1,14 @@
+##########################################################
+## henka-nimconf-26  slides                             ##
+## ISC License                                          ##
+## Copyright (c) [2026] Ivan Mar (sOkam!) and RowDaBoat ##
+##########################################################
 import nimib, nimislides
 import style
 import std/strformat
 
-let henka   {.inject.} = color(nimYellow, "henka")
-let langNim {.inject.} = color(nimYellow, "Nim")
+let henka    {.inject.} = color(nimYellow, "henka")
+let langNim  {.inject.} = color(nimYellow, "Nim")
 let langC    {.inject.} = color(nimYellow, "C")
 let langCpp  {.inject.} = color(nimYellow, "C++")
 let langJsTs {.inject.} = color(nimYellow, "JS/TS")
@@ -47,6 +52,18 @@ const webgpuJolt = """
     });
   </script>
   <script src="/cubes_demo/build/cubes.js"></script>
+"""
+
+const disableKeys = """
+  <script>
+    window.addEventListener('load', function () {
+      Reveal.configure({
+        keyboardCondition: function (event) {
+          return event.keyCode !== 65 && event.keyCode !== 83;
+        }
+      });
+    });
+  </script>
 """
 
 template title =
@@ -199,8 +216,8 @@ $ henka --js lib.js
 
         let bindings = generate(
           headerPath,
-          renamer = rename,        # Removes `point_` prefix.
-          pragmaOverride = pragmas # Makes objects pure and inheritable.
+          renamer = rename,
+          pragmaOverride = pragmas
         )
 
 
@@ -236,6 +253,7 @@ template showcase =
 
 when isMainModule:
   myInit("index.nim")
+  nbRawHtml disableKeys
 
   slide:
     title

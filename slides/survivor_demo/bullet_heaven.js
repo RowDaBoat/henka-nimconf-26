@@ -1635,7 +1635,7 @@ function create() {
     F.line = 511;
     cursors_587202666[0] = this.input.keyboard.createCursorKeys();
     F.line = 512;
-    wasd_587202667[0] = this.input.keyboard.addKeys(("W,A,R,S"));
+    wasd_587202667[0] = this.input.keyboard.addKeys(("W,A,S,D"));
     F.line = 513;
     dash_keys_587202690[0] = this.input.keyboard.addKeys(("SHIFT,SPACE"));
     F.line = 514;
@@ -3928,7 +3928,7 @@ function update() {
     move_x_587207230 = -(effective_speed_587207225[0]);
     }
     else {
-      if ((cursors_587202666[0].right.isDown)) Temporary2 = true; else {        Temporary2 = (wasd_587202667[0].S.isDown);      }    if (Temporary2) {
+      if ((cursors_587202666[0].right.isDown)) Temporary2 = true; else {        Temporary2 = (wasd_587202667[0].D.isDown);      }    if (Temporary2) {
     F.line = 1209;
     move_x_587207230 = effective_speed_587207225[0];
     }
@@ -3938,7 +3938,7 @@ function update() {
     move_y_587207231 = effective_speed_587207225[0];
     }
     else {
-      if ((cursors_587202666[0].down.isDown)) Temporary4 = true; else {        Temporary4 = (wasd_587202667[0].R.isDown);      }    if (Temporary4) {
+      if ((cursors_587202666[0].down.isDown)) Temporary4 = true; else {        Temporary4 = (wasd_587202667[0].S.isDown);      }    if (Temporary4) {
     F.line = 1213;
     move_y_587207231 = -(effective_speed_587207225[0]);
     }

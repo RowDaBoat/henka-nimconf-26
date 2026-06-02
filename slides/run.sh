@@ -11,6 +11,6 @@ cp -r ../phaser_nim/node_modules survivor_demo/node_modules
 cp -r ../phaser_nim/public/resources resources
 nim js --outdir:survivor_demo ../phaser_nim/src/bullet_heaven.nim
 
-nim r index.nim
+nim r src/index.nim
 open http://localhost:8080
 python3 -m http.server 8080

@@ -20,8 +20,6 @@ proc pRight*(content: string): string =
   &"""<p style="text-align: right">{content}</p>"""
 
 proc img*(src: string, align = "", width = 200, circle = false): string =
-  ## Returns an `<img>` tag. `align` may be "left", "right", or "" (no float).
-  ## `width` is in pixels. `circle` crops to a circle (square aspect, cover).
   var style = &"width: {width}px;"
   if circle:
     style.add &" height: {width}px; border-radius: 50%; object-fit: cover;"
@@ -43,10 +41,6 @@ template reference*(text: string) =
   nbTextSmall: text
 
 template fragmentFadeInSameLine*(parts: varargs[string]) =
-  ## Reveals each `part` inline on successive Down/Space presses,
-  ## keeping them on the same line. Uses `fragmentFadeIn` for each
-  ## part so they get explicit `data-fragment-index` (correct order),
-  ## then `.same-line > .fragment` CSS forces them inline.
   nbRawHtml """<div class="same-line">"""
   for p in parts:
     fragmentFadeIn:
@@ -102,24 +96,3 @@ template myInit*(sourceFileRel = "my.nim") =
 """ % [colorAgile]
   nb.partials["nimibCodeAnimate"] = nb.partials["animateCode"]
   nb.renderPlans["nimibCodeAnimate"] = nb.renderPlans["animateCode"]
-  # NimibLand logo in bottom-left — uncomment to re-enable.
-  # nb.partials["logo"] = """
-  # <div id="nimibLandLogo" style="background: url(https://raw.githubusercontent.com/nimib-land/assets/refs/heads/main/nimib_logo_white_cup.svg);
-  # background-repeat: no-repeat;
-  # background-size: contain;
-  # position: absolute;
-  # bottom: 10px;
-  # left: 10px;
-  # width: 128px;
-  # height: 128px;"></div>
-  # """ # adjust the px as needed
-  # nb.partials["document"] = """
-  # <!DOCTYPE html>
-  # <html>
-  #   {{> head}}
-  #   <body>
-  #   {{> main}}
-  #   {{> logo}}
-  #   </body>
-  # </html>
-  # """

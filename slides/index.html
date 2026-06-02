@@ -50,6 +50,15 @@ li {
 }
 
 </style>
+        <script>
+    window.addEventListener('load', function () {
+      Reveal.configure({
+        keyboardCondition: function (event) {
+          return event.keyCode !== 65 && event.keyCode !== 83;
+        }
+      });
+    });
+  </script>
       <section data-nimib-slide-number="1" >
       <section data-nimib-slide-number="2" >
       <h2>Henka, Bind Anything</h2>
@@ -270,8 +279,8 @@ $ henka --js lib.js
 
 <span class="hljs-keyword">let</span> bindings = generate(
   headerPath,
-  renamer = rename,        <span class="hljs-comment"># Removes `point_` prefix.</span>
-  pragmaOverride = pragmas <span class="hljs-comment"># Makes objects pure and inheritable.</span>
+  renamer = rename,
+  pragmaOverride = pragmas
 )</code></pre>
       </div>
   
@@ -359,6 +368,13 @@ $ henka --js lib.js
       <div class="fragment fade-in" data-fragment-index="28" data-fragment-index-nimib="28"> 
   
       <li class="fragment fade-in  nimislides-li" data-fragment-index="28" data-fragment-index-nimib="28">
+      <p>Phaser Box2D JS bindings, proof of concept.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="29" data-fragment-index-nimib="29"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="29" data-fragment-index-nimib="29">
       <p>Nim JS backend.</p>
       </li>
       </div>

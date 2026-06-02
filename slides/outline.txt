@@ -12,18 +12,24 @@
   - [x] C demo
   - [x] C++ demo
   - [x] JS demo
-- [ ] Briefly go over Henka v1
+- Briefly go over Henka v1
   - [ ] Why it was created
   - [ ] Architecture
   - [ ] AI: where and why
-- [ ] Present Henka v2
+- Present Henka v2
   - [ ] Why we scrapped v1
   - [ ] Architecture
   - [ ] Extending to C++ and JS
   - [ ] Testing, testing, testing
   - [ ] AI: keeping the same idea
-- [ ] astTF and nonim
+- astTF and nonim
   - [ ] go over briefly how each part works, and why they exist
-- [ ] Wrapping up
+- Wrapping up
   - [ ] Q&A
   - [ ] Thank you
+
+- [x] Organize both demos on the presentation (key mappings etc.).
+- [ ] Cleanup WebGPU+Jolt PoC (directory structure, separate ad-hoc bindings and try to solve them, code's mess).
+- [ ] Make sure the presentation is all static content so it can use GitHub pages.
+- [ ] Finalize the presentation.
+- [ ] Record the video.

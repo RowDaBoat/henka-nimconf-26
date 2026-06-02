@@ -17,7 +17,7 @@ case "${1:-}" in
 esac
 
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
-JOLT_SRC="$SCRIPT_DIR/JoltPhysics/Build"
+JOLT_SRC="$SCRIPT_DIR/src/JoltPhysics/Build"
 
 TARGET=${1:-native}
 

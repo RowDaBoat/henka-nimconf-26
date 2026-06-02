@@ -38,7 +38,7 @@ print("\n".join(keep))
 PY
 )
 
-PASSC="--passC:-I$SCRIPT_DIR/JoltPhysics"
+PASSC="--passC:-I$SCRIPT_DIR/src/JoltPhysics"
 for f in $JPH_FLAGS; do PASSC="$PASSC --passC:$f"; done
 
 echo "Compiling demo.nim..."
@@ -48,7 +48,7 @@ nim cpp \
 	$PASSC \
 	--passL:"$JOLT_LIB" \
 	--out:"$SCRIPT_DIR/build/demo" \
-	demo.nim
+	src/demo.nim
 
 echo
 echo "Done:"

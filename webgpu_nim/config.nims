@@ -1,3 +1,9 @@
+#########################################################
+## henka-nimconf-26  WebGPU + Jolt Cubes demo           ##
+## ISC License                                          ##
+## Copyright (c) [2026] Ivan Mar (sOkam!) and RowDaBoat ##
+##########################################################
+
 import std/[strutils, os]
 
 # WebGPU bindings: define pragmas are buggy on macOS, so set -d:wgpu here.

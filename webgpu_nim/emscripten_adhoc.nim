@@ -4,10 +4,16 @@
 ## Copyright (c) [2026] Ivan Mar (sOkam!) and RowDaBoat ##
 ##########################################################
 
-#!/usr/bin/env bash
-set -e
+{.emit: """
+#include <emscripten.h>
+""".}
 
-mkdir -p build
-nim cpp -d:emscripten cubes.nim
-open http://localhost:8000
-python3 -m http.server 8000
+proc emscripten_get_now*(): cdouble
+  {.importc, header:"<emscripten.h>".}
+
+proc emscripten_set_main_loop*(
+  f                 :proc() {.cdecl.};
+  fps               :cint;
+  simulateInfinite  :cint;
+)
+  {.importc, header:"<emscripten.h>".}

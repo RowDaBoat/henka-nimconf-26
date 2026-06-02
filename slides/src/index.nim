@@ -51,7 +51,7 @@ const webgpuJolt = """
       window.__my = -(((e.clientY - r.top) / r.height) * 2 - 1);
     });
   </script>
-  <script src="/cubes_demo/build/cubes.js"></script>
+  <script src="/cubes_demo/cubes.js"></script>
 """
 
 const disableKeys = """

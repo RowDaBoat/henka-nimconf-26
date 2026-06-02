@@ -3,7 +3,7 @@ set -e
 
 rm -rf cubes_demo
 mkdir -p cubes_demo
-cp -r ../webgpu_nim/build cubes_demo
+cp -r ../webgpu_nim/build/. cubes_demo/
 
 rm -rf survivor_demo/node_modules
 cp -r ../phaser_nim/public/resources resources

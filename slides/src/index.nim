@@ -15,9 +15,9 @@ let langJsTs {.inject.} = color(nimYellow, "JS/TS")
 
 const nimconfSurvivor = """
   <div id="game"></div>
-  <script src="/survivor_demo/node_modules/phaser/dist/phaser.min.js"></script>
+  <script src="/survivor_demo/phaser.min.js"></script>
   <script type="module">
-    import * as Box2D from "/survivor_demo/node_modules/phaser-box2d/dist/PhaserBox2D.min.js"
+    import * as Box2D from "/survivor_demo/PhaserBox2D.min.js"
     Object.assign(globalThis, Box2D)
     const s = document.createElement("script")
     s.src = "/survivor_demo/bullet_heaven.js"

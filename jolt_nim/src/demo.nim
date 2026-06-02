@@ -1,21 +1,5 @@
-## Jolt falling-cube demo.
-##
-## A dynamic cube is dropped from (0, 50, 0) onto a static floor at (0, 0, 0) and
-## the simulation is stepped, printing the cube's position every frame.
-##
-## Coordinate system matches webgpu_nim/cubes.nim: right-handed, +Y up. Jolt's
-## default gravity is (0, -9.81, 0), so the cube falls "down" in that view with
-## no axis remapping.
-##
-## The core (allocator, Factory, RegisterTypes, Vec3, Quat) comes from the
-## henka-generated `jolt` bindings. The physics API that henka can't generate
-## cleanly yet (PhysicsSystem and friends) is bound inline below. Jolt's *Table
-## layer classes are concrete, so no C++ subclassing/glue is needed.
+import jolt, jolt_adhoc
 
-import jolt
-
-# --- include the Jolt headers we bind to, Jolt.h first (it defines the JPH_* ---
-# macros the rest rely on). Goes in demo.nim's own translation unit.
 {.emit: """/*INCLUDESECTION*/
 #include <Jolt/Jolt.h>
 #include <Jolt/Core/TempAllocator.h>
@@ -28,7 +12,13 @@ import jolt
 #include <Jolt/Physics/Collision/BroadPhase/ObjectVsBroadPhaseLayerFilterTable.h>
 """.}
 
-# --- opaque handle types ------------------------------------------------------
+const
+  motionStatic  = 0.cint
+  motionDynamic = 2.cint
+  activate      = 0.cint
+  dontActivate  = 1.cint
+
+#[
 type
   PhysicsSystem {.importcpp: "JPH::PhysicsSystem".} = object
   BodyInterface {.importcpp: "JPH::BodyInterface".} = object
@@ -41,15 +31,6 @@ type
   Shape {.importcpp: "JPH::Shape".} = object
   BodyID {.importcpp: "JPH::BodyID".} = object
 
-# EMotionType / EActivation are `enum class`es; pass the integer value and cast
-# in the C++ pattern rather than binding the enums.
-const
-  motionStatic  = 0.cint
-  motionDynamic = 2.cint
-  activate      = 0.cint
-  dontActivate  = 1.cint
-
-# --- inline physics bindings --------------------------------------------------
 proc newPhysicsSystem(): ptr PhysicsSystem
   {.importcpp: "new JPH::PhysicsSystem()".}
 proc newTempAllocator(size: cuint): ptr TempAllocatorImpl
@@ -94,9 +75,8 @@ proc getCenterOfMassPosition(bi: ptr BodyInterface; id: BodyID): Vec3
   {.importcpp: "#->GetCenterOfMassPosition(#)".}
 proc getRotation(bi: ptr BodyInterface; id: BodyID): Quat
   {.importcpp: "#->GetRotation(#)".}
+]#
 
-# --- demo ---------------------------------------------------------------------
-# Two object layers and two broad-phase layers: static vs moving.
 const
   layerNonMoving = 0.cushort
   layerMoving    = 1.cushort
@@ -104,17 +84,14 @@ const
   bpMoving       = 1.uint8
 
 proc main() =
-  # 1. Bring Jolt up (from the generated bindings).
   RegisterDefaultAllocator()
   var factory: Factory
   Factory.sInstance = addr factory
   RegisterTypes()
 
-  # 2. Allocators and job system for the simulation.
   let tempAllocator = newTempAllocator(10 * 1024 * 1024)
   let jobSystem = newJobSystem(2048, 8, 2)
 
-  # 3. Collision layer configuration (concrete Table implementations).
   let objectLayerPairFilter = newObjectLayerPairFilterTable(2)
   objectLayerPairFilter.enableCollision(layerMoving, layerNonMoving)
 
@@ -125,19 +102,16 @@ proc main() =
   let objectVsBroadPhaseLayerFilter =
     newObjectVsBroadPhaseLayerFilterTable(broadPhaseLayerInterface, 2, objectLayerPairFilter, 2)
 
-  # 4. The physics system. Gravity defaults to (0, -9.81, 0).
   let physics = newPhysicsSystem()
   physics.init(1024, 0, 1024, 1024,
     broadPhaseLayerInterface, objectVsBroadPhaseLayerFilter, objectLayerPairFilter)
   let bodies = physics.getBodyInterface()
 
-  # 5. Static floor at (0, 0, 0), size (10, 0.1, 10)  ->  half extents (5, 0.05, 5).
   let floorShape = newBoxShape(Vec3_create(5.0, 0.05, 5.0), 0.04)
   let floorSettings = newBodyCreationSettings(
     floorShape, Vec3_create(0.0, 0.0, 0.0), Quat.sIdentity(), motionStatic, layerNonMoving)
   discard bodies.createAndAddBody(floorSettings, dontActivate)
 
-  # 6. Dynamic cube at (0, 50, 0), size (1, 1, 1)  ->  half extents (0.5, 0.5, 0.5).
   let cubeShape = newBoxShape(Vec3_create(0.5, 0.5, 0.5), 0.05)
   let cubeSettings = newBodyCreationSettings(
     cubeShape, Vec3_create(0.0, 50.0, 0.0), Quat.sIdentity(), motionDynamic, layerMoving)
@@ -145,7 +119,6 @@ proc main() =
 
   physics.optimizeBroadPhase()
 
-  # 7. Step the simulation, printing the cube position each frame.
   const
     deltaTime = 1.0'f32 / 60.0'f32
     frames    = 300

@@ -29,7 +29,7 @@
   - [ ] Thank you
 
 - [x] Organize both demos on the presentation (key mappings etc.).
-- [ ] Cleanup WebGPU+Jolt PoC (directory structure, separate ad-hoc bindings and try to solve them, code's mess).
-- [ ] Make sure the presentation is all static content so it can use GitHub pages.
+- [x] Cleanup WebGPU+Jolt PoC (directory structure, separate ad-hoc bindings and try to solve them, code's mess).
+- [x] Make sure the presentation is all static content so it can use GitHub pages.
 - [ ] Finalize the presentation.
 - [ ] Record the video.

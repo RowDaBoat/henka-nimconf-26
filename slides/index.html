@@ -61,7 +61,11 @@ li {
   </script>
       <section data-nimib-slide-number="1" >
       <section data-nimib-slide-number="2" >
-      <h2>Henka, Bind Anything</h2>
+      <figure>
+<img src="img/henka.svg" alt="">
+<figcaption></figcaption>
+</figure>
+      <h2>Bind Anything</h2>
       <div class="fragment fade-in" data-fragment-index="0" data-fragment-index-nimib="0"> 
   
       <p>How <span style="color: #FFE953">Nim</span>👑 can be glued to just about any language.</p>
@@ -223,50 +227,43 @@ float point_magnitude(struct Point p);
       </ul>
       </section>
       <section data-nimib-slide-number="10" >
-      <ul>
-      <div class="fragment fade-in" data-fragment-index="19" data-fragment-index-nimib="19"> 
-  
-      <li class="fragment fade-in-then-semi-out  nimislides-li" data-fragment-index="19" data-fragment-index-nimib="19">
       <p>Generating <span style="color: #FFE953">C++</span> and <span style="color: #FFE953">JS/TS</span> bindings:</p>
       <pre><code class="language-bash">$ henka --cpp --std=c++17 --js header.hpp
 $ henka --js lib.js
 </code></pre>
-      </li>
-      </div>
-  
-      </ul>
       </section>
       <section data-nimib-slide-number="11" >
       <h2>Henka as a library</h2>
       <ul>
-      <div class="fragment fade-in" data-fragment-index="20" data-fragment-index-nimib="20"> 
+      <div class="fragment fade-in" data-fragment-index="19" data-fragment-index-nimib="19"> 
   
-      <li class="fragment fade-in  nimislides-li" data-fragment-index="20" data-fragment-index-nimib="20">
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="19" data-fragment-index-nimib="19">
       <p>Henka can be imported and called from <span style="color: #FFE953">Nim</span> code.</p>
       </li>
       </div>
   
       </ul>
-      <div class="fragment fade-in" data-fragment-index="21" data-fragment-index-nimib="21"> 
+      <div class="fragment fade-in" data-fragment-index="20" data-fragment-index-nimib="20"> 
   
       <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">import</span> henka
 
-<span class="hljs-keyword">let</span> bindings = generate(<span class="hljs-string">&quot;header.h&quot;</span>)</code></pre>
+<span class="hljs-keyword">let</span> bindings = generate(<span class="hljs-string">&quot;header.h&quot;</span>)
+<span class="hljs-comment"># write to a file</span></code></pre>
       </div>
   
       </section>
       <section data-nimib-slide-number="12" >
       <h2>Refining the bindings</h2>
       <ul>
-      <div class="fragment fade-in" data-fragment-index="22" data-fragment-index-nimib="22"> 
+      <div class="fragment fade-in" data-fragment-index="21" data-fragment-index-nimib="21"> 
   
-      <li class="fragment fade-in  nimislides-li" data-fragment-index="22" data-fragment-index-nimib="22">
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="21" data-fragment-index-nimib="21">
       <p>Calling it from <span style="color: #FFE953">Nim</span> allows customizing how bindings are generated.</p>
       </li>
       </div>
   
       </ul>
-      <div class="fragment fade-in" data-fragment-index="23" data-fragment-index-nimib="23"> 
+      <div class="fragment fade-in" data-fragment-index="22" data-fragment-index-nimib="22"> 
   
       <pre style="width: 100%"><code class="nim hljs" data-noescape data-line-numbers><span class="hljs-keyword">proc</span> rename(kind: henka.<span class="hljs-type">LabelKind</span>, name: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">string</span> =
   <span class="hljs-literal">result</span> = name.replace(<span class="hljs-string">&quot;point_&quot;</span>, <span class="hljs-string">&quot;&quot;</span>)
@@ -321,24 +318,24 @@ $ henka --js lib.js
       <section data-nimib-slide-number="16" >
       <h2><a href="https://webgpu.org/">WebGPU</a> + <a href="https://github.com/jrouwe/joltphysics">Jolt Physics</a></h2>
       <ul>
+      <div class="fragment fade-in" data-fragment-index="23" data-fragment-index-nimib="23"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="23" data-fragment-index-nimib="23">
+      <p><a href="https://github.com/rowdaboat/webgpu-nim">WebGPU C bindings</a>, fully supported.</p>
+      </li>
+      </div>
+  
       <div class="fragment fade-in" data-fragment-index="24" data-fragment-index-nimib="24"> 
   
       <li class="fragment fade-in  nimislides-li" data-fragment-index="24" data-fragment-index-nimib="24">
-      <p><a href="https://github.com/rowdaboat/webgpu-nim">WebGPU C bindings</a>, fully supported.</p>
+      <p>Jolt Physics <span style="color: #FFE953">C++</span> bindings, proof of concept.</p>
       </li>
       </div>
   
       <div class="fragment fade-in" data-fragment-index="25" data-fragment-index-nimib="25"> 
   
       <li class="fragment fade-in  nimislides-li" data-fragment-index="25" data-fragment-index-nimib="25">
-      <p>Jolt Physics C++ bindings, proof of concept.</p>
-      </li>
-      </div>
-  
-      <div class="fragment fade-in" data-fragment-index="26" data-fragment-index-nimib="26"> 
-  
-      <li class="fragment fade-in  nimislides-li" data-fragment-index="26" data-fragment-index-nimib="26">
-      <p>Nim C++ backend with emscripten.</p>
+      <p>Nim <span style="color: #FFE953">C++</span> backend with emscripten.</p>
       </li>
       </div>
   
@@ -358,28 +355,674 @@ $ henka --js lib.js
       <section data-nimib-slide-number="18" >
       <h2><a href="https://phaser.io/">Phaser</a></h2>
       <ul>
+      <div class="fragment fade-in" data-fragment-index="26" data-fragment-index-nimib="26"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="26" data-fragment-index-nimib="26">
+      <p>Phaser JS bindings, proof of concept.</p>
+      </li>
+      </div>
+  
       <div class="fragment fade-in" data-fragment-index="27" data-fragment-index-nimib="27"> 
   
       <li class="fragment fade-in  nimislides-li" data-fragment-index="27" data-fragment-index-nimib="27">
-      <p>Phaser JS bindings, proof of concept.</p>
+      <p>Phaser Box2D JS bindings, proof of concept.</p>
       </li>
       </div>
   
       <div class="fragment fade-in" data-fragment-index="28" data-fragment-index-nimib="28"> 
   
       <li class="fragment fade-in  nimislides-li" data-fragment-index="28" data-fragment-index-nimib="28">
-      <p>Phaser Box2D JS bindings, proof of concept.</p>
-      </li>
-      </div>
-  
-      <div class="fragment fade-in" data-fragment-index="29" data-fragment-index-nimib="29"> 
-  
-      <li class="fragment fade-in  nimislides-li" data-fragment-index="29" data-fragment-index-nimib="29">
       <p>Nim JS backend.</p>
       </li>
       </div>
   
       </ul>
+      </section>
+      </section>
+      <section data-nimib-slide-number="19" >
+      <section data-nimib-slide-number="20" >
+      <h2>Henka v1</h2>
+      <h3>Architecture</h3>
+      <ul>
+      <div class="fragment fade-in" data-fragment-index="29" data-fragment-index-nimib="29"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="29" data-fragment-index-nimib="29">
+      <p>v1 generated Nim bindings for C using</p>
+      <p><code>clang -ast-dump=json</code>.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="30" data-fragment-index-nimib="30"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="30" data-fragment-index-nimib="30">
+      <p>Initially, we wanted to keep <code>henka</code> independent from <code>libclang</code> and its API'.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="31" data-fragment-index-nimib="31"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="31" data-fragment-index-nimib="31">
+      <p>Reason 1: easy to parse JSON data.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="32" data-fragment-index-nimib="32"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="32" data-fragment-index-nimib="32">
+      <p>Reason 2: less binary dependencies, easier to port and get working anywhere.</p>
+      </li>
+      </div>
+  
+      </ul>
+      </section>
+      <section data-nimib-slide-number="21" >
+      <h2>Henka v1</h2>
+      <h3>How it worked</h3>
+      <ul>
+      <div class="fragment fade-in" data-fragment-index="33" data-fragment-index-nimib="33"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="33" data-fragment-index-nimib="33">
+      <p>1  - Walk the AST json data.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="34" data-fragment-index-nimib="34"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="34" data-fragment-index-nimib="34">
+      <p>2  - Handle some edge cases such as unnamed unions/structs, forward declarations, and enum value duplications.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="35" data-fragment-index-nimib="35"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="35" data-fragment-index-nimib="35">
+      <p>3  - Generate Nim code for types, variables, and functions.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="36" data-fragment-index-nimib="36"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="36" data-fragment-index-nimib="36">
+      <p>A basic symbol renamer was provided for customizing the output.</p>
+      </li>
+      </div>
+  
+      </ul>
+      </section>
+      <section data-nimib-slide-number="22" data-auto-animate >
+      <h2>Henka v1</h2>
+      <h3>Workflow</h3>
+      <p><span data-id="autoAnimateId-0"></span></p>
+      <div style="display: grid; grid-auto-flow: column; overflow-wrap: break-word; column-gap: 1.0 em;">
+  
+      <div>
+      </div>
+      <div>
+      </div>
+      <div>
+      </div>
+      <div>
+      </div>
+      <div>
+      </div>
+      </div>
+      </section>
+      <section data-nimib-slide-number="23" data-auto-animate >
+      <h2>Henka v1</h2>
+      <h3>Workflow</h3>
+      <p><span data-id="autoAnimateId-1">Specs for generating bindings are pretty straightforward to produce from real world use cases. In order to scale the library we just need to use well known C libraries as dogfood.</span></p>
+      <div style="display: grid; grid-auto-flow: column; overflow-wrap: break-word; column-gap: 1.0 em;">
+  
+      <div>
+      </div>
+      <div>
+      </div>
+      <div>
+      </div>
+      <div>
+      </div>
+      <div>
+      </div>
+      </div>
+      </section>
+      <section data-nimib-slide-number="24" data-auto-animate >
+      <h2>Henka v1</h2>
+      <h3>Workflow</h3>
+      <p><span data-id="autoAnimateId-2">1  - Get a rich C library interface (ie: <code>webgpu.h</code>) to generate bindings for it.</span></p>
+      <div style="display: grid; grid-auto-flow: column; overflow-wrap: break-word; column-gap: 1.0 em;">
+  
+      <div>
+      <figure>
+<img src="img/webgpu-header.svg" alt="">
+<figcaption></figcaption>
+</figure>
+      </div>
+      <div>
+      <figure>
+<img src="img/henka-arrow.svg" alt="">
+<figcaption></figcaption>
+</figure>
+      </div>
+      <div>
+      <figure>
+<img src="img/nim-file-bind.svg" alt="">
+<figcaption></figcaption>
+</figure>
+      </div>
+      <div>
+      </div>
+      <div>
+      </div>
+      </div>
+      </section>
+      <section data-nimib-slide-number="25" data-auto-animate >
+      <h2>Henka v1</h2>
+      <h3>Workflow</h3>
+      <p><span data-id="autoAnimateId-3">2  - Use generative AI to fix edge cases on the generator (Claude).</span></p>
+      <div style="display: grid; grid-auto-flow: column; overflow-wrap: break-word; column-gap: 1.0 em;">
+  
+      <div>
+      </div>
+      <div>
+      </div>
+      <div>
+      <figure>
+<img src="img/nim-file-bind.svg" alt="">
+<figcaption></figcaption>
+</figure>
+      </div>
+      <div>
+      <figure>
+<img src="img/write-arrow.svg" alt="">
+<figcaption></figcaption>
+</figure>
+      </div>
+      <div>
+      <figure>
+<img src="img/henka-small.svg" alt="">
+<figcaption></figcaption>
+</figure>
+      </div>
+      </div>
+      </section>
+      <section data-nimib-slide-number="26" data-auto-animate >
+      <h2>Henka v1</h2>
+      <h3>Workflow</h3>
+      <p><span data-id="autoAnimateId-4">3  - Review, rewrite or discard the code.</span></p>
+      <div style="display: grid; grid-auto-flow: column; overflow-wrap: break-word; column-gap: 1.0 em;">
+  
+      <div>
+      </div>
+      <div>
+      </div>
+      <div>
+      <figure>
+<img src="img/nim-file-bind.svg" alt="">
+<figcaption></figcaption>
+</figure>
+      </div>
+      <div>
+      <figure>
+<img src="img/write-arrow.svg" alt="">
+<figcaption></figcaption>
+</figure>
+      </div>
+      <div>
+      <figure>
+<img src="img/henka-small.svg" alt="">
+<figcaption></figcaption>
+</figure>
+      </div>
+      </div>
+      </section>
+      <section data-nimib-slide-number="27" data-auto-animate >
+      <h2>Henka v1</h2>
+      <h3>Workflow</h3>
+      <p><span data-id="autoAnimateId-5">4  - Repeat.</span></p>
+      <div style="display: grid; grid-auto-flow: column; overflow-wrap: break-word; column-gap: 1.0 em;">
+  
+      <div>
+      </div>
+      <div>
+      </div>
+      <div>
+      <figure>
+<img src="img/nim-file-bind.svg" alt="">
+<figcaption></figcaption>
+</figure>
+      </div>
+      <div>
+      <figure>
+<img src="img/write-arrow.svg" alt="">
+<figcaption></figcaption>
+</figure>
+      </div>
+      <div>
+      <figure>
+<img src="img/henka-small.svg" alt="">
+<figcaption></figcaption>
+</figure>
+      </div>
+      </div>
+      </section>
+      </section>
+      <section data-nimib-slide-number="28" >
+      <section data-nimib-slide-number="29" >
+      <h2>Henka v2</h2>
+      <h3>Starting over</h3>
+      <ul>
+      <div class="fragment fade-in" data-fragment-index="37" data-fragment-index-nimib="37"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="37" data-fragment-index-nimib="37">
+      <p>We went back to using <code>libclang</code>.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="38" data-fragment-index-nimib="38"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="38" data-fragment-index-nimib="38">
+      <p><del>Reason 1: easy to parse JSON data.</del> As simple as parsing JSON is, <code>clang</code>'s API provides clear enough semantics, and a visitor. Overall less parsing, this was crucial for v2's features, specially <span style="color: #FFE953">C++</span>.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="39" data-fragment-index-nimib="39"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="39" data-fragment-index-nimib="39">
+      <p><del>Reason 2: less binary dependencies...</del> While still true, this is a 'do once' thing.</p>
+      </li>
+      </div>
+  
+      </ul>
+      </section>
+      <section data-nimib-slide-number="30" >
+      <h2>Henka v2</h2>
+      <h3>New features, more scale</h3>
+      <ul>
+      <div class="fragment fade-in" data-fragment-index="40" data-fragment-index-nimib="40"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="40" data-fragment-index-nimib="40">
+      <p>v2 supports <span style="color: #FFE953">C</span>, <span style="color: #FFE953">C++</span>, and <span style="color: #FFE953">JS/TS</span>.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="41" data-fragment-index-nimib="41"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="41" data-fragment-index-nimib="41">
+      <p>Callbacks for working with symbols and pragmas (ie: renaming, overriding, filtering, unnamed symbols).</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="42" data-fragment-index-nimib="42"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="42" data-fragment-index-nimib="42">
+      <p>Can be configured to generate bindings for static or dynamic libraries.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="43" data-fragment-index-nimib="43"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="43" data-fragment-index-nimib="43">
+      <p>Allows more customization on how enums are generated.</p>
+      </li>
+      </div>
+  
+      </ul>
+      </section>
+      <section data-nimib-slide-number="31" >
+      <h2>Henka v2</h2>
+      <h3>New features, more scale</h3>
+      <ul>
+      <div class="fragment fade-in" data-fragment-index="44" data-fragment-index-nimib="44"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="44" data-fragment-index-nimib="44">
+      <p><span style="color: #FFE953">C++</span> blew the scale out of proportion:</p>
+      </li>
+      </div>
+  
+      <div class="same-line">
+      <div class="fragment fade-in" data-fragment-index="45" data-fragment-index-nimib="45"> 
+  
+      v1 edge cases
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="46" data-fragment-index-nimib="46"> 
+  
+      , extern C
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="47" data-fragment-index-nimib="47"> 
+  
+      , operator overloads
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="48" data-fragment-index-nimib="48"> 
+  
+      , move semantics
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="49" data-fragment-index-nimib="49"> 
+  
+      , type aliases
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="50" data-fragment-index-nimib="50"> 
+  
+      , double and trailing _
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="51" data-fragment-index-nimib="51"> 
+  
+      , duplicated typedefs
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="52" data-fragment-index-nimib="52"> 
+  
+      , templates
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="53" data-fragment-index-nimib="53"> 
+  
+      , static and instance methods
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="54" data-fragment-index-nimib="54"> 
+  
+      , etc.
+      </div>
+  
+      </div>
+      </ul>
+      </section>
+      <section data-nimib-slide-number="32" >
+      <h2>Henka v2</h2>
+      <h3>How it works</h3>
+      <ul>
+      <div class="fragment fade-in" data-fragment-index="55" data-fragment-index-nimib="55"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="55" data-fragment-index-nimib="55">
+      <p>1  - Uses <code>libclang</code>'s visitor to walk the AST.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="56" data-fragment-index-nimib="56"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="56" data-fragment-index-nimib="56">
+      <p>2  - Handle edge cases, mapping <span style="color: #FFE953">C++</span> AST nodes to <span style="color: #FFE953">Nim</span> AST nodes using <a href="https://codeberg.org/heysokam/astTF"><code>astTF</code></a>.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="57" data-fragment-index-nimib="57"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="57" data-fragment-index-nimib="57">
+      <p>3  - Pass the <span style="color: #FFE953">Nim</span> AST to a <a href="https://github.com/MechasNotBrains/nonim"><code>nim code generator</code></a>.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="58" data-fragment-index-nimib="58"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="58" data-fragment-index-nimib="58">
+      <p>This allows <code>henka</code> to <strong>only</strong> focus on mapping ASTs and nothing else.</p>
+      </li>
+      </div>
+  
+      </ul>
+      </section>
+      <section data-nimib-slide-number="33" >
+      <h2>Henka v2</h2>
+      <h3>Workflow</h3>
+      <ul>
+      <div class="fragment fade-in" data-fragment-index="59" data-fragment-index-nimib="59"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="59" data-fragment-index-nimib="59">
+      <p>The same principles still apply, but now with <span style="color: #FFE953">C++</span>'s overblown scale.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="60" data-fragment-index-nimib="60"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="60" data-fragment-index-nimib="60">
+      <p>We added TDD to the workflow, tests are now our specification.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="61" data-fragment-index-nimib="61"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="61" data-fragment-index-nimib="61">
+      <p>Tests check for bugs, validate new features, and keep AI in check.</p>
+      </li>
+      </div>
+  
+      </ul>
+      </section>
+      <section data-nimib-slide-number="34" >
+      <h2>Henka v2</h2>
+      <h3>Workflow</h3>
+      <div class="fragment fade-in" data-fragment-index="62" data-fragment-index-nimib="62"> 
+  
+      <p>About AI usage:</p>
+      </div>
+  
+      <ul>
+      <div class="fragment fade-in" data-fragment-index="63" data-fragment-index-nimib="63"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="63" data-fragment-index-nimib="63">
+      <p>We decided when to use AI on the basis of what's faster.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="64" data-fragment-index-nimib="64"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="64" data-fragment-index-nimib="64">
+      <p>A lot of code was generated, no code was untested/not reviewd.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="65" data-fragment-index-nimib="65"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="65" data-fragment-index-nimib="65">
+      <p>As it scales, the project becomes a token eating machine.</p>
+      </li>
+      </div>
+  
+      </ul>
+      </section>
+      <section data-nimib-slide-number="35" data-auto-animate >
+      <h2>Henka v2</h2>
+      <h3>Workflow</h3>
+      <p><span data-id="autoAnimateId-0"></span></p>
+      <div style="display: grid; grid-auto-flow: column; overflow-wrap: break-word; column-gap: 1.0 em;">
+  
+      <div>
+      </div>
+      <div>
+      </div>
+      <div>
+      </div>
+      <div>
+      </div>
+      <div>
+      </div>
+      <div>
+      </div>
+      <div>
+      </div>
+      </div>
+      </section>
+      <section data-nimib-slide-number="36" data-auto-animate >
+      <h2>Henka v2</h2>
+      <h3>Workflow</h3>
+      <p><span data-id="autoAnimateId-1">1  - Get a well known <span style="color: #FFE953">C</span>/<span style="color: #FFE953">C++</span>/<span style="color: #FFE953">JS/TS</span> library, generate bindings.</span></p>
+      <div style="display: grid; grid-auto-flow: column; overflow-wrap: break-word; column-gap: 1.0 em;">
+  
+      <div>
+      <figure>
+<img src="img/jolt-header.svg" alt="">
+<figcaption></figcaption>
+</figure>
+      </div>
+      <div>
+      <figure>
+<img src="img/henka-arrow.svg" alt="">
+<figcaption></figcaption>
+</figure>
+      </div>
+      <div>
+      <figure>
+<img src="img/nim-file-bind.svg" alt="">
+<figcaption></figcaption>
+</figure>
+      </div>
+      <div>
+      </div>
+      <div>
+      </div>
+      <div>
+      </div>
+      <div>
+      </div>
+      </div>
+      </section>
+      <section data-nimib-slide-number="37" data-auto-animate >
+      <h2>Henka v2</h2>
+      <h3>Workflow</h3>
+      <p><span data-id="autoAnimateId-2">2  - Write tests to cover for the new cases and bugs (or generate and review them).</span></p>
+      <div style="display: grid; grid-auto-flow: column; overflow-wrap: break-word; column-gap: 1.0 em;">
+  
+      <div>
+      </div>
+      <div>
+      </div>
+      <div>
+      <figure>
+<img src="img/nim-file-bind.svg" alt="">
+<figcaption></figcaption>
+</figure>
+      </div>
+      <div>
+      <figure>
+<img src="img/write-arrow.svg" alt="">
+<figcaption></figcaption>
+</figure>
+      </div>
+      <div>
+      <figure>
+<img src="img/nim-file-test.svg" alt="">
+<figcaption></figcaption>
+</figure>
+      </div>
+      <div>
+      </div>
+      <div>
+      </div>
+      </div>
+      </section>
+      <section data-nimib-slide-number="38" data-auto-animate >
+      <h2>Henka v2</h2>
+      <h3>Workflow</h3>
+      <p><span data-id="autoAnimateId-3">3  - Write the implementation (or generate and review it).</span></p>
+      <div style="display: grid; grid-auto-flow: column; overflow-wrap: break-word; column-gap: 1.0 em;">
+  
+      <div>
+      </div>
+      <div>
+      </div>
+      <div>
+      </div>
+      <div>
+      </div>
+      <div>
+      <figure>
+<img src="img/nim-file-test.svg" alt="">
+<figcaption></figcaption>
+</figure>
+      </div>
+      <div>
+      <figure>
+<img src="img/write-arrow.svg" alt="">
+<figcaption></figcaption>
+</figure>
+      </div>
+      <div>
+      <figure>
+<img src="img/henka-small.svg" alt="">
+<figcaption></figcaption>
+</figure>
+      </div>
+      </div>
+      </section>
+      </section>
+      <section data-nimib-slide-number="39" >
+      <section data-nimib-slide-number="40" >
+      <h2>Conclusions and</h2>
+      <h2>Future Work</h2>
+      <ul>
+      <div class="fragment fade-in" data-fragment-index="66" data-fragment-index-nimib="66"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="66" data-fragment-index-nimib="66">
+      <p>Currently, LLM's usefulness has started degrading while eating a huge amount of tokens!</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="67" data-fragment-index-nimib="67"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="67" data-fragment-index-nimib="67">
+      <p>This can probably be fixed by refactoring, and writting prompts with more context.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="68" data-fragment-index-nimib="68"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="68" data-fragment-index-nimib="68">
+      <p>TODO: add support for more <span style="color: #FFE953">C</span>/<span style="color: #FFE953">C++</span> features: namespaces, macros, enum bitflags.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="69" data-fragment-index-nimib="69"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="69" data-fragment-index-nimib="69">
+      <p>TODO: stabilize <span style="color: #FFE953">JS/TS</span> and integrate it into the <code>main</code> branch.</p>
+      </li>
+      </div>
+  
+      </ul>
+      </section>
+      <section data-nimib-slide-number="41" >
+      <h2>Conclusions and future work</h2>
+      <ul>
+      <div class="fragment fade-in" data-fragment-index="70" data-fragment-index-nimib="70"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="70" data-fragment-index-nimib="70">
+      <p>Again: tests were straightforward to write due to the nature of the project.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="71" data-fragment-index-nimib="71"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="71" data-fragment-index-nimib="71">
+      <p>AI was prevented from hallucinating thanks to the abundance of tests.</p>
+      </li>
+      </div>
+  
+      <div class="fragment fade-in" data-fragment-index="72" data-fragment-index-nimib="72"> 
+  
+      <li class="fragment fade-in  nimislides-li" data-fragment-index="72" data-fragment-index-nimib="72">
+      <p>This workflow allowed us to iterate fast enough to get this working in a couple months.</p>
+      </li>
+      </div>
+  
+      </ul>
+      </section>
+      <section data-nimib-slide-number="42" >
+      <h3>Ask your questions away</h3>
+      <h3>on <span style="color: #FFE953">Nim</span>'s Discord!</h3>
+      <h2><strong>@RowDaBoat</strong> / <strong>@heysokam</strong></h2>
+      </section>
+      <section data-nimib-slide-number="43" >
+      <figure>
+<img src="img/henka.svg" alt="">
+<figcaption></figcaption>
+</figure>
+      <h1>Thank You!</h1>
       </section>
       </section>
     </div>

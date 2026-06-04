@@ -1,5 +1,7 @@
+Outline:
 - Title
   - [x] Title: Henka, Bind Anything
+  - [x] Logo
   - [x] Who we are
 - Introduction
   - [x] What does it do
@@ -28,8 +30,13 @@
   - [ ] Q&A
   - [ ] Thank you
 
+Tasks:
 - [x] Organize both demos on the presentation (key mappings etc.).
 - [x] Cleanup WebGPU+Jolt PoC (directory structure, separate ad-hoc bindings and try to solve them, code's mess).
 - [x] Make sure the presentation is all static content so it can use GitHub pages.
+- [x] Merge C++ branch.
 - [ ] Finalize the presentation.
+- [ ] Emscripten bindings?
 - [ ] Record the video.
+- [ ] Write a readme.md for `henka`.
+- [ ] Merge JS branch.

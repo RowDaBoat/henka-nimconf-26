@@ -168,10 +168,10 @@ template usage =
         nbCode:
           type
             struct_Point* {.bycopy, importc:"struct Point", header:"point.h".} = object
-              x* :cint
-              y* :cint
+              x* :cfloat
+              y* :cfloat
             Point* = struct_Point
-          proc point_magnitude*(p :struct_Point) :cfloat {.importc:"magnitude", cdecl, header:"point.h".}
+          proc point_magnitude*(p :struct_Point) :cfloat {.importc:"point_magnitude", cdecl, header:"point.h".}
 
   slide:
     nbText &"Generating {langCpp} and {langJsTs} bindings:"
@@ -260,18 +260,18 @@ template henkav1 =
         nbText "v1 generated Nim bindings for C using"
         nbText "`clang -ast-dump=json`."
       listItem(fadeIn):
-        nbText "Initially, we wanted to keep `henka` independent from `libclang` and its API'."
+        nbText "Initially, we wanted to keep `henka` independent from `libclang` and its API."
       listItem(fadeIn):
         nbText "Reason 1: easy to parse JSON data."
       listItem(fadeIn):
-        nbText "Reason 2: less binary dependencies, easier to port and get working anywhere."
+        nbText "Reason 2: fewer binary dependencies, easier to port and get working anywhere."
 
   slide:
     nbText "## Henka v1"
     nbText "### How it worked"
     unorderedList:
       listItem(fadeIn):
-        nbText "1  - Walk the AST json data."
+        nbText "1  - Walk the AST JSON data."
       listItem(fadeIn):
         nbText "2  - Handle some edge cases such as unnamed unions/structs, forward declarations, and enum value duplications."
       listItem(fadeIn):
@@ -284,7 +284,7 @@ template henkav1 =
     nbText "### Workflow"
     showText(@[
       ({1}, ""),
-      ({2}, "Specs for generating bindings are pretty straightforward to produce from real world use cases. In order to scale the library we just need to use well known C libraries as dogfood."),
+      ({2}, "Specs for generating bindings are pretty straightforward to produce from real-world use cases. To scale the `henka` we just need to use well-known C libraries as dogfood."),
       ({3}, "1  - Get a rich C library interface (ie: `webgpu.h`) to generate bindings for it."),
       ({4}, "2  - Use generative AI to fix edge cases on the generator (Claude)."),
       ({5}, "3  - Review, rewrite or discard the code."),
@@ -312,9 +312,9 @@ template henkav2 =
       listItem(fadeIn):
         nbText "We went back to using `libclang`."
       listItem(fadeIn):
-        nbText &"~~Reason 1: easy to parse JSON data.~~ As simple as parsing JSON is, `clang`'s API provides clear enough semantics, and a visitor. Overall less parsing, this was crucial for v2's features, specially {langCpp}."
+        nbText &"~~Reason 1: easy to parse JSON data.~~ As simple as parsing JSON is, `clang`'s API provides clear enough semantics and a visitor. Overall less parsing — this was crucial for v2's features, especially {langCpp}."
       listItem(fadeIn):
-        nbText "~~Reason 2: less binary dependencies...~~ While still true, this is a 'do once' thing."
+        nbText "~~Reason 2: fewer binary dependencies...~~ While still true, this is a 'do once' thing."
 
   slide:
     nbText "## Henka v2"
@@ -381,7 +381,7 @@ template henkav2 =
       listItem(fadeIn):
         nbText "We decided when to use AI on the basis of what's faster."
       listItem(fadeIn):
-        nbText "A lot of code was generated, no code was untested/not reviewd."
+        nbText "A lot of code was generated, but all of it was tested and reviewed."
       listItem(fadeIn):
         nbText "As it scales, the project becomes a token eating machine."
 
@@ -390,7 +390,7 @@ template henkav2 =
     nbText "### Workflow"
     showText(@[
       ({1}, ""),
-      ({2}, &"1  - Get a well known {langC}/{langCpp}/{langJsTs} library, generate bindings."),
+      ({2}, &"1  - Get a well-known {langC}/{langCpp}/{langJsTs} library, generate bindings."),
       ({3},  "2  - Write tests to cover for the new cases and bugs (or generate and review them)."),
       ({4},  "3  - Write the implementation (or generate and review it)."),
       ({5},  "4  - Repeat."),
@@ -416,9 +416,9 @@ template wrappingUp =
     nbText: "## Conclusions/Future Work"
     unorderedList:
       listItem(fadeIn):
-        nbText: "Currently, LLM's usefulness has started degrading while eating a huge amount of tokens!"
+        nbText: "Currently, the LLM's usefulness has started degrading while eating a huge amount of tokens!"
       listItem(fadeIn):
-        nbText: "This can probably be fixed by refactoring, and writting prompts with more context."
+        nbText: "This can probably be fixed by refactoring and writing prompts with more context."
       listItem(fadeIn):
         nbText: &"TODO: add support for more {langC}/{langCpp} features: namespaces, macros, enum bitflags."
       listItem(fadeIn):

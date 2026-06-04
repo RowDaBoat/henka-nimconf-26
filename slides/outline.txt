@@ -15,17 +15,17 @@ Outline:
   - [x] C++ demo
   - [x] JS demo
 - Briefly go over Henka v1
-  - [ ] Why it was created
-  - [ ] Architecture
-  - [ ] AI: where and why
+  - [x] Why it was created
+  - [x] Architecture
+  - [x] AI: where and why
 - Present Henka v2
-  - [ ] Why we scrapped v1
-  - [ ] Architecture
-  - [ ] Extending to C++ and JS
-  - [ ] Testing, testing, testing
-  - [ ] AI: keeping the same idea
+  - [x] Why we scrapped v1
+  - [x] Architecture
+  - [x] Extending to C++ and JS
+  - [x] Testing, testing, testing
+  - [x] AI: keeping the same idea
 - astTF and nonim
-  - [ ] go over briefly how each part works, and why they exist
+  - [x] go over briefly how each part works, and why they exist
 - Wrapping up
   - [ ] Q&A
   - [ ] Thank you

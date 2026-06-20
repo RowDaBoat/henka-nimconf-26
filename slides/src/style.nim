@@ -92,6 +92,28 @@ template myInit*(sourceFileRel = "my.nim") =
   font-style: normal;
 }
 
+.reveal pre code {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.reveal pre code table.hljs-ln {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.reveal pre code .hljs-ln-numbers {
+  width: 2.5em;
+  padding-right: 0.6em;
+  white-space: nowrap;
+  vertical-align: top;
+}
+
+.reveal pre code .hljs-ln-code {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 </style>
 """ % [colorAgile]
   nb.partials["nimibCodeAnimate"] = nb.partials["animateCode"]

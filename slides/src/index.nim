@@ -3,11 +3,11 @@
 ## ISC License                                          ##
 ## Copyright (c) [2026] Ivan Mar (sOkam!) and RowDaBoat ##
 ##########################################################
-import nimib, nimislides
+import nimib, nimiSlides
 import style
 import std/strformat
 
-let henka    {.inject.} = color(nimYellow, "henka")
+let henka    {.inject.} = color(nimYellow, "Henka")
 let langNim  {.inject.} = color(nimYellow, "Nim")
 let langC    {.inject.} = color(nimYellow, "C")
 let langCpp  {.inject.} = color(nimYellow, "C++")
@@ -72,33 +72,37 @@ template title =
     nbText "## Bind Anything"
 
     fragmentFadeIn:
-      nbText &"How {langNim}👑 can be glued to just about any language."
+      nbText &"How we bound {langNim} to native and web libraries."
+
+template presentationLink =
+  slide:
+    nbText &"https://rowdaboat.github.io/henka-nimconf-26"
 
 template whoAreWe =
   slide:
-    nbText "## Who are we?"
+    nbText "## Who we are"
+
+    fragmentFadeIn:
+      let row {.inject.} = color(nimYellow, "Row")
+      nbRawHtml clearStyle
+      nbRawHtml img("img/row.png", align = "left", circle = true)
+      nbRawHtml pLeft(&"{row}, gamedev/demoscener.")
+
+    fragmentFadeIn:
+      let reploid    {.inject.} = link("https://github.com/RowDaBoat/reploid", "reploid")
+      let shadercNim {.inject.} = link("https://github.com/RowDaBoat/shaderc-nim", "shaderc-nim")
+      nbRawHtml pLeft(&"Author of {reploid} and {shadercNim}.<br/>")
 
     fragmentFadeIn:
       let sokam {.inject.} = color(nimYellow, ".sOkam!")
-      nbRawHtml img("img/sokam.png", align = "left", circle = true)
+      nbRawHtml "<br/>"
+      nbRawHtml img("img/sokam.png", align = "right", circle = true)
       nbRawHtml pLeft(&"{sokam}, game and engine developer.")
 
     fragmentFadeIn:
       let webgpuNim {.inject.} = link("https://github.com/RowDaBoat/webgpu-nim", "webgpu-nim")
       let cvulkan   {.inject.} = link("https://codeberg.org/heysokam/cvulkan", "cvulkan")
       nbRawHtml pLeft(&"Author of {webgpuNim} and {cvulkan}.")
-
-    fragmentFadeIn:
-      let row {.inject.} = color(nimYellow, "Row")
-      nbRawHtml clearStyle
-      nbRawHtml img("img/row.png", align = "right", circle = true)
-      nbRawHtml pLeft(&"{row}, gamedev/demoscener,")
-      nbRawHtml pLeft(&"fairly new to {langNim}.")
-
-    fragmentFadeIn:
-      let reploid    {.inject.} = link("https://github.com/RowDaBoat/reploid", "reploid")
-      let shadercNim {.inject.} = link("https://github.com/RowDaBoat/shaderc-nim", "shaderc-nim")
-      nbRawHtml pLeft(&"Author of {reploid} and {shadercNim}.")
 
 template introduction =
   slide:
@@ -161,7 +165,7 @@ template usage =
   """
 
   slide:
-    nbText "## Henka CLI"
+    nbText &"## {henka} CLI"
     unorderedList:
       listItem(fadeIn):
         nbText "Generates " & color(nimYellow, "`point.nim`") & ":"
@@ -174,34 +178,45 @@ template usage =
           proc point_magnitude*(p :struct_Point) :cfloat {.importc:"point_magnitude", cdecl, header:"point.h".}
 
   slide:
-    nbText &"Generating {langCpp} and {langJsTs} bindings:"
-    nbText """
-```bash
-$ henka --cpp --std=c++17 --js header.hpp
+    nbText &"## {henka} CLI"
+    fragmentFadeIn:
+      nbText &"Generating bindings:"
+    unorderedList:
+      listItem(fadeIn):
+         nbText &"For {langCpp}:"
+         nbText """
+```
+$ henka --cpp --std=c++17 header.hpp
+```
+"""
+      listItem(fadeIn):
+         nbText &"For {langJsTs}:"
+         nbText """
+```
 $ henka --js lib.js
 ```
 """
 
   slide:
-    nbText "## Henka as a library"
+    nbText &"## {henka} as a library"
 
     unorderedList:
       listItem(fadeIn):
-        nbText &"Henka can be imported and called from {langNim} code."
+        nbText &"However, {henka} is best used as a library."
 
     fragmentFadeIn:
       nbCodeSkip:
         import henka
 
         let bindings = generate("header.h")
-        # write to a file
+        "bindings.nim".writeFile(bindings)
 
   slide:
-    nbText "## Refining the bindings"
+    nbText "### Customization is a first class citizen"
 
     unorderedList:
       listItem(fadeIn):
-        nbText &"Calling it from {langNim} allows customizing how bindings are generated."
+        nbText &"Importing {henka} as a library allows for complete customization of the output"
 
     fragmentFadeIn:
       nbCodeSkip:
@@ -220,10 +235,22 @@ $ henka --js lib.js
           pragmaOverride = pragmas
         )
 
+  slide:
+    nbText &"## {henka} as a library"
+    unorderedList:
+      listItem(fadeIn):
+        nbText "Generating a cleaner " & color(nimYellow, "`point.nim`") & ":"
+        nbCodeSkip:
+          type Point *{.bycopy, importc:"struct Point", header:"header.h", pure, inheritable.}= object
+            x *:cfloat
+            y *:cfloat
+          proc magnitude *(p :Point) :cfloat {.importc:"point_magnitude", cdecl, header:"header.h".}
+
 
 template showcase =
   slide:
-    nbText "# Demos!"
+    nbText "# Demo 1"
+
   slide:
     nbRawHtml webgpuJolt
 
@@ -231,11 +258,14 @@ template showcase =
     nbText "## [WebGPU](https://webgpu.org/) + [Jolt Physics](https://github.com/jrouwe/joltphysics)"
     unorderedList:
       listItem(fadeIn):
-        nbText "[WebGPU C bindings](https://github.com/rowdaboat/webgpu-nim), fully supported."
+        nbText  &"[WebGPU bindings](https://github.com/rowdaboat/webgpu-nim), {langC}, fully supported."
       listItem(fadeIn):
-        nbText &"Jolt Physics {langCpp} bindings, proof of concept."
+        nbText &"Jolt Physics bindings, {langCpp}, proof of concept."
       listItem(fadeIn):
         nbText &"Nim {langCpp} backend with emscripten."
+
+  slide:
+    nbText "# Demo 2"
 
   slide:
     nbRawHtml nimconfSurvivor
@@ -244,51 +274,51 @@ template showcase =
     nbText "## [Phaser](https://phaser.io/)"
     unorderedList:
       listItem(fadeIn):
-        nbText "Phaser JS bindings, proof of concept."
+        nbText "Phaser bindings, JS, proof of concept."
       listItem(fadeIn):
-        nbText "Phaser Box2D JS bindings, proof of concept."
+        nbText "Phaser Box2D bindings, JS, proof of concept."
       listItem(fadeIn):
         nbText "Nim JS backend."
 
 
 template henkav1 =
   slide:
-    nbText "## Henka v1"
+    nbText &"## {henka} v1"
     nbText "### Architecture"
     unorderedList:
       listItem(fadeIn):
-        nbText "v1 generated Nim bindings for C using"
-        nbText "`clang -ast-dump=json`."
+        nbText  "v1 generated Nim bindings for C using"
+        nbText  "`clang -ast-dump=json`."
       listItem(fadeIn):
-        nbText "Initially, we wanted to keep `henka` independent from `libclang` and its API."
+        nbText &"Initially, we wanted to keep {henka} independent from `libclang` and its API."
       listItem(fadeIn):
-        nbText "Reason 1: easy to parse JSON data."
+        nbText  "Reason 1: easy to parse JSON data."
       listItem(fadeIn):
-        nbText "Reason 2: fewer binary dependencies, easier to port and get working anywhere."
+        nbText  "Reason 2: fewer binary dependencies, easier to port and get working anywhere."
 
   slide:
-    nbText "## Henka v1"
+    nbText &"## {henka} v1"
     nbText "### How it worked"
     unorderedList:
       listItem(fadeIn):
         nbText "1  - Walk the AST JSON data."
       listItem(fadeIn):
-        nbText "2  - Handle some edge cases such as unnamed unions/structs, forward declarations, and enum value duplications."
+        nbText "2  - Handle edge cases: unnamed unions/structs, forward declarations, and enum value duplications."
       listItem(fadeIn):
         nbText "3  - Generate Nim code for types, variables, and functions."
       listItem(fadeIn):
-        nbText "A basic symbol renamer was provided for customizing the output."
+        nbText "Basic symbol renamer for customizing the output."
 
   autoAnimateSlides(6):
-    nbText "## Henka v1"
+    nbText &"## {henka} v1"
     nbText "### Workflow"
     showText(@[
-      ({1}, ""),
-      ({2}, "Specs for generating bindings are pretty straightforward to produce from real-world use cases. To scale the `henka` we just need to use well-known C libraries as dogfood."),
-      ({3}, "1  - Get a rich C library interface (ie: `webgpu.h`) to generate bindings for it."),
-      ({4}, "2  - Use generative AI to fix edge cases on the generator (Claude)."),
-      ({5}, "3  - Review, rewrite or discard the code."),
-      ({6}, "4  - Repeat."),
+      ({1},  ""),
+      ({2}, &"Adding features to henka was straightforward using real-world libraries as dogfood."),
+      ({3},  "1  - Find a complex C library (eg: webgpu.h)"),
+      ({4},  "2  - Fix edge cases on the generator (assisted with Claude)."),
+      ({5},  "3  - Review, rewrite or discard the code."),
+      ({6},  "4  - Repeat."),
     ])
     adaptiveColumns:
       column:
@@ -306,32 +336,34 @@ template henkav1 =
 
 template henkav2 =
   slide:
-    nbText "## Henka v2"
-    nbText "### Starting over"
+    nbText &"## {henka} v2"
+    nbText  "### Starting over"
     unorderedList:
       listItem(fadeIn):
-        nbText "We went back to using `libclang`."
+        nbText  "We went back to using `libclang`."
       listItem(fadeIn):
-        nbText &"~~Reason 1: easy to parse JSON data.~~ As simple as parsing JSON is, `clang`'s API provides clear enough semantics and a visitor. Overall less parsing — this was crucial for v2's features, especially {langCpp}."
+        nbText &"~~Reason 1: easy to parse JSON data.~~ libclang is clear enough, and supports extended features."
       listItem(fadeIn):
-        nbText "~~Reason 2: fewer binary dependencies...~~ While still true, this is a 'do once' thing."
+        nbText &"~~Reason 2: fewer dependencies...~~ True, but bindings are generated once, and distributed via source control."
+      listItem(fadeIn):
+        nbText &"This is an design distinction from Futhark, which builds bindings in compile-time instead."
 
   slide:
-    nbText "## Henka v2"
-    nbText "### New features, more scale"
+    nbText &"## {henka} v2"
+    nbText  "### New features, more scale"
     unorderedList:
       listItem(fadeIn):
         nbText &"v2 supports {langC}, {langCpp}, and {langJsTs}."
       listItem(fadeIn):
-        nbText "Callbacks for working with symbols and pragmas (ie: renaming, overriding, filtering, unnamed symbols)."
+        nbText "Callbacks for pragmas and symbols: rename, override, filter, resolve unnamed, etc."
       listItem(fadeIn):
-        nbText "Can be configured to generate bindings for static or dynamic libraries."
+        nbText "Supports generating bindings for both static and dynamically linked libraries."
       listItem(fadeIn):
-        nbText "Allows more customization on how enums are generated."
+        nbText "Support for generating enums as cint, distinct cint, and pure/impure enums."
 
   slide:
-    nbText "## Henka v2"
-    nbText "### New features, more scale"
+    nbText &"## {henka} v2"
+    nbText  "### New features, more scale"
     unorderedList:
       listItem(fadeIn):
         nbText &"{langCpp} blew the scale out of proportion:"
@@ -349,8 +381,8 @@ template henkav2 =
       )
 
   slide:
-    nbText "## Henka v2"
-    nbText "### How it works"
+    nbText &"## {henka} v2"
+    nbText  "### How it works"
     unorderedList:
       listItem(fadeIn):
         nbText "1  - Uses `libclang`'s visitor to walk the AST."
@@ -359,35 +391,35 @@ template henkav2 =
       listItem(fadeIn):
         nbText &"3  - Pass the {langNim} AST to a [`nim code generator`](https://github.com/MechasNotBrains/nonim)."
       listItem(fadeIn):
-        nbText &"This allows `henka` to **only** focus on mapping ASTs and nothing else."
+        nbText &"This allows {henka} to focus **exclusively** on mapping ASTs, and nothing else."
 
   slide:
-    nbText "## Henka v2"
-    nbText "### Workflow"
+    nbText &"## {henka} v2"
+    nbText  "### Workflow"
     unorderedList:
       listItem(fadeIn):
-        nbText &"The same principles still apply, but now with {langCpp}'s overblown scale."
+        nbText &"The same principles still apply, but with a much bigger scale (ie: {langC}, {langCpp}, and {langJsTs})."
       listItem(fadeIn):
-        nbText "We added TDD to the workflow, tests are now our specification."
+        nbText &"Test Driven Development is maximum priority. Unit Tests are {henka}'s specification."
       listItem(fadeIn):
         nbText "Tests check for bugs, validate new features, and keep AI in check."
 
   slide:
-    nbText "## Henka v2"
-    nbText "### Workflow"
+    nbText &"## {henka} v2"
+    nbText  "### Workflow"
     fragmentFadeIn:
       nbText "About AI usage:"
     unorderedList:
       listItem(fadeIn):
         nbText "We decided when to use AI on the basis of what's faster."
       listItem(fadeIn):
-        nbText "A lot of code was generated, but all of it was tested and reviewed."
+        nbText "A lot of code was generated. But all code was left thorougly tested or strictly reviewed."
       listItem(fadeIn):
         nbText "As it scales, the project becomes a token eating machine."
 
   autoAnimateSlides(4):
-    nbText "## Henka v2"
-    nbText "### Workflow"
+    nbText &"## {henka} v2"
+    nbText  "### Workflow"
     showText(@[
       ({1}, ""),
       ({2}, &"1  - Get a well-known {langC}/{langCpp}/{langJsTs} library, generate bindings."),
@@ -448,6 +480,7 @@ when isMainModule:
 
   slide:
     title
+    presentationLink
     whoAreWe
 
   slide: introduction

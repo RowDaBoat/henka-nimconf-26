@@ -15,12 +15,12 @@ let langJsTs {.inject.} = color(nimYellow, "JS/TS")
 
 const nimconfSurvivor = """
   <div id="game"></div>
-  <script src="survivor_demo/phaser.min.js"></script>
+  <script src="./survivor_demo/phaser.min.js"></script>
   <script type="module">
-    import * as Box2D from "survivor_demo/PhaserBox2D.min.js"
+    import * as Box2D from "./survivor_demo/PhaserBox2D.min.js"
     Object.assign(globalThis, Box2D)
     const s = document.createElement("script")
-    s.src = "survivor_demo/bullet_heaven.js"
+    s.src = "./survivor_demo/bullet_heaven.js"
     document.body.appendChild(s)
   </script>
 """
@@ -51,7 +51,7 @@ const webgpuJolt = """
       window.__my = -(((e.clientY - r.top) / r.height) * 2 - 1);
     });
   </script>
-  <script src="cubes_demo/cubes.js"></script>
+  <script src="./cubes_demo/cubes.js"></script>
 """
 
 const disableKeys = """
